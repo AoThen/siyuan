@@ -2,7 +2,7 @@ FROM node:21 as NODE_BUILD
 WORKDIR /go/src/github.com/siyuan-note/siyuan/
 ADD . /go/src/github.com/siyuan-note/siyuan/
 RUN apt-get update && \
-    apt-get install -y jq
+    apt-get install -y jq && mkdir -p /usr/share/fonts
 RUN cd app && \
 packageManager=$(jq -r '.packageManager' package.json) && \
 if [ -n "$packageManager" ]; then \
@@ -33,11 +33,12 @@ RUN apk add --no-cache gcc musl-dev && \
     find /opt/siyuan/ -name .git | xargs rm -rf
 
 FROM alpine:latest
-LABEL maintainer="Liang Ding<845765@qq.com>"
+LABEL maintainer="Aothen"
 
 WORKDIR /opt/siyuan/
 COPY --from=GO_BUILD /opt/siyuan/ /opt/siyuan/
-RUN addgroup --gid 1000 siyuan && adduser --uid 1000 --ingroup siyuan --disabled-password siyuan && apk add --no-cache ca-certificates tzdata && chown -R siyuan:siyuan /opt/siyuan/
+COPY fonts/ /usr/share/fonts/
+RUN addgroup --gid 1000 siyuan && adduser --uid 1000 --ingroup siyuan --disabled-password siyuan && apk add --no-cache ca-certificates tzdata fontconfig  && fc-cache -fv && chown -R siyuan:siyuan /opt/siyuan/
 
 ENV TZ=Asia/Shanghai
 ENV RUN_IN_CONTAINER=true
