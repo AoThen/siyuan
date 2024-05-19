@@ -62,7 +62,7 @@
       "content_type": "text/plain",
       "state": "uploaded",
       "size": 536,
-      "download_count": 5,
+      "download_count": 6,
       "created_at": "2024-05-14T01:26:47Z",
       "updated_at": "2024-05-14T01:26:50Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.14/SHA256SUMS.txt"
@@ -96,7 +96,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 172750199,
-      "download_count": 187,
+      "download_count": 290,
       "created_at": "2024-05-14T01:26:50Z",
       "updated_at": "2024-05-14T01:29:59Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.14/siyuan-3.0.14-linux.AppImage"
@@ -130,7 +130,7 @@
       "content_type": "application/x-gzip",
       "state": "uploaded",
       "size": 168777021,
-      "download_count": 26,
+      "download_count": 38,
       "created_at": "2024-05-14T01:29:59Z",
       "updated_at": "2024-05-14T01:31:56Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.14/siyuan-3.0.14-linux.tar.gz"
@@ -164,7 +164,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 157421695,
-      "download_count": 317,
+      "download_count": 454,
       "created_at": "2024-05-14T00:33:53Z",
       "updated_at": "2024-05-14T00:34:52Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.14/siyuan-3.0.14-mac-arm64.dmg"
@@ -198,7 +198,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 165600177,
-      "download_count": 142,
+      "download_count": 193,
       "created_at": "2024-05-14T00:32:14Z",
       "updated_at": "2024-05-14T00:33:53Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.14/siyuan-3.0.14-mac.dmg"
@@ -232,7 +232,7 @@
       "content_type": "application/x-msdownload",
       "state": "uploaded",
       "size": 136820104,
-      "download_count": 1339,
+      "download_count": 1835,
       "created_at": "2024-05-14T00:18:43Z",
       "updated_at": "2024-05-14T00:19:38Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.14/siyuan-3.0.14-win.exe"
@@ -266,7 +266,7 @@
       "content_type": "application/vnd.android.package-archive",
       "state": "uploaded",
       "size": 44714862,
-      "download_count": 65,
+      "download_count": 111,
       "created_at": "2024-05-14T00:35:43Z",
       "updated_at": "2024-05-14T00:36:04Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.14/siyuan-3.0.14.apk"
@@ -277,14 +277,14 @@
   "body": "## Overview\r\n\r\nThis version fixes some bugs and improves a lot of details.\r\n\r\n## Changelogs\r\n\r\nBelow are the detailed changes in this version.\r\n\r\n### Enhancement\r\n\r\n* [Optimize rendering performance of databases containing relation fields](https://github.com/siyuan-note/siyuan/issues/11249)\r\n* [Improve database text, email, url and phone field content escaping](https://github.com/siyuan-note/siyuan/issues/11255)\r\n* [Improve backlink panel mention expansion configuration](https://github.com/siyuan-note/siyuan/issues/11262)\r\n* [Improve responsiveness of code blocks](https://github.com/siyuan-note/siyuan/issues/11274)\r\n* [Don't hide error messages when copying them](https://github.com/siyuan-note/siyuan/issues/11275)\r\n* [Clear ZWSP when remove tag, code and kbd inline elements](https://github.com/siyuan-note/siyuan/issues/11285)\r\n* [Improve sorting for `Add to Database`](https://github.com/siyuan-note/siyuan/issues/11286)\r\n* [Improve link tip](https://github.com/siyuan-note/siyuan/issues/11294)\r\n* [Improve editor preview](https://github.com/siyuan-note/siyuan/issues/11295)\r\n* [Improve HTML code block clipping](https://github.com/siyuan-note/siyuan/issues/11296)\r\n* [Improve database auto-fill value when enabling filter](https://github.com/siyuan-note/siyuan/issues/11297)\r\n* [Improve data history tip](https://github.com/siyuan-note/siyuan/issues/11301)\r\n* [In read-only mode, new files can be edited](https://github.com/siyuan-note/siyuan/issues/11302)\r\n* [Improve `Optimize typography` for inline math](https://github.com/siyuan-note/siyuan/issues/11304)\r\n* [Improve HTML a element clipping](https://github.com/siyuan-note/siyuan/issues/11310)\r\n* [Improve browser extension clipping](https://github.com/siyuan-note/siyuan/issues/11315)\r\n* [Improve selection text when over blocks](https://github.com/siyuan-note/siyuan/issues/11316)\r\n* [Support database table view to load more when read-only](https://github.com/siyuan-note/siyuan/issues/11317)\r\n* [The line number field no longer appears in the database attribute panel](https://github.com/siyuan-note/siyuan/issues/11319)\r\n* [Improve Japanese translation and theme font rendering](https://github.com/siyuan-note/siyuan/pull/11322)\r\n* [Improve multi-language support for click, double-click, and enter](https://github.com/siyuan-note/siyuan/issues/11323)\r\n* [Improve doc tree modification time display](https://github.com/siyuan-note/siyuan/issues/11327)\r\n* [Support Alt+Click in read-only mode](https://github.com/siyuan-note/siyuan/issues/11337)\r\n* [Stick database table view header and footer in read-only mode](https://github.com/siyuan-note/siyuan/issues/11338)\r\n* [Improve slash menu](https://github.com/siyuan-note/siyuan/issues/11345)\r\n* [Triggering tag selection via `#` is no longer supported after disabling tag syntax](https://github.com/siyuan-note/siyuan/issues/11346)\r\n* [Improve dynamic scroll bar](https://github.com/siyuan-note/siyuan/issues/11352)\r\n* [Improve embed/ref block reindex](https://github.com/siyuan-note/siyuan/issues/11353)\r\n* [Improve `Enter` in the last row of the table](https://github.com/siyuan-note/siyuan/issues/11355)\r\n* [Support cancel two-way relation when related to the current database](https://github.com/siyuan-note/siyuan/issues/11356)\r\n* [Improve the cursor when two images are connected](https://github.com/siyuan-note/siyuan/issues/11359)\r\n* [Supports outline highlight with document sync on the mobile](https://github.com/siyuan-note/siyuan/issues/11360)\r\n* [Improve two-way relation column name placeholder](https://github.com/siyuan-note/siyuan/issues/11361)\r\n* [Improve `Display the VIP icon`](https://github.com/siyuan-note/siyuan/issues/11368)\r\n* [Improve HTML inline code clipping](https://github.com/siyuan-note/siyuan/issues/11370)\r\n* [Improve export preview mode](https://github.com/siyuan-note/siyuan/issues/11372)\r\n* [The heading block update time is refreshed after editing the blocks under the heading](https://github.com/siyuan-note/siyuan/issues/11374)\r\n\r\n### Bugfix\r\n\r\n* [Lost URL content after `:` when pasting as a link](https://github.com/siyuan-note/siyuan/issues/11245)\r\n* [Unable to create a new doc immediately after creating a new entry in the database](https://github.com/siyuan-note/siyuan/issues/11270)\r\n* [The database cannot delete entries in rapid succession](https://github.com/siyuan-note/siyuan/issues/11271)\r\n* [After uninstalling the plugin, data synchronization does not uninstall it](https://github.com/siyuan-note/siyuan/issues/11277)\r\n* [Two-way relation is invalid when related to the current database](https://github.com/siyuan-note/siyuan/issues/11278)\r\n* [`Convert network assets to local` in search  cannot be refreshed](https://github.com/siyuan-note/siyuan/issues/11307)\r\n* [Undo exception after folding heading is cut](https://github.com/siyuan-note/siyuan/issues/11312)\r\n* [The maximum number of tags listed is incorrect](https://github.com/siyuan-note/siyuan/issues/11320)\r\n* [HTML block content escaping is incorrect](https://github.com/siyuan-note/siyuan/issues/11321)\r\n* [The parent doc cannot be folded after creating a new sub-doc](https://github.com/siyuan-note/siyuan/issues/11325)\r\n* [Database table view continuously adds new rows above error](https://github.com/siyuan-note/siyuan/issues/11335)\r\n* [Block attributes are not refreshed after data syncing](https://github.com/siyuan-note/siyuan/issues/11343)\r\n* [Undo exception after Delete in the last line of the code block](https://github.com/siyuan-note/siyuan/issues/11362)\r\n* [Opening notebook repeatedly causes reference count to increase](https://github.com/siyuan-note/siyuan/issues/11378)\r\n\r\n### Document\r\n\r\n* [Improve user guide](https://github.com/siyuan-note/siyuan/pull/11299)\r\n\r\n### Development\r\n\r\n* [Update plugin `loaded-protyle-dynamic` parameter positon to position](https://github.com/siyuan-note/siyuan/pull/11298)\r\n* [Arch User Repository (AUR) auto release](https://github.com/siyuan-note/siyuan/pull/11309)\r\n* [Add a kernel API `/api/block/getBlockTreeInfos`](https://github.com/siyuan-note/siyuan/issues/11311)\r\n\r\n## Download\r\n\r\n* [B3log](https://b3log.org/siyuan/en/download.html)\r\n* [GitHub](https://github.com/siyuan-note/siyuan/releases)\r\n",
   "reactions": {
     "url": "https://api.github.com/repos/siyuan-note/siyuan/releases/155596254/reactions",
-    "total_count": 1,
+    "total_count": 3,
     "+1": 0,
     "-1": 0,
     "laugh": 0,
     "hooray": 0,
     "confused": 0,
     "heart": 0,
-    "rocket": 1,
+    "rocket": 3,
     "eyes": 0
   }
 }
