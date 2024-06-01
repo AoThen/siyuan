@@ -96,7 +96,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 172811410,
-      "download_count": 257,
+      "download_count": 308,
       "created_at": "2024-05-28T01:48:58Z",
       "updated_at": "2024-05-28T01:50:01Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.16/siyuan-3.0.16-linux.AppImage"
@@ -130,7 +130,7 @@
       "content_type": "application/x-gzip",
       "state": "uploaded",
       "size": 168831631,
-      "download_count": 32,
+      "download_count": 36,
       "created_at": "2024-05-28T01:50:01Z",
       "updated_at": "2024-05-28T01:51:01Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.16/siyuan-3.0.16-linux.tar.gz"
@@ -164,7 +164,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 157501221,
-      "download_count": 335,
+      "download_count": 371,
       "created_at": "2024-05-28T01:57:56Z",
       "updated_at": "2024-05-28T01:58:53Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.16/siyuan-3.0.16-mac-arm64.dmg"
@@ -198,7 +198,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 165684603,
-      "download_count": 138,
+      "download_count": 153,
       "created_at": "2024-05-28T01:51:01Z",
       "updated_at": "2024-05-28T01:57:56Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.16/siyuan-3.0.16-mac.dmg"
@@ -232,7 +232,7 @@
       "content_type": "application/x-msdownload",
       "state": "uploaded",
       "size": 136903184,
-      "download_count": 1369,
+      "download_count": 1564,
       "created_at": "2024-05-28T01:32:03Z",
       "updated_at": "2024-05-28T01:35:03Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.16/siyuan-3.0.16-win.exe"
@@ -266,7 +266,7 @@
       "content_type": "application/vnd.android.package-archive",
       "state": "uploaded",
       "size": 44805458,
-      "download_count": 69,
+      "download_count": 86,
       "created_at": "2024-05-28T02:01:31Z",
       "updated_at": "2024-05-28T02:01:47Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.16/siyuan-3.0.16.apk"
