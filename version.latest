@@ -62,7 +62,7 @@
       "content_type": "text/plain",
       "state": "uploaded",
       "size": 1011,
-      "download_count": 2,
+      "download_count": 23,
       "created_at": "2024-06-03T16:38:24Z",
       "updated_at": "2024-06-03T16:38:25Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.17/SHA256SUMS.txt"
@@ -96,7 +96,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 172742779,
-      "download_count": 4,
+      "download_count": 18,
       "created_at": "2024-06-03T16:42:22Z",
       "updated_at": "2024-06-03T16:43:25Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.17/siyuan-3.0.17-linux-arm64.AppImage"
@@ -130,7 +130,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 159647868,
-      "download_count": 9,
+      "download_count": 29,
       "created_at": "2024-06-03T16:43:25Z",
       "updated_at": "2024-06-03T16:45:53Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.17/siyuan-3.0.17-linux-arm64.deb"
@@ -164,7 +164,7 @@
       "content_type": "application/x-gzip",
       "state": "uploaded",
       "size": 171608615,
-      "download_count": 3,
+      "download_count": 8,
       "created_at": "2024-06-03T16:45:53Z",
       "updated_at": "2024-06-03T16:46:57Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.17/siyuan-3.0.17-linux-arm64.tar.gz"
@@ -198,7 +198,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 174238112,
-      "download_count": 60,
+      "download_count": 242,
       "created_at": "2024-06-03T16:38:25Z",
       "updated_at": "2024-06-03T16:39:26Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.17/siyuan-3.0.17-linux.AppImage"
@@ -232,7 +232,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 166238872,
-      "download_count": 3,
+      "download_count": 15,
       "created_at": "2024-06-03T16:39:26Z",
       "updated_at": "2024-06-03T16:40:26Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.17/siyuan-3.0.17-linux.deb"
@@ -266,7 +266,7 @@
       "content_type": "application/x-gzip",
       "state": "uploaded",
       "size": 173487362,
-      "download_count": 5,
+      "download_count": 19,
       "created_at": "2024-06-03T16:40:26Z",
       "updated_at": "2024-06-03T16:42:22Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.17/siyuan-3.0.17-linux.tar.gz"
@@ -300,7 +300,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 159396788,
-      "download_count": 19,
+      "download_count": 339,
       "created_at": "2024-06-03T16:27:28Z",
       "updated_at": "2024-06-03T16:28:25Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.17/siyuan-3.0.17-mac-arm64.dmg"
@@ -334,7 +334,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 167637147,
-      "download_count": 12,
+      "download_count": 134,
       "created_at": "2024-06-03T16:26:25Z",
       "updated_at": "2024-06-03T16:27:28Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.17/siyuan-3.0.17-mac.dmg"
@@ -368,7 +368,7 @@
       "content_type": "application/x-msdownload",
       "state": "uploaded",
       "size": 141036192,
-      "download_count": 8,
+      "download_count": 68,
       "created_at": "2024-06-03T16:29:15Z",
       "updated_at": "2024-06-03T16:30:04Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.17/siyuan-3.0.17-win-arm64.exe"
@@ -402,7 +402,7 @@
       "content_type": "application/x-msdownload",
       "state": "uploaded",
       "size": 139048992,
-      "download_count": 185,
+      "download_count": 1280,
       "created_at": "2024-06-03T16:28:25Z",
       "updated_at": "2024-06-03T16:29:15Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.17/siyuan-3.0.17-win.exe"
@@ -436,7 +436,7 @@
       "content_type": "application/vnd.android.package-archive",
       "state": "uploaded",
       "size": 46709070,
-      "download_count": 11,
+      "download_count": 63,
       "created_at": "2024-06-03T23:41:29Z",
       "updated_at": "2024-06-03T23:41:45Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.0.17/siyuan-3.0.17.apk"
@@ -444,5 +444,17 @@
   ],
   "tarball_url": "https://api.github.com/repos/siyuan-note/siyuan/tarball/v3.0.17",
   "zipball_url": "https://api.github.com/repos/siyuan-note/siyuan/zipball/v3.0.17",
-  "body": "## Overview\r\n\r\nThis version supports Windows arm64 and Linux arm64, improves web clipping, fixes some defects, and improves many details.\r\n\r\n## Changelogs\r\n\r\nBelow are the detailed changes in this version.\r\n\r\n### Enhancement\r\n\r\n* [Dock icon support drag](https://github.com/siyuan-note/siyuan/issues/10247)\r\n* [Improve the handling of empty input of query criteria](https://github.com/siyuan-note/siyuan/issues/11254)\r\n* [Add deb release package for Linux](https://github.com/siyuan-note/siyuan/issues/11532)\r\n* [Display database superscript icon on mobile](https://github.com/siyuan-note/siyuan/issues/11549)\r\n* [Disable `Ctrl+D` in read-only mode](https://github.com/siyuan-note/siyuan/issues/11558)\r\n* [Improve HTML h clipping](https://github.com/siyuan-note/siyuan/issues/11560)\r\n* [Improve HTML strong clipping](https://github.com/siyuan-note/siyuan/issues/11562)\r\n* [Support Windows arm64](https://github.com/siyuan-note/siyuan/issues/11565)\r\n* [Support Linux arm64](https://github.com/siyuan-note/siyuan/issues/11566)\r\n* [Improve importing Markdown folder](https://github.com/siyuan-note/siyuan/issues/11567)\r\n* [Improve pasting nearby some inline elements](https://github.com/siyuan-note/siyuan/issues/11572)\r\n* [Improve rollback doc file history](https://github.com/siyuan-note/siyuan/issues/11575)\r\n* [Improve `Enter` outdent after adjusting image size in the list](https://github.com/siyuan-note/siyuan/issues/11577)\r\n* [Improve the block fold icon button in the backlink panel](https://github.com/siyuan-note/siyuan/issues/11578)\r\n* [Add confirm dialog for `Restore Default Layout`](https://github.com/siyuan-note/siyuan/issues/11579)\r\n* [Improve untitled doc placeholder](https://github.com/siyuan-note/siyuan/issues/11582)\r\n* [The browser extension supports Wikipedia formula clipping](https://github.com/siyuan-note/siyuan/issues/11583)\r\n* [The User Guide is no longer opened repeatedly when multiple windows exist](https://github.com/siyuan-note/siyuan/issues/11588)\r\n* [Improve pasting in code block](https://github.com/siyuan-note/siyuan/issues/11589)\r\n* [Improve `Expand Down/Up` keymaps on Windows](https://github.com/siyuan-note/siyuan/issues/11593)\r\n* [Improve HTML img clipping](https://github.com/siyuan-note/siyuan/issues/11595)\r\n* [Improve HTML math clipping](https://github.com/siyuan-note/siyuan/issues/11599)\r\n* [Do not clip the `Edit` element next to Wikipedia headings](https://github.com/siyuan-note/siyuan/issues/11600)\r\n* [Improve task list redo](https://github.com/siyuan-note/siyuan/issues/11605)\r\n* [Add an internal kernel API `/api/av/appendAttributeViewDetachedBlocksWithValues`](https://github.com/siyuan-note/siyuan/issues/11608)\r\n* [Static compile for Linux desktop kernel](https://github.com/siyuan-note/siyuan/issues/11620)\r\n* [Improve database handling when importing .sy.zip](https://github.com/siyuan-note/siyuan/issues/11628)\r\n* [Improve table parsing](https://github.com/siyuan-note/siyuan/issues/11630)\r\n\r\n### Bugfix\r\n\r\n* [The exception occurs in the Settings - About on the Microsoft Store edition](https://github.com/siyuan-note/siyuan/issues/11580)\r\n* [The request of PWA files without `Authentication` Header](https://github.com/siyuan-note/siyuan/pull/11586)\r\n* [The primary key sorting of the database panel fails in some cases](https://github.com/siyuan-note/siyuan/issues/11621)\r\n* [`Optimize typography` causes HTML blocks in the list to become invalid](https://github.com/siyuan-note/siyuan/issues/11623)\r\n* [Database entries cannot be reordered in some cases](https://github.com/siyuan-note/siyuan/issues/11627)\r\n\r\n### Document\r\n\r\n* [Add Japanese user guide](https://github.com/siyuan-note/siyuan/pull/11591)\r\n\r\n## Download\r\n\r\n* [B3log](https://b3log.org/siyuan/en/download.html)\r\n* [GitHub](https://github.com/siyuan-note/siyuan/releases)\r\n"
+  "body": "## Overview\r\n\r\nThis version supports Windows arm64 and Linux arm64, improves web clipping, fixes some defects, and improves many details.\r\n\r\n## Changelogs\r\n\r\nBelow are the detailed changes in this version.\r\n\r\n### Enhancement\r\n\r\n* [Dock icon support drag](https://github.com/siyuan-note/siyuan/issues/10247)\r\n* [Improve the handling of empty input of query criteria](https://github.com/siyuan-note/siyuan/issues/11254)\r\n* [Add deb release package for Linux](https://github.com/siyuan-note/siyuan/issues/11532)\r\n* [Display database superscript icon on mobile](https://github.com/siyuan-note/siyuan/issues/11549)\r\n* [Disable `Ctrl+D` in read-only mode](https://github.com/siyuan-note/siyuan/issues/11558)\r\n* [Improve HTML h clipping](https://github.com/siyuan-note/siyuan/issues/11560)\r\n* [Improve HTML strong clipping](https://github.com/siyuan-note/siyuan/issues/11562)\r\n* [Support Windows arm64](https://github.com/siyuan-note/siyuan/issues/11565)\r\n* [Support Linux arm64](https://github.com/siyuan-note/siyuan/issues/11566)\r\n* [Improve importing Markdown folder](https://github.com/siyuan-note/siyuan/issues/11567)\r\n* [Improve pasting nearby some inline elements](https://github.com/siyuan-note/siyuan/issues/11572)\r\n* [Improve rollback doc file history](https://github.com/siyuan-note/siyuan/issues/11575)\r\n* [Improve `Enter` outdent after adjusting image size in the list](https://github.com/siyuan-note/siyuan/issues/11577)\r\n* [Improve the block fold icon button in the backlink panel](https://github.com/siyuan-note/siyuan/issues/11578)\r\n* [Add confirm dialog for `Restore Default Layout`](https://github.com/siyuan-note/siyuan/issues/11579)\r\n* [Improve untitled doc placeholder](https://github.com/siyuan-note/siyuan/issues/11582)\r\n* [The browser extension supports Wikipedia formula clipping](https://github.com/siyuan-note/siyuan/issues/11583)\r\n* [The User Guide is no longer opened repeatedly when multiple windows exist](https://github.com/siyuan-note/siyuan/issues/11588)\r\n* [Improve pasting in code block](https://github.com/siyuan-note/siyuan/issues/11589)\r\n* [Improve `Expand Down/Up` keymaps on Windows](https://github.com/siyuan-note/siyuan/issues/11593)\r\n* [Improve HTML img clipping](https://github.com/siyuan-note/siyuan/issues/11595)\r\n* [Improve HTML math clipping](https://github.com/siyuan-note/siyuan/issues/11599)\r\n* [Do not clip the `Edit` element next to Wikipedia headings](https://github.com/siyuan-note/siyuan/issues/11600)\r\n* [Improve task list redo](https://github.com/siyuan-note/siyuan/issues/11605)\r\n* [Add an internal kernel API `/api/av/appendAttributeViewDetachedBlocksWithValues`](https://github.com/siyuan-note/siyuan/issues/11608)\r\n* [Static compile for Linux desktop kernel](https://github.com/siyuan-note/siyuan/issues/11620)\r\n* [Improve database handling when importing .sy.zip](https://github.com/siyuan-note/siyuan/issues/11628)\r\n* [Improve table parsing](https://github.com/siyuan-note/siyuan/issues/11630)\r\n\r\n### Bugfix\r\n\r\n* [The exception occurs in the Settings - About on the Microsoft Store edition](https://github.com/siyuan-note/siyuan/issues/11580)\r\n* [The request of PWA files without `Authentication` Header](https://github.com/siyuan-note/siyuan/pull/11586)\r\n* [The primary key sorting of the database panel fails in some cases](https://github.com/siyuan-note/siyuan/issues/11621)\r\n* [`Optimize typography` causes HTML blocks in the list to become invalid](https://github.com/siyuan-note/siyuan/issues/11623)\r\n* [Database entries cannot be reordered in some cases](https://github.com/siyuan-note/siyuan/issues/11627)\r\n\r\n### Document\r\n\r\n* [Add Japanese user guide](https://github.com/siyuan-note/siyuan/pull/11591)\r\n\r\n## Download\r\n\r\n* [B3log](https://b3log.org/siyuan/en/download.html)\r\n* [GitHub](https://github.com/siyuan-note/siyuan/releases)\r\n",
+  "reactions": {
+    "url": "https://api.github.com/repos/siyuan-note/siyuan/releases/158648873/reactions",
+    "total_count": 7,
+    "+1": 7,
+    "-1": 0,
+    "laugh": 0,
+    "hooray": 0,
+    "confused": 0,
+    "heart": 0,
+    "rocket": 0,
+    "eyes": 0
+  }
 }
