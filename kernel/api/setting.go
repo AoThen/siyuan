@@ -557,7 +557,7 @@ func getCloudUser(c *gin.Context) {
 
 	user := &conf.User{
 			UserId: "0",
-			UserName: "_",
+			UserName: "Svip_",
 			UserAvatarURL: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
 			UserHomeBImgURL: "",
 			UserTitles: []*conf.UserTitle{},

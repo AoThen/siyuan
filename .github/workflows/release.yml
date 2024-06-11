@@ -2,11 +2,17 @@ name: Release Win
 
 on:
   workflow_dispatch:
-  push:
+    inputs:
+      ispatch:
+        required: false
+        type: boolean
+        default: true
+  # push:
 #     tags:
 #       - "v[0-9]+.[0-9]+.[0-9]+"
 
 # ref https://docs.github.com/zh/actions/learn-github-actions/variables
+
 env:
   # repo_name_android: "siyuan-android"
   repo_name: "siyuan"
@@ -145,19 +151,12 @@ jobs:
         with:
           path: ${{ github.workspace }}/go/src/github.com/${{ env.repo_owner }}/${{ env.repo_name }}
 
-      # - name: clone origin and apply patches
-      #   run: |
-      #     mkdir -p ${{ github.workspace }}/go
-      #     cd ${{ github.workspace }}/siyuan-note/
-
-      #     git clone --branch ${{ github.event.inputs.version }} --depth=1 https://github.com/siyuan-note/siyuan.git
-      #     cd siyuan
-
-      #     git apply ${{ github.workspace }}/siyuan-note/patches/siyuan/disable-update.patch
-      #     git apply ${{ github.workspace }}/siyuan-note/patches/siyuan/mock-vip-user.patch
-
-      #     git status
-
+      - name: clone origin and apply patches
+        if: ${{ inputs.ispatch }}
+        run: |
+          cd ${{ github.workspace }}/kernel/api/
+          git apply ${{ github.workspace }}/webdav.patch
+          git status
 
       - name: Set up MingGW
         uses: msys2/setup-msys2@v2
@@ -211,7 +210,6 @@ jobs:
       #     rm -rf ${{ github.workspace }}/go/src/github.com/${{ env.repo_owner }}/${{ env.repo_name }}/app/kernel
       #     rm -rf ${{ github.workspace }}/go/src/github.com/${{ env.repo_owner }}/${{ env.repo_name }}/app/kernel-darwin
       #     rm -rf ${{ github.workspace }}/go/src/github.com/${{ env.repo_owner }}/${{ env.repo_name }}/app/kernel-darwin-arm64
-
 
       # - name: Remove Build Directory
       #   uses: JesseTG/rm@v1.0.2
