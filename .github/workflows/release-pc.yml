@@ -1,4 +1,4 @@
-name: release-pc
+name: release-pc-2
 
 on:
   workflow_dispatch:
