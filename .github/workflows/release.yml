@@ -145,6 +145,20 @@ jobs:
         with:
           path: ${{ github.workspace }}/go/src/github.com/${{ env.repo_owner }}/${{ env.repo_name }}
 
+      # - name: clone origin and apply patches
+      #   run: |
+      #     mkdir -p ${{ github.workspace }}/go
+      #     cd ${{ github.workspace }}/siyuan-note/
+
+      #     git clone --branch ${{ github.event.inputs.version }} --depth=1 https://github.com/siyuan-note/siyuan.git
+      #     cd siyuan
+
+      #     git apply ${{ github.workspace }}/siyuan-note/patches/siyuan/disable-update.patch
+      #     git apply ${{ github.workspace }}/siyuan-note/patches/siyuan/mock-vip-user.patch
+
+      #     git status
+
+
       - name: Set up MingGW
         uses: msys2/setup-msys2@v2
         if: contains( matrix.config.goos, 'windows')
@@ -246,7 +260,7 @@ jobs:
       - name: Upload firmware directory
         uses: actions/upload-artifact@main
         with:
-          name: siyuan-CE-${{ needs.create_release.outputs.release_version }}-${{ matrix.config.suffix }}
+          name: siyuan-${{ needs.create_release.outputs.release_version }}-${{ matrix.config.suffix }}
           path: ${{ github.workspace }}/go/src/github.com/${{ env.repo_owner }}/${{ env.repo_name }}/app/build/siyuan-${{ needs.create_release.outputs.version }}-${{ matrix.config.suffix }}
 
       # - name: Upload Release
