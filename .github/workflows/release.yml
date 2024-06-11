@@ -2,7 +2,7 @@ name: Release Win
 
 on:
   workflow_dispatch:
-#   push:
+  push:
 #     tags:
 #       - "v[0-9]+.[0-9]+.[0-9]+"
 
@@ -34,14 +34,14 @@ jobs:
           python-version: "3.11"
       - run: pip install PyGithub
 
-      - id: thisLatestRelease
-        uses: pozetroninc/github-action-get-latest-release@master
-        with:
-          owner: siyuan-note
-          repo: siyuan
-          repository: ${{ github.repository }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          excludes: prerelease, draft
+      # - id: thisLatestRelease
+      #   uses: pozetroninc/github-action-get-latest-release@master
+      #   with:
+      #     owner: siyuan-note
+      #     repo: siyuan
+      #     repository: ${{ github.repository }}
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     excludes: prerelease, draft
 
       - name: Extract version from package.json
         uses: sergeysova/jq-action@v2
