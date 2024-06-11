@@ -108,8 +108,8 @@ jobs:
       - name: Build the Docker image
         if: steps.Check.outputs.status == 'success' || ${{ inputs.foc }}
         run: |
-          echo ${{ inputs.latest }}
-          docker buildx build --push --platform linux/amd64,linux/arm64 -t aothen/siyuan:${{ inputs.latest }} .
+          echo ${{ inputs.docker_tab }}
+          docker buildx build --push --platform linux/amd64,linux/arm64 -t aothen/siyuan:${{ inputs.docker_tab }} .
 
 
       - name: Delete workflow runs
