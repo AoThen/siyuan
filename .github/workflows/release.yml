@@ -34,14 +34,14 @@ jobs:
           python-version: "3.11"
       - run: pip install PyGithub
 
-      # - id: thisLatestRelease
-      #   uses: pozetroninc/github-action-get-latest-release@master
-      #   with:
-      #     owner: siyuan-note
-      #     repo: siyuan
-      #     repository: ${{ github.repository }}
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     excludes: prerelease, draft
+      - id: thisLatestRelease
+        uses: pozetroninc/github-action-get-latest-release@master
+        with:
+          owner: siyuan-note
+          repo: siyuan
+          repository: ${{ github.repository }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          excludes: prerelease, draft
 
       - name: Extract version from package.json
         uses: sergeysova/jq-action@v2
@@ -84,6 +84,7 @@ jobs:
       #     draft: false
       #     prerelease: true
       #     token: ${{ secrets.GITHUB_TOKEN }}
+
   build:
     runs-on: ${{ matrix.config.os }}
     name: ${{ matrix.config.name }}
@@ -189,13 +190,13 @@ jobs:
         run: pnpm run build
         working-directory: ${{ github.workspace }}/go/src/github.com/${{ env.repo_owner }}/${{ env.repo_name }}/app
 
-      - name: Remove
-        run: |
-          rm -rf ${{ github.workspace }}/go/src/github.com/${{ env.repo_owner }}/${{ env.repo_name }}/app/build
-          rm -rf ${{ github.workspace }}/go/src/github.com/${{ env.repo_owner }}/${{ env.repo_name }}/app/kernel-linux
-          rm -rf ${{ github.workspace }}/go/src/github.com/${{ env.repo_owner }}/${{ env.repo_name }}/app/kernel
-          rm -rf ${{ github.workspace }}/go/src/github.com/${{ env.repo_owner }}/${{ env.repo_name }}/app/kernel-darwin
-          rm -rf ${{ github.workspace }}/go/src/github.com/${{ env.repo_owner }}/${{ env.repo_name }}/app/kernel-darwin-arm64
+      # - name: Remove
+      #   run: |
+      #     rm -rf ${{ github.workspace }}/go/src/github.com/${{ env.repo_owner }}/${{ env.repo_name }}/app/build
+      #     rm -rf ${{ github.workspace }}/go/src/github.com/${{ env.repo_owner }}/${{ env.repo_name }}/app/kernel-linux
+      #     rm -rf ${{ github.workspace }}/go/src/github.com/${{ env.repo_owner }}/${{ env.repo_name }}/app/kernel
+      #     rm -rf ${{ github.workspace }}/go/src/github.com/${{ env.repo_owner }}/${{ env.repo_name }}/app/kernel-darwin
+      #     rm -rf ${{ github.workspace }}/go/src/github.com/${{ env.repo_owner }}/${{ env.repo_name }}/app/kernel-darwin-arm64
 
 
       # - name: Remove Build Directory
