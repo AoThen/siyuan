@@ -109,7 +109,9 @@ jobs:
         if: steps.Check.outputs.status == 'success' || ${{ inputs.foc }}
         run: |
           echo ${{ inputs.docker_tab }}
-          docker buildx build --push --platform linux/amd64,linux/arm64 -t aothen/siyuan:${{ inputs.docker_tab }} .
+          inputValue=${{ inputs.docker_tab || 'latest' }}
+          echo "使用的输入值是: $inputValue"
+          docker buildx build --push --platform linux/amd64,linux/arm64 -t aothen/siyuan:$inputValue .
 
 
       - name: Delete workflow runs
