@@ -1,0 +1,50 @@
+name: Rebase
+
+on:
+  workflow_dispatch:
+    inputs:
+      isRebase:
+        required: false
+        type: boolean
+        default: true
+      rbranch:
+        type: choice
+        required: true
+        default: "master"
+        options:
+          - master
+jobs:
+  build_package:
+    permissions:
+      actions: write #  to cancel/stop running workflows (styfle/cancel-workflow-action)
+      contents: write #  to create release tags (cycjimmy/semantic-release-action)
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Rebase
+        if: ${{ inputs.isRebase }}
+        run: |
+          sudo apt-get install fdupes
+          git config --global user.email ${{ secrets.EMAIL }}
+          git config --global user.name ${{ secrets.NAME }}
+          git clone -b ${{ inputs.rbranch }} https://github.com/AoThen/siyuan --single-branch
+
+          cd siyuan
+
+          fdupes -r -dN .
+
+          git checkout --orphan latest_branch
+
+          find . -name 'targets' -type d -exec rm -rf {} +
+          git add -A
+
+          git commit -m "Rebase update at $(TZ='Asia/Shanghai' date +%Y-%m-%d)"
+
+          git branch -D ${{ inputs.rbranch }}
+          git branch -m ${{ inputs.rbranch }}
+          git push -f "https://${{ secrets.NAME }}:${{ github.token }}@github.com/${{ github.repository }}.git" ${{ inputs.rbranch }}
+
+      - name: Delete workflow runs
+        uses: AoThen/delete-workflow-runs@main
+        with:
+          retain_days: 1
+          keep_minimum_runs: 5
