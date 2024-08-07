@@ -7,6 +7,10 @@ on:
         required: false
         type: boolean
         default: false
+      tb:
+        required: false
+        type: boolean
+        default: false
       docker_tab:
         required: false
         type: string
@@ -75,7 +79,7 @@ jobs:
 
 
       - name: Clone repo
-        if: steps.Check.outputs.status == 'success'
+        if: steps.Check.outputs.status == 'success'|| ${{ inputs.tb }}
         run: |
             git clone --depth 1 https://github.com/siyuan-note/siyuan.git /tmp/siyuan
             cp -f Dockerfile /tmp/siyuan/Dockerfile
