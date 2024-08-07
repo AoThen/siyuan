@@ -349,13 +349,10 @@ var stageIndexCacheTime int64
 var stageIndexLock = sync.Mutex{}
 
 func getStageIndex(pkgType string) (ret *StageIndex, err error) {
-
-	return
-	
-	// rhyRet, err := util.GetRhyResult(false)
-	// if nil != err {
-	// 	return
-	// }
+	rhyRet, err := util.GetRhyResult(false)
+	if nil != err {
+		return
+	}
 
 	stageIndexLock.Lock()
 	defer stageIndexLock.Unlock()
