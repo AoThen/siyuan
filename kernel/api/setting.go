@@ -594,18 +594,38 @@ func getCloudUser(c *gin.Context) {
 		return
 	}
 
-	arg, ok := util.JsonArg(c, ret)
-	if !ok {
-		return
+	user := &conf.User{
+			UserId: "0",
+			UserName: "Svip_",
+			UserAvatarURL: "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7",
+			UserHomeBImgURL: "",
+			UserTitles: []*conf.UserTitle{},
+			UserIntro: "",
+			UserNickname: "",
+			UserCreateTime: "29991231 00:00:00",
+			UserSiYuanProExpireTime: -1,
+			UserToken: "token",
+			UserTokenExpireTime: "32503593600",
+			UserSiYuanRepoSize: 0,
+			UserSiYuanPointExchangeRepoSize: 0,
+			UserSiYuanAssetSize: 0,
+			UserTrafficUpload: 0,
+			UserTrafficDownload: 0,
+			UserTrafficAPIGet: 0,
+			UserTrafficAPIPut: 0,
+			UserTrafficTime: 0,
+			UserSiYuanSubscriptionPlan: 0,
+			UserSiYuanSubscriptionStatus: 0,
+			UserSiYuanSubscriptionType: 1,
+			UserSiYuanOneTimePayStatus: 1,
 	}
 
-	t := arg["token"]
-	var token string
-	if nil != t {
-		token = t.(string)
-	}
-	model.RefreshUser(token)
-	ret.Data = model.Conf.GetUser()
+	model.Conf.User = user
+	data, _ := gulu.JSON.MarshalJSON(user)
+	model.Conf.UserData = util.AESEncrypt(string(data))
+	model.Conf.Save()
+
+	ret.Data = user
 }
 
 func logoutCloudUser(c *gin.Context) {
