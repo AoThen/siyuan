@@ -64,7 +64,7 @@
       "content_type": "text/plain",
       "state": "uploaded",
       "size": 1011,
-      "download_count": 17,
+      "download_count": 21,
       "created_at": "2024-12-18T13:54:38Z",
       "updated_at": "2024-12-18T13:54:44Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/SHA256SUMS.txt"
@@ -99,7 +99,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 187047513,
-      "download_count": 6,
+      "download_count": 14,
       "created_at": "2024-12-18T13:39:48Z",
       "updated_at": "2024-12-18T13:40:53Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-linux-arm64.AppImage"
@@ -134,7 +134,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 173217778,
-      "download_count": 9,
+      "download_count": 25,
       "created_at": "2024-12-18T13:40:53Z",
       "updated_at": "2024-12-18T13:42:16Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-linux-arm64.deb"
@@ -169,7 +169,7 @@
       "content_type": "application/x-gzip",
       "state": "uploaded",
       "size": 185710106,
-      "download_count": 8,
+      "download_count": 10,
       "created_at": "2024-12-18T13:42:16Z",
       "updated_at": "2024-12-18T13:43:21Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-linux-arm64.tar.gz"
@@ -204,7 +204,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 185869350,
-      "download_count": 72,
+      "download_count": 122,
       "created_at": "2024-12-18T13:36:10Z",
       "updated_at": "2024-12-18T13:37:25Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-linux.AppImage"
@@ -239,7 +239,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 177522892,
-      "download_count": 11,
+      "download_count": 106,
       "created_at": "2024-12-18T13:37:25Z",
       "updated_at": "2024-12-18T13:38:30Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-linux.deb"
@@ -274,7 +274,7 @@
       "content_type": "application/x-gzip",
       "state": "uploaded",
       "size": 184817096,
-      "download_count": 22,
+      "download_count": 29,
       "created_at": "2024-12-18T13:38:30Z",
       "updated_at": "2024-12-18T13:39:48Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-linux.tar.gz"
@@ -309,7 +309,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 183254591,
-      "download_count": 86,
+      "download_count": 214,
       "created_at": "2024-12-18T13:56:00Z",
       "updated_at": "2024-12-18T13:57:13Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-mac-arm64.dmg"
@@ -344,7 +344,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 177412962,
-      "download_count": 35,
+      "download_count": 86,
       "created_at": "2024-12-18T13:54:44Z",
       "updated_at": "2024-12-18T13:56:00Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-mac.dmg"
@@ -379,7 +379,7 @@
       "content_type": "application/x-msdownload",
       "state": "uploaded",
       "size": 123183808,
-      "download_count": 18,
+      "download_count": 41,
       "created_at": "2024-12-18T13:44:19Z",
       "updated_at": "2024-12-18T13:45:02Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-win-arm64.exe"
@@ -414,7 +414,7 @@
       "content_type": "application/x-msdownload",
       "state": "uploaded",
       "size": 157606464,
-      "download_count": 260,
+      "download_count": 617,
       "created_at": "2024-12-18T13:43:21Z",
       "updated_at": "2024-12-18T13:44:19Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-win.exe"
@@ -449,7 +449,7 @@
       "content_type": "application/vnd.android.package-archive",
       "state": "uploaded",
       "size": 52322894,
-      "download_count": 29,
+      "download_count": 58,
       "created_at": "2024-12-18T13:46:30Z",
       "updated_at": "2024-12-18T13:46:54Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16.apk"
@@ -460,8 +460,8 @@
   "body": "## Overview\r\n\r\nThis version improves some details.\r\n\r\n## Changelogs\r\n\r\nBelow are the detailed changes in this version.\r\n\r\n### Enhancement\r\n\r\n* [Improve database cell appearance](https://github.com/siyuan-note/siyuan/issues/10867)\r\n* [Multiple-select list items remain selected after indent or outdent](https://github.com/siyuan-note/siyuan/issues/12209)\r\n* [The move doc window retains the keyword of the last search](https://github.com/siyuan-note/siyuan/issues/12335)\r\n* [Improve font family and emoji ](https://github.com/siyuan-note/siyuan/pull/13241)\r\n* [Improve database select field color and layout](https://github.com/siyuan-note/siyuan/issues/13263)\r\n* [Improve cursor positioning after pasting images](https://github.com/siyuan-note/siyuan/issues/13336)\r\n* [The database primary key field displays the icon of the bound doc](https://github.com/siyuan-note/siyuan/issues/13378)\r\n* [Supports find-replace and asset file history on the mobile](https://github.com/siyuan-note/siyuan/issues/13415)\r\n* [Improve inline elements parsing](https://github.com/siyuan-note/siyuan/issues/13420)\r\n* [Allow stickTab icon in Panels to be used in a browser environment](https://github.com/siyuan-note/siyuan/pull/13421)\r\n* [Add block content statistics template function `statBlock`](https://github.com/siyuan-note/siyuan/issues/13438)\r\n* [Improve document tag interaction](https://github.com/siyuan-note/siyuan/issues/13440)\r\n* [Improve forward and backward when `Open in current tab` is enabled](https://github.com/siyuan-note/siyuan/issues/13444)\r\n* [Support setting automatic sync interval](https://github.com/siyuan-note/siyuan/issues/13448)\r\n* [Improve importing markdown files](https://github.com/siyuan-note/siyuan/issues/13449)\r\n* [Add SQL query template function `querySQL`](https://github.com/siyuan-note/siyuan/issues/13455)\r\n* [Search preview area supports inline memo positioning](https://github.com/siyuan-note/siyuan/issues/13465)\r\n* [Add Arabic support](https://github.com/siyuan-note/siyuan/pull/13475)\r\n* [Improve exporting data](https://github.com/siyuan-note/siyuan/issues/13500)\r\n* [Improve serving assets performance](https://github.com/siyuan-note/siyuan/issues/13501)\r\n* [Improve data synchronization stability](https://github.com/siyuan-note/siyuan/issues/13503)\r\n* [Compatible with image legacy data](https://github.com/siyuan-note/siyuan/issues/13523)\r\n* [Improve the behavior of `Del` of the image](https://github.com/siyuan-note/siyuan/issues/13524)\r\n\r\n### Abolishment\r\n\r\n* [Remove Sentry reporting diagnostic data](https://github.com/siyuan-note/siyuan/issues/13522)\r\n\r\n### Bugfix\r\n\r\n* [Outline panel update overwrite content issue](https://github.com/siyuan-note/siyuan/issues/13409)\r\n* [Paste code block missing line break](https://github.com/siyuan-note/siyuan/issues/13416)\r\n* [Editor not automatically refreshed after rolling back document](https://github.com/siyuan-note/siyuan/issues/13419)\r\n* [Unable to use `Query Syntax` to search](https://github.com/siyuan-note/siyuan/issues/13422)\r\n* [Cannot enter Chinese characters in database search using Microsoft Pinyin](https://github.com/siyuan-note/siyuan/issues/13424)\r\n* [Some security vulnerabilities](https://github.com/siyuan-note/siyuan/issues/13426)\r\n\r\n### Development\r\n\r\n* [Push update block ID event](https://github.com/siyuan-note/siyuan/issues/13434)\r\n\r\n## Download\r\n\r\n* [B3log](https://b3log.org/siyuan/en/download.html)\r\n* [GitHub](https://github.com/siyuan-note/siyuan/releases)\r\n",
   "reactions": {
     "url": "https://api.github.com/repos/siyuan-note/siyuan/releases/191438413/reactions",
-    "total_count": 1,
-    "+1": 1,
+    "total_count": 2,
+    "+1": 2,
     "-1": 0,
     "laugh": 0,
     "hooray": 0,

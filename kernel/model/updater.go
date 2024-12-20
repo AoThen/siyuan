@@ -306,6 +306,11 @@ func skipNewVerInstallPkg() bool {
 	}
 	if !Conf.System.DownloadInstallPkg {
 		return true
+	} else {
+		// Conf.System.DownloadInstallPkg(自动下载更新安装包) 强制赋值为false
+		Conf.System.DownloadInstallPkg = false
+		Conf.Save()
+		return true
 	}
 	if gulu.OS.IsWindows() {
 		plat := strings.ToLower(Conf.System.OSPlatform)
