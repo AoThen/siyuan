@@ -64,7 +64,7 @@
       "content_type": "text/plain",
       "state": "uploaded",
       "size": 1011,
-      "download_count": 21,
+      "download_count": 22,
       "created_at": "2024-12-18T13:54:38Z",
       "updated_at": "2024-12-18T13:54:44Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/SHA256SUMS.txt"
@@ -134,7 +134,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 173217778,
-      "download_count": 25,
+      "download_count": 26,
       "created_at": "2024-12-18T13:40:53Z",
       "updated_at": "2024-12-18T13:42:16Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-linux-arm64.deb"
@@ -169,7 +169,7 @@
       "content_type": "application/x-gzip",
       "state": "uploaded",
       "size": 185710106,
-      "download_count": 10,
+      "download_count": 12,
       "created_at": "2024-12-18T13:42:16Z",
       "updated_at": "2024-12-18T13:43:21Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-linux-arm64.tar.gz"
@@ -204,7 +204,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 185869350,
-      "download_count": 122,
+      "download_count": 127,
       "created_at": "2024-12-18T13:36:10Z",
       "updated_at": "2024-12-18T13:37:25Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-linux.AppImage"
@@ -239,7 +239,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 177522892,
-      "download_count": 106,
+      "download_count": 108,
       "created_at": "2024-12-18T13:37:25Z",
       "updated_at": "2024-12-18T13:38:30Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-linux.deb"
@@ -274,7 +274,7 @@
       "content_type": "application/x-gzip",
       "state": "uploaded",
       "size": 184817096,
-      "download_count": 29,
+      "download_count": 31,
       "created_at": "2024-12-18T13:38:30Z",
       "updated_at": "2024-12-18T13:39:48Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-linux.tar.gz"
@@ -309,7 +309,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 183254591,
-      "download_count": 214,
+      "download_count": 217,
       "created_at": "2024-12-18T13:56:00Z",
       "updated_at": "2024-12-18T13:57:13Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-mac-arm64.dmg"
@@ -344,7 +344,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 177412962,
-      "download_count": 86,
+      "download_count": 87,
       "created_at": "2024-12-18T13:54:44Z",
       "updated_at": "2024-12-18T13:56:00Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-mac.dmg"
@@ -379,7 +379,7 @@
       "content_type": "application/x-msdownload",
       "state": "uploaded",
       "size": 123183808,
-      "download_count": 41,
+      "download_count": 42,
       "created_at": "2024-12-18T13:44:19Z",
       "updated_at": "2024-12-18T13:45:02Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-win-arm64.exe"
@@ -414,7 +414,7 @@
       "content_type": "application/x-msdownload",
       "state": "uploaded",
       "size": 157606464,
-      "download_count": 617,
+      "download_count": 630,
       "created_at": "2024-12-18T13:43:21Z",
       "updated_at": "2024-12-18T13:44:19Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.16/siyuan-3.1.16-win.exe"
