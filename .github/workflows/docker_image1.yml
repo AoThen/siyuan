@@ -82,10 +82,32 @@ jobs:
         if: steps.Check.outputs.status == 'success'|| ${{ inputs.tb }}
         run: |
             git clone --depth 1 https://github.com/siyuan-note/siyuan.git /tmp/siyuan
+
+            git clone  --depth=1 https://github.com/demoshang/siyuan-patch /tmp/siyuan-patch
+            cd /tmp/siyuan
+
+            git apply /tmp/siyuan-patch/patches/siyuan/disable-update.patch
+            git apply /tmp/siyuan-patch/patches/siyuan/default-config.patch
+            git apply /tmp/siyuan-patch/patches/siyuan/mock-vip-user.patch
+
+            git status
+
+            cd ${{ github.workspace }}
+
             cp -f Dockerfile /tmp/siyuan/Dockerfile
             rm -rf /tmp/siyuan/.github/workflows/*
             grep version /tmp/siyuan/app/package.json | awk -F':' '{print $2}' | awk -F',' '{print $1}'
             cp -rf /tmp/siyuan/* ${PWD}
+
+            sed -i '/func RefreshCheckJob()/,/}/ { 
+            s/go util.GetRhyResult(true)/\/\/ go util.GetRhyResult(true)/g; 
+            s/go refreshSubscriptionExpirationRemind()/\/\/ go refreshSubscriptionExpirationRemind()/g; 
+            s/go refreshUser()/\/\/ go refreshUser()/g; 
+            s/go refreshAnnouncement()/\/\/ go refreshAnnouncement()/g; 
+            s/go refreshCheckDownloadInstallPkg()/\/\/ go refreshCheckDownloadInstallPkg()/g; 
+            }' kernel/model/cloud_service.go
+
+
             git add -A
             Emoji=("🎉" "🤞" "✨" "🎁" "🎈" "🎄" "🎨" "💋" "🍓" "🍕" "🍉" "💐" "🌴" "🚀" "🛸" "🗽" "⛅" "🌈" "🔥" "⛄" "🐶" "🏅" "🦄" "🐤")
             git commit -m "$version2 update at $(TZ='Asia/Shanghai' date +%Y-%m-%d)${Emoji[$[$RANDOM % ${#Emoji[@]}]]}"
