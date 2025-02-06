@@ -64,7 +64,7 @@
       "content_type": "text/plain",
       "state": "uploaded",
       "size": 1011,
-      "download_count": 41,
+      "download_count": 270,
       "created_at": "2025-01-16T02:49:33Z",
       "updated_at": "2025-01-16T02:49:35Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.20/SHA256SUMS.txt"
@@ -99,7 +99,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 179188679,
-      "download_count": 35,
+      "download_count": 75,
       "created_at": "2025-01-16T02:51:12Z",
       "updated_at": "2025-01-16T02:51:46Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.20/siyuan-3.1.20-linux-arm64.AppImage"
@@ -134,7 +134,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 165469810,
-      "download_count": 41,
+      "download_count": 289,
       "created_at": "2025-01-16T02:51:46Z",
       "updated_at": "2025-01-16T02:52:19Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.20/siyuan-3.1.20-linux-arm64.deb"
@@ -169,7 +169,7 @@
       "content_type": "application/x-gzip",
       "state": "uploaded",
       "size": 178268402,
-      "download_count": 19,
+      "download_count": 252,
       "created_at": "2025-01-16T02:52:19Z",
       "updated_at": "2025-01-16T02:52:52Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.20/siyuan-3.1.20-linux-arm64.tar.gz"
@@ -204,7 +204,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 178120332,
-      "download_count": 194,
+      "download_count": 445,
       "created_at": "2025-01-16T02:49:29Z",
       "updated_at": "2025-01-16T02:50:05Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.20/siyuan-3.1.20-linux.AppImage"
@@ -239,7 +239,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 169862344,
-      "download_count": 195,
+      "download_count": 574,
       "created_at": "2025-01-16T02:50:05Z",
       "updated_at": "2025-01-16T02:50:37Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.20/siyuan-3.1.20-linux.deb"
@@ -274,7 +274,7 @@
       "content_type": "application/x-gzip",
       "state": "uploaded",
       "size": 177474246,
-      "download_count": 24,
+      "download_count": 270,
       "created_at": "2025-01-16T02:50:37Z",
       "updated_at": "2025-01-16T02:51:12Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.20/siyuan-3.1.20-linux.tar.gz"
@@ -309,7 +309,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 173727151,
-      "download_count": 619,
+      "download_count": 1465,
       "created_at": "2025-01-16T02:41:58Z",
       "updated_at": "2025-01-16T02:43:32Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.20/siyuan-3.1.20-mac-arm64.dmg"
@@ -344,7 +344,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 167883393,
-      "download_count": 164,
+      "download_count": 539,
       "created_at": "2025-01-16T02:41:01Z",
       "updated_at": "2025-01-16T02:41:58Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.20/siyuan-3.1.20-mac.dmg"
@@ -379,7 +379,7 @@
       "content_type": "application/x-msdownload",
       "state": "uploaded",
       "size": 115261456,
-      "download_count": 362,
+      "download_count": 911,
       "created_at": "2025-01-16T02:17:43Z",
       "updated_at": "2025-01-16T02:18:06Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.20/siyuan-3.1.20-win-arm64.exe"
@@ -414,7 +414,7 @@
       "content_type": "application/x-msdownload",
       "state": "uploaded",
       "size": 157607832,
-      "download_count": 1492,
+      "download_count": 3009,
       "created_at": "2025-01-16T02:17:09Z",
       "updated_at": "2025-01-16T02:17:43Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.20/siyuan-3.1.20-win.exe"
@@ -449,7 +449,7 @@
       "content_type": "application/vnd.android.package-archive",
       "state": "uploaded",
       "size": 51610170,
-      "download_count": 338,
+      "download_count": 628,
       "created_at": "2025-01-16T02:21:37Z",
       "updated_at": "2025-01-16T02:21:53Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.20/siyuan-3.1.20.apk"
@@ -460,11 +460,11 @@
   "body": "## Overview\r\n\r\nThis version improves some details.\r\n\r\n## Changelogs\r\n\r\nBelow are the detailed changes in this version.\r\n\r\n### Enhancement\r\n\r\n* [Improve tab drag highlighting](https://github.com/siyuan-note/siyuan/pull/13549)\r\n* [Hide the toolbar when the mouse is pressed on an element other than the toolbar](https://github.com/siyuan-note/siyuan/issues/13653)\r\n* [Improve escaping content for database primary key, relation, and rollup fields](https://github.com/siyuan-note/siyuan/issues/13704)\r\n* [When all sub-blocks of a super-block are selected, merging into a super-block is not supported](https://github.com/siyuan-note/siyuan/issues/13729)\r\n* [Remove Markdown markers when copying inline elements](https://github.com/siyuan-note/siyuan/issues/13735)\r\n* [Supports multiple pasting after copying the image file](https://github.com/siyuan-note/siyuan/issues/13736)\r\n* [PDF annotations support conversion to text *](https://github.com/siyuan-note/siyuan/issues/13742)\r\n* [Improve the inline code element parsing](https://github.com/siyuan-note/siyuan/issues/13754)\r\n* [Improve block content stat](https://github.com/siyuan-note/siyuan/issues/13759)\r\n* [Improve list super block editing](https://github.com/siyuan-note/siyuan/issues/13764)\r\n* [Improve importing conf](https://github.com/siyuan-note/siyuan/issues/13767)\r\n* [Improve the underline element parsing](https://github.com/siyuan-note/siyuan/issues/13768)\r\n* [Avoid window controls overlay covering SiYuan toolbar buttons](https://github.com/siyuan-note/siyuan/pull/13771)\r\n* [Improve list item, super block and blockquote backlink propagation](https://github.com/siyuan-note/siyuan/issues/13776)\r\n* [Supports proxy settings on mobile when using network serving](https://github.com/siyuan-note/siyuan/issues/13784)\r\n* [Improve drag for doc, outline, database, and block](https://github.com/siyuan-note/siyuan/issues/13785)\r\n* [Backlink count at the doc block title including sub-blocks](https://github.com/siyuan-note/siyuan/issues/13791)\r\n* [Improve changing database field type](https://github.com/siyuan-note/siyuan/issues/13797)\r\n* [Supports click PlantUML diagram hyperlink](https://github.com/siyuan-note/siyuan/issues/13801)\r\n* [Improve lazy loading image processing of browser clipping extension](https://github.com/siyuan-note/siyuan/issues/13810)\r\n* [Supports setting keep-alive notification text on Android](https://github.com/siyuan-note/siyuan/issues/13815)\r\n\r\n### Refactor\r\n\r\n* [Upgrade to Electron v32.2.8](https://github.com/siyuan-note/siyuan/issues/13752)\r\n\r\n### Development\r\n\r\n* [Add plugin API `openSetting`](https://github.com/siyuan-note/siyuan/pull/13761)\r\n* [Change parameters of plugin API `addFloatLayer`](https://github.com/siyuan-note/siyuan/issues/13816)\r\n\r\n## Download\r\n\r\n* [B3log](https://b3log.org/siyuan/en/download.html)\r\n* [GitHub](https://github.com/siyuan-note/siyuan/releases)\r\n",
   "reactions": {
     "url": "https://api.github.com/repos/siyuan-note/siyuan/releases/195032743/reactions",
-    "total_count": 20,
+    "total_count": 24,
     "+1": 0,
     "-1": 0,
     "laugh": 0,
-    "hooray": 20,
+    "hooray": 24,
     "confused": 0,
     "heart": 0,
     "rocket": 0,
