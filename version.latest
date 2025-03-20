@@ -309,7 +309,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 183306025,
-      "download_count": 385,
+      "download_count": 387,
       "created_at": "2025-03-18T04:35:08Z",
       "updated_at": "2025-03-18T04:36:32Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.25/siyuan-3.1.25-mac-arm64.dmg"
