@@ -204,7 +204,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 186418649,
-      "download_count": 168,
+      "download_count": 170,
       "created_at": "2025-03-18T12:43:11Z",
       "updated_at": "2025-03-18T12:44:21Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.25/siyuan-3.1.25-linux.AppImage"
@@ -239,7 +239,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 178049994,
-      "download_count": 138,
+      "download_count": 140,
       "created_at": "2025-03-18T12:44:21Z",
       "updated_at": "2025-03-18T12:45:23Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.25/siyuan-3.1.25-linux.deb"
@@ -414,7 +414,7 @@
       "content_type": "application/x-msdownload",
       "state": "uploaded",
       "size": 160064736,
-      "download_count": 887,
+      "download_count": 890,
       "created_at": "2025-03-18T04:36:32Z",
       "updated_at": "2025-03-18T04:37:36Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.25/siyuan-3.1.25-win.exe"
