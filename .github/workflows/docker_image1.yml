@@ -6,11 +6,11 @@ on:
       foc:
         required: false
         type: boolean
-        default: false
+        default: true
       tb:
         required: false
         type: boolean
-        default: false
+        default: true
       docker_tab:
         required: false
         type: string
@@ -137,7 +137,21 @@ jobs:
           echo ${{ inputs.docker_tab }}
           inputValue=${{ inputs.docker_tab || 'latest' }}
           echo "使用的输入值是: $inputValue"
-          docker buildx build --push --platform linux/amd64,linux/arm64 -t aothen/siyuan:$inputValue .
+          docker buildx build --push --platform linux/amd64 -t aothen/siyuan:$inputValue .
+
+
+      - name: Login to GitHub Package Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: aothen
+          password: ${{ secrets.PACKAGES_TOKEN }}
+
+      - name: Build and push
+        if: steps.Check.outputs.status == 'success' || ${{ inputs.foc }}
+        run: |
+          docker tag siyuan:latest ghcr.io/aothen/siyuan:latest
+          docker push ghcr.io/aothen/siyuan:latest
 
 
       - name: Delete workflow runs
