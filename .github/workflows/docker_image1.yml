@@ -146,13 +146,14 @@ jobs:
           username: aothen
           password: ${{ secrets.PACKAGES_TOKEN }}
 
-      - name: Build and push ghcr
-        if: steps.Check.outputs.status == 'success' || ${{ inputs.foc }}
-        run: |
-          docker buildx build --push --platform linux/amd64 -t aothen/siyuan:latest .
-
-          # docker tag siyuan:latest ghcr.io/aothen/siyuan:latest
-          # docker push ghcr.io/aothen/siyuan:latest
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ghcr.io/aothen/siyuan:latest
 
 
       - name: Delete workflow runs
