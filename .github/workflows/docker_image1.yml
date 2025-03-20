@@ -149,7 +149,7 @@ jobs:
       - name: Build and push ghcr
         if: steps.Check.outputs.status == 'success' || ${{ inputs.foc }}
         run: |
-          docker buildx build --push --platform linux/amd64 -t aothen/siyuan:$inputValue .
+          docker buildx build --push --platform linux/amd64 -t aothen/siyuan:latest .
 
           # docker tag siyuan:latest ghcr.io/aothen/siyuan:latest
           # docker push ghcr.io/aothen/siyuan:latest
