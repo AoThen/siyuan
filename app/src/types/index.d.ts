@@ -138,6 +138,8 @@ interface Window {
         dispose(element: Element): void;
         getInstanceById(id: string): {
             resize: () => void
+            clear: () => void
+            getOption: () => { series: { type: string }[] }
         };
     }
     ABCJS: {
@@ -178,27 +180,39 @@ interface Window {
     dataLayer: any[]
 
     siyuan: ISiyuan
-    webkit: any
-    html2canvas: (element: Element, opitons: {
-        useCORS: boolean,
-        scale?: number
-    }) => Promise<any>;
+    webkit: {
+        messageHandlers: {
+            openLink: { postMessage: (url: string) => void }
+            startKernelFast: { postMessage: (url: string) => void }
+            changeStatusBar: { postMessage: (url: string) => void }
+            setClipboard: { postMessage: (url: string) => void }
+        }
+    }
+    htmlToImage: {
+        toCanvas:(element: Element) => Promise<HTMLCanvasElement>
+        toBlob:(element: Element) => Promise<Blob>
+    };
     JSAndroid: {
         returnDesktop(): void
         openExternal(url: string): void
+        exportByDefault(url: string): void
         changeStatusBarColor(color: string, mode: number): void
         writeClipboard(text: string): void
         writeHTMLClipboard(text: string, html: string): void
         writeImageClipboard(uri: string): void
         readClipboard(): string
+        readHTMLClipboard(): string
         getBlockURL(): string
     }
     JSHarmony: {
         openExternal(url: string): void
+        exportByDefault(url: string): void
         changeStatusBarColor(color: string, mode: number): void
         writeClipboard(text: string): void
         writeHTMLClipboard(text: string, html: string): void
         readClipboard(): string
+        readHTMLClipboard(): string
+        returnDesktop(): void
     }
 
     Protyle: import("../protyle/method").default
@@ -216,7 +230,12 @@ interface Window {
     destroyTheme(): Promise<void>
 }
 
-interface filesPath {
+interface IRefDefs {
+    refID: string,
+    defIDs?: string[]
+}
+
+interface IFilesPath {
     notebookId: string,
     openPaths: string[]
 }
@@ -233,7 +252,7 @@ interface ISaveLayout {
     name: string,
     layout: IObject
     time: number
-    filesPaths: filesPath[]
+    filesPaths: IFilesPath[]
 }
 
 interface IWorkspace {
@@ -429,6 +448,7 @@ interface ISiyuan {
         }[]
     },
     dragElement?: HTMLElement,
+    currentDragOverTabHeadersElement?: HTMLElement
     layout?: {
         layout?: import("../layout").Layout,
         centerLayout?: import("../layout").Layout,
@@ -583,6 +603,7 @@ interface IOpenFileOptions {
     keepCursor?: boolean // file，是否跳转到新 tab 上
     zoomIn?: boolean // 是否缩放
     removeCurrentTab?: boolean // 在当前页签打开时需移除原有页签
+    openNewTab?: boolean // 使用新页签打开
     afterOpen?: (model?: import("../layout/Model").Model) => void // 打开后回调
 }
 

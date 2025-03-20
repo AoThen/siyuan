@@ -66,6 +66,8 @@ func ServeAPI(ginServer *gin.Engine) {
 	ginServer.Handle("POST", "/api/system/importConf", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, importConf)
 	ginServer.Handle("POST", "/api/system/getWorkspaceInfo", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, getWorkspaceInfo)
 	ginServer.Handle("POST", "/api/system/reloadUI", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, reloadUI)
+	ginServer.Handle("POST", "/api/system/addMicrosoftDefenderExclusion", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, addMicrosoftDefenderExclusion)
+	ginServer.Handle("POST", "/api/system/ignoreAddMicrosoftDefenderExclusion", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, ignoreAddMicrosoftDefenderExclusion)
 
 	ginServer.Handle("POST", "/api/storage/setLocalStorage", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, setLocalStorage)
 	ginServer.Handle("POST", "/api/storage/getLocalStorage", model.CheckAuth, getLocalStorage)
@@ -189,6 +191,7 @@ func ServeAPI(ginServer *gin.Engine) {
 	ginServer.Handle("POST", "/api/block/getDocInfo", model.CheckAuth, getDocInfo)
 	ginServer.Handle("POST", "/api/block/getDocsInfo", model.CheckAuth, getDocsInfo)
 	ginServer.Handle("POST", "/api/block/checkBlockExist", model.CheckAuth, checkBlockExist)
+	ginServer.Handle("POST", "/api/block/getUnfoldedParentID", model.CheckAuth, getUnfoldedParentID)
 	ginServer.Handle("POST", "/api/block/checkBlockFold", model.CheckAuth, checkBlockFold)
 	ginServer.Handle("POST", "/api/block/insertBlock", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, insertBlock)
 	ginServer.Handle("POST", "/api/block/prependBlock", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, prependBlock)
@@ -196,6 +199,7 @@ func ServeAPI(ginServer *gin.Engine) {
 	ginServer.Handle("POST", "/api/block/appendDailyNoteBlock", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, appendDailyNoteBlock)
 	ginServer.Handle("POST", "/api/block/prependDailyNoteBlock", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, prependDailyNoteBlock)
 	ginServer.Handle("POST", "/api/block/updateBlock", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, updateBlock)
+	ginServer.Handle("POST", "/api/block/batchUpdateBlock", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, batchUpdateBlock)
 	ginServer.Handle("POST", "/api/block/deleteBlock", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, deleteBlock)
 	ginServer.Handle("POST", "/api/block/moveBlock", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, moveBlock)
 	ginServer.Handle("POST", "/api/block/moveOutlineHeading", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, moveOutlineHeading)
@@ -210,6 +214,7 @@ func ServeAPI(ginServer *gin.Engine) {
 	ginServer.Handle("POST", "/api/block/transferBlockRef", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, transferBlockRef)
 	ginServer.Handle("POST", "/api/block/getBlockSiblingID", model.CheckAuth, getBlockSiblingID)
 	ginServer.Handle("POST", "/api/block/getBlockTreeInfos", model.CheckAuth, getBlockTreeInfos)
+	ginServer.Handle("POST", "/api/block/checkBlockRef", model.CheckAuth, checkBlockRef)
 
 	ginServer.Handle("POST", "/api/file/getFile", model.CheckAuth, getFile)
 	ginServer.Handle("POST", "/api/file/putFile", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, putFile)
@@ -243,6 +248,7 @@ func ServeAPI(ginServer *gin.Engine) {
 	ginServer.Handle("POST", "/api/sync/setSyncProvider", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, setSyncProvider)
 	ginServer.Handle("POST", "/api/sync/setSyncProviderS3", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, setSyncProviderS3)
 	ginServer.Handle("POST", "/api/sync/setSyncProviderWebDAV", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, setSyncProviderWebDAV)
+	ginServer.Handle("POST", "/api/sync/setSyncProviderLocal", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, setSyncProviderLocal)
 	ginServer.Handle("POST", "/api/sync/setCloudSyncDir", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, setCloudSyncDir)
 	ginServer.Handle("POST", "/api/sync/createCloudSyncDir", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, createCloudSyncDir)
 	ginServer.Handle("POST", "/api/sync/removeCloudSyncDir", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, removeCloudSyncDir)
@@ -275,6 +281,7 @@ func ServeAPI(ginServer *gin.Engine) {
 	ginServer.Handle("POST", "/api/asset/removeUnusedAsset", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, removeUnusedAsset)
 	ginServer.Handle("POST", "/api/asset/removeUnusedAssets", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, removeUnusedAssets)
 	ginServer.Handle("POST", "/api/asset/getDocImageAssets", model.CheckAuth, getDocImageAssets)
+	ginServer.Handle("POST", "/api/asset/getDocAssets", model.CheckAuth, getDocAssets)
 	ginServer.Handle("POST", "/api/asset/renameAsset", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, renameAsset)
 	ginServer.Handle("POST", "/api/asset/getImageOCRText", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, getImageOCRText)
 	ginServer.Handle("POST", "/api/asset/setImageOCRText", model.CheckAuth, model.CheckAdminRole, model.CheckReadonly, setImageOCRText)
@@ -455,6 +462,9 @@ func ServeAPI(ginServer *gin.Engine) {
 	ginServer.Handle("POST", "/api/network/forwardProxy", model.CheckAuth, model.CheckAdminRole, forwardProxy)
 
 	ginServer.Handle("GET", "/ws/broadcast", model.CheckAuth, model.CheckAdminRole, broadcast)
+	ginServer.Handle("GET", "/es/broadcast/subscribe", model.CheckAuth, model.CheckAdminRole, broadcastSubscribe)
+
+	ginServer.Handle("POST", "/api/broadcast/publish", model.CheckAuth, model.CheckAdminRole, broadcastPublish)
 	ginServer.Handle("POST", "/api/broadcast/postMessage", model.CheckAuth, model.CheckAdminRole, postMessage)
 	ginServer.Handle("POST", "/api/broadcast/getChannels", model.CheckAuth, model.CheckAdminRole, getChannels)
 	ginServer.Handle("POST", "/api/broadcast/getChannelInfo", model.CheckAuth, model.CheckAdminRole, getChannelInfo)

@@ -163,6 +163,33 @@ export const hasNextSibling = (element: Node) => {
     return false;
 };
 
+export const isEndOfBlock = (range: Range) => {
+    if (range.endContainer.nodeType === 3 &&
+        range.endContainer.textContent.length !== range.endOffset &&
+        range.endContainer.textContent !== Constants.ZWSP &&
+        range.endContainer.textContent !== "\n") {
+        return false;
+    }
+
+    let nextSibling = range.endContainer;
+    if (range.endContainer.nodeType !== 3 && range.endContainer.childNodes[range.endOffset]) {
+        nextSibling = range.endContainer.childNodes[range.endOffset];
+    }
+
+    while (nextSibling) {
+        if (hasNextSibling(nextSibling)) {
+            return false;
+        } else {
+            if (nextSibling.parentElement.getAttribute("spellcheck")) {
+                return true;
+            }
+            nextSibling = nextSibling.parentElement;
+        }
+    }
+
+    return true;
+};
+
 export const hasPreviousSibling = (element: Node) => {
     let previousSibling = element.previousSibling;
     while (previousSibling) {

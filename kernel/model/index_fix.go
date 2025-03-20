@@ -48,6 +48,11 @@ var (
 // checkIndex 自动校验数据库索引，仅在数据同步执行完成后执行一次。
 func checkIndex() {
 	checkIndexOnce.Do(func() {
+		if util.ContainerAndroid == util.Container || util.ContainerIOS == util.Container || util.ContainerHarmony == util.Container {
+			// 移动端不执行校验 https://ld246.com/article/1734939896061
+			return
+		}
+
 		logging.LogInfof("start checking index...")
 
 		removeDuplicateDatabaseIndex()
@@ -199,8 +204,7 @@ func resetDuplicateBlocksOnFileSys() {
 
 				if "" == n.ID {
 					needOverwrite = true
-					n.ID = ast.NewNodeID()
-					n.SetIALAttr("id", n.ID)
+					treenode.ResetNodeID(n)
 					return ast.WalkContinue
 				}
 
@@ -220,8 +224,7 @@ func resetDuplicateBlocksOnFileSys() {
 
 				// 其他情况，重置节点 ID
 				needOverwrite = true
-				n.ID = ast.NewNodeID()
-				n.SetIALAttr("id", n.ID)
+				treenode.ResetNodeID(n)
 				needRefreshUI = true
 				return ast.WalkContinue
 			})

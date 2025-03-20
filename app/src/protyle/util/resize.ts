@@ -3,10 +3,13 @@ import {setPadding} from "../ui/initUI";
 import {hasClosestBlock} from "./hasClosest";
 import {Constants} from "../../constants";
 import {lineNumberRender} from "../render/highlightRender";
-import {stickyRow} from "../render/av/row";
+/// #if !MOBILE
 import {getAllModels} from "../../layout/getAll";
+/// #endif
+import {stickyRow} from "../render/av/row";
 
 export const recordBeforeResizeTop = () => {
+    /// #if !MOBILE
     getAllModels().editor.forEach((item) => {
         if (item.editor && item.editor.protyle &&
             item.element.parentElement && !item.element.classList.contains("fn__none")) {
@@ -23,10 +26,10 @@ export const recordBeforeResizeTop = () => {
             if (!topElement) {
                 return;
             }
-            console.log(topElement);
             topElement.setAttribute("data-resize-top", topElement.getBoundingClientRect().top.toString());
         }
     });
+    /// #endif
 };
 
 export const resize = (protyle: IProtyle) => {
@@ -55,12 +58,13 @@ export const resize = (protyle: IProtyle) => {
                     }
                 });
             }
-            protyle.wysiwyg.element.querySelectorAll(".code-block .protyle-linenumber__rows").forEach((item: HTMLElement) => {
-                if ((item.nextElementSibling as HTMLElement).style.wordBreak === "break-word") {
-                    lineNumberRender(item.parentElement);
-                }
-            });
         }
+        // 小于 MIN_ABS 也会导致换行 https://github.com/siyuan-note/siyuan/issues/13677
+        protyle.wysiwyg.element.querySelectorAll(".code-block .protyle-linenumber__rows").forEach((item: HTMLElement) => {
+            if ((item.nextElementSibling as HTMLElement).style.wordBreak === "break-word") {
+                lineNumberRender(item.parentElement);
+            }
+        });
         const topElement = protyle.wysiwyg.element.querySelector("[data-resize-top]");
         if (topElement) {
             topElement.scrollIntoView();

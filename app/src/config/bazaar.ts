@@ -16,7 +16,7 @@ import {Plugin} from "../plugin";
 import {App} from "../index";
 import {escapeAttr} from "../util/escape";
 import {uninstall} from "../plugin/uninstall";
-import {afterLoadPlugin, loadPlugin, loadPlugins} from "../plugin/loader";
+import {afterLoadPlugin, loadPlugin, loadPlugins, reloadPlugin} from "../plugin/loader";
 import {loadAssets} from "../util/assets";
 import {addScript} from "../protyle/util/addScript";
 
@@ -685,6 +685,7 @@ export const bazaar = {
                                     try {
                                         await window.destroyTheme();
                                         window.destroyTheme = undefined;
+                                        document.getElementById("themeScript").remove();
                                     } catch (e) {
                                         console.error("destroyTheme error: " + e);
                                     }
@@ -769,17 +770,17 @@ export const bazaar = {
                                     (window.siyuan.config.appearance.mode === 0 && window.siyuan.config.appearance.themeLight === dataObj.name) ||
                                     (window.siyuan.config.appearance.mode === 1 && window.siyuan.config.appearance.themeDark === dataObj.name)
                                 )) {
+                                    const currentTheme = window.siyuan.config.appearance.mode === 1 ? window.siyuan.config.appearance.themeDark : window.siyuan.config.appearance.themeLight;
                                     if (window.siyuan.config.appearance.themeJS) {
                                         if (window.destroyTheme) {
                                             try {
                                                 await window.destroyTheme();
                                                 window.destroyTheme = undefined;
+                                                document.getElementById("themeScript").remove();
+                                                addScript(`/appearance/themes/${currentTheme}/theme.js?v=${response.data.appearance.themeVer}`, "themeScript");
                                             } catch (e) {
                                                 console.error("destroyTheme error: " + e);
                                             }
-                                            const themeScriptElement = document.getElementById("themeScript") as HTMLScriptElement;
-                                            themeScriptElement.remove();
-                                            addScript(themeScriptElement.src + "1", "themeScript");
                                         } else {
                                             exportLayout({
                                                 cb() {
@@ -790,8 +791,22 @@ export const bazaar = {
                                             return;
                                         }
                                     }
-                                    const linkElement = (document.getElementById("themeDefaultStyle") as HTMLLinkElement);
-                                    linkElement.href = linkElement.href + "1";
+                                    if ((window.siyuan.config.appearance.mode === 1 && currentTheme === "midnight") ||
+                                        (window.siyuan.config.appearance.mode !== 1 && currentTheme === "daylight")) {
+                                        (document.getElementById("themeDefaultStyle") as HTMLLinkElement).href = `/appearance/themes/${window.siyuan.config.appearance.mode === 1 ? "midnight" : "daylight"}/theme.css?v=${Constants.SIYUAN_VERSION}`;
+                                    } else {
+                                        (document.getElementById("themeStyle") as HTMLLinkElement).href = `/appearance/themes/${currentTheme}/theme.css?v=${response.data.appearance.themeVer}`;
+                                    }
+                                } else if (bazaarType === "plugins") {
+                                    app.plugins.find((item: Plugin) => {
+                                        if (item.name === dataObj.name) {
+                                            reloadPlugin(app, {
+                                                upsertPlugins: [dataObj.name],
+                                                removePlugins: []
+                                            });
+                                            return true;
+                                        }
+                                    });
                                 }
                             });
                         });
@@ -865,6 +880,7 @@ export const bazaar = {
                                     try {
                                         await window.destroyTheme();
                                         window.destroyTheme = undefined;
+                                        document.getElementById("themeScript").remove();
                                     } catch (e) {
                                         console.error("destroyTheme error: " + e);
                                     }

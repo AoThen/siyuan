@@ -225,6 +225,8 @@ func initDBConnection() {
 	if nil != db {
 		closeDatabase()
 	}
+
+	util.LogDatabaseSize(util.DBPath)
 	dsn := util.DBPath + "?_journal_mode=WAL" +
 		"&_synchronous=OFF" +
 		"&_mmap_size=2684354560" +
@@ -272,6 +274,7 @@ func initHistoryDBConnection() {
 		historyDB.Close()
 	}
 
+	util.LogDatabaseSize(util.HistoryDBPath)
 	dsn := util.HistoryDBPath + "?_journal_mode=WAL" +
 		"&_synchronous=OFF" +
 		"&_mmap_size=2684354560" +
@@ -327,6 +330,7 @@ func initAssetContentDBConnection() {
 		assetContentDB.Close()
 	}
 
+	util.LogDatabaseSize(util.AssetContentDBPath)
 	dsn := util.AssetContentDBPath + "?_journal_mode=WAL" +
 		"&_synchronous=OFF" +
 		"&_mmap_size=2684354560" +
@@ -737,11 +741,15 @@ func buildSpanFromNode(n *ast.Node, tree *parse.Tree, rootID, boxID, p string) (
 
 		if ast.NodeInlineHTML == n.Type {
 			// 没有行级 HTML，只有块级 HTML，这里转换为块
+			n.ID = ast.NewNodeID()
+			n.SetIALAttr("id", n.ID)
+			n.SetIALAttr("updated", n.ID[:14])
 			b, attrs := buildBlockFromNode(n, tree)
 			b.Type = ast.NodeHTMLBlock.String()
 			blocks = append(blocks, b)
 			attributes = append(attributes, attrs...)
 			walkStatus = ast.WalkContinue
+			logging.LogWarnf("inline HTML [%s] is converted to HTML block ", n.Tokens)
 			return
 		}
 
@@ -925,7 +933,7 @@ func tagFromNode(node *ast.Node) (ret string) {
 
 		if n.IsTextMarkType("tag") {
 			tagBuilder.WriteString("#")
-			tagBuilder.WriteString(n.Text())
+			tagBuilder.WriteString(n.Content())
 			tagBuilder.WriteString("# ")
 		}
 		return ast.WalkContinue

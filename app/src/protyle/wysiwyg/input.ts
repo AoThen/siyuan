@@ -22,7 +22,7 @@ export const input = async (protyle: IProtyle, blockElement: HTMLElement, range:
     if (blockElement.classList.contains("av")) {
         const avCursorElement = hasClosestByClassName(range.startContainer, "av__cursor");
         if (avCursorElement) {
-            range.startContainer.textContent = Constants.ZWSP;
+            avCursorElement.textContent = Constants.ZWSP;
         } else {
             updateAVName(protyle, blockElement);
         }
@@ -113,12 +113,14 @@ export const input = async (protyle: IProtyle, blockElement: HTMLElement, range:
         return;
     }
     // https://github.com/siyuan-note/siyuan/issues/9015
-    if (trimStartText === "¥¥<wbr>" || trimStartText === "￥￥<wbr>") {
-        editElement.innerHTML = "$$<wbr>";
-    } else if (trimStartText.indexOf("\n¥¥<wbr>") > -1 || trimStartText.indexOf("\n￥￥<wbr>") > -1) {
+    if (type === "NodeParagraph" && (
+        editElement.innerHTML.startsWith("¥¥<wbr>") || editElement.innerHTML.startsWith("￥￥<wbr>") ||
         // https://ld246.com/article/1730020516427
-        editElement.innerHTML = trimStartText.replace("\n¥¥<wbr>", "\n$$$$<wbr>").replace("\n￥￥<wbr>", "\n$$$$<wbr>");
+        trimStartText.indexOf("\n¥¥<wbr>") > -1 || trimStartText.indexOf("\n￥￥<wbr>") > -1
+    )) {
+        editElement.innerHTML = editElement.innerHTML.replace("¥¥<wbr>", "$$$$<wbr>").replace("￥￥<wbr>", "$$$$<wbr>");
     }
+
     const refElement = hasClosestByAttribute(range.startContainer, "data-type", "block-ref");
     if (refElement && refElement.getAttribute("data-subtype") === "d") {
         const response = await fetchSyncPost("/api/block/getRefText", {id: refElement.getAttribute("data-id")});
@@ -149,7 +151,7 @@ export const input = async (protyle: IProtyle, blockElement: HTMLElement, range:
             if (trimStartText.indexOf("\n") === -1 && trimStartText.replace(/·|~/g, "`").replace(/^`{3,}/g, "").indexOf("`") > -1) {
                 // ```test` 不处理，正常渲染为段落块
             } else {
-                let replaceInnerHTML = editElement.innerHTML.replace(/^(~|·|`){3,}/g, "```").replace(/\n(~|·|`){3,}/g, "\n```").trim();
+                let replaceInnerHTML = editElement.innerHTML.trim().replace(/^(~|·|`){3,}/g, "```").replace(/\n(~|·|`){3,}/g, "\n```").trim();
                 if (!replaceInnerHTML.endsWith("\n```")) {
                     replaceInnerHTML = replaceInnerHTML.replace("<wbr>", "") + "<wbr>\n```";
                 }
@@ -237,7 +239,7 @@ export const input = async (protyle: IProtyle, blockElement: HTMLElement, range:
                 focusBlock(blockElement);
             } else {
                 // https://github.com/siyuan-note/siyuan/issues/6087
-                realElement.querySelectorAll('[data-type="block-ref"][data-subtype="d"]').forEach(refItem => {
+                realElement.querySelectorAll('[data-type~="block-ref"][data-subtype="d"]').forEach(refItem => {
                     if (refItem.textContent === "") {
                         fetchPost("/api/block/getRefText", {id: refItem.getAttribute("data-id")}, (response) => {
                             refItem.innerHTML = response.data;

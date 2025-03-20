@@ -20,14 +20,13 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
-	"github.com/88250/lute/render"
-	"strconv"
 	"strings"
 	"time"
 
 	"github.com/88250/gulu"
 	"github.com/88250/lute/ast"
 	"github.com/88250/lute/parse"
+	"github.com/88250/lute/render"
 	"github.com/open-spaced-repetition/go-fsrs/v3"
 	"github.com/siyuan-note/siyuan/kernel/filesys"
 	"github.com/siyuan-note/siyuan/kernel/sql"
@@ -78,21 +77,6 @@ type RiffCard struct {
 	LastReview time.Time  `json:"lastReview"`
 }
 
-func getRiffCard(card *fsrs.Card) *RiffCard {
-	due := card.Due
-	if due.IsZero() {
-		due = time.Now()
-	}
-
-	return &RiffCard{
-		Due:        due,
-		Reps:       card.Reps,
-		Lapses:     card.Lapses,
-		State:      card.State,
-		LastReview: card.LastReview,
-	}
-}
-
 func (block *Block) IsContainerBlock() bool {
 	switch block.Type {
 	case "NodeDocument", "NodeBlockquote", "NodeList", "NodeListItem", "NodeSuperBlock":
@@ -120,6 +104,46 @@ type Path struct {
 
 	Updated string `json:"updated"` // 更新时间
 	Created string `json:"created"` // 创建时间
+}
+
+func CheckBlockRef(ids []string) bool {
+	bts := treenode.GetBlockTrees(ids)
+
+	var rootIDs, blockIDs []string
+	for _, bt := range bts {
+		if "d" == bt.Type {
+			rootIDs = append(rootIDs, bt.ID)
+		} else {
+			blockIDs = append(blockIDs, bt.ID)
+		}
+	}
+	rootIDs = gulu.Str.RemoveDuplicatedElem(rootIDs)
+	blockIDs = gulu.Str.RemoveDuplicatedElem(blockIDs)
+
+	existRef := func(refCounts map[string]int) bool {
+		for _, refCount := range refCounts {
+			if 0 < refCount {
+				return true
+			}
+		}
+		return false
+	}
+
+	for _, rootID := range rootIDs {
+		refCounts := sql.QueryRootChildrenRefCount(rootID)
+		if existRef(refCounts) {
+			return true
+		}
+	}
+
+	refCounts := sql.QueryRefCount(blockIDs)
+	if existRef(refCounts) {
+		return true
+	}
+
+	// TODO 还需要考虑容器块的子块引用计数 https://github.com/siyuan-note/siyuan/issues/13396
+
+	return false
 }
 
 type BlockTreeInfo struct {
@@ -257,6 +281,41 @@ func GetBlockSiblingID(id string) (parent, previous, next string) {
 	return
 }
 
+func GetUnfoldedParentID(id string) (parentID string) {
+	tree, err := LoadTreeByBlockID(id)
+	if err != nil {
+		return
+	}
+
+	node := treenode.GetNodeInTree(tree, id)
+	if nil == node {
+		return
+	}
+
+	if !node.IsBlock() {
+		return
+	}
+
+	var firstFoldedParent *ast.Node
+	for parent := treenode.HeadingParent(node); nil != parent && ast.NodeDocument != parent.Type; parent = treenode.HeadingParent(parent) {
+		if "1" == parent.IALAttr("fold") {
+			firstFoldedParent = parent
+			parentID = firstFoldedParent.ID
+		} else {
+			if nil != firstFoldedParent {
+				parentID = firstFoldedParent.ID
+			} else {
+				parentID = id
+			}
+			return
+		}
+	}
+	if "" == parentID {
+		parentID = id
+	}
+	return
+}
+
 func IsBlockFolded(id string) (isFolded, isRoot bool) {
 	tree, _ := LoadTreeByBlockID(id)
 	if nil == tree {
@@ -328,7 +387,7 @@ func TransferBlockRef(fromID, toID string, refIDs []string) (err error) {
 	util.PushMsg(Conf.Language(116), 7000)
 
 	if 1 > len(refIDs) { // 如果不指定 refIDs，则转移所有引用了 fromID 的块
-		refIDs, _ = sql.QueryRefIDsByDefID(fromID, false)
+		refIDs = sql.QueryRefIDsByDefID(fromID, false)
 	}
 
 	trees := filesys.LoadTrees(refIDs)
@@ -869,33 +928,7 @@ func getEmbeddedBlock(trees map[string]*parse.Tree, sqlBlock *sql.Block, heading
 	}
 
 	// 嵌入块查询结果中显示块引用计数 https://github.com/siyuan-note/siyuan/issues/7191
-	var defIDs []string
-	for _, n := range nodes {
-		ast.Walk(n, func(n *ast.Node, entering bool) ast.WalkStatus {
-			if !entering {
-				return ast.WalkContinue
-			}
-
-			if n.IsBlock() {
-				defIDs = append(defIDs, n.ID)
-			}
-			return ast.WalkContinue
-		})
-	}
-	defIDs = gulu.Str.RemoveDuplicatedElem(defIDs)
-	refCount := sql.QueryRefCount(defIDs)
-	for _, n := range nodes {
-		ast.Walk(n, func(n *ast.Node, entering bool) ast.WalkStatus {
-			if !entering || !n.IsBlock() {
-				return ast.WalkContinue
-			}
-
-			if cnt := refCount[n.ID]; 0 < cnt {
-				n.SetIALAttr("refcount", strconv.Itoa(cnt))
-			}
-			return ast.WalkContinue
-		})
-	}
+	fillBlockRefCount(nodes)
 
 	luteEngine := NewLute()
 	luteEngine.RenderOptions.ProtyleContenteditable = false // 不可编辑

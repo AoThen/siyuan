@@ -6,7 +6,7 @@
 .protyle-scroll {
   --b3-dynamicscroll-width: 200px;
   position: absolute;
-  right: 10px;
+  right: 12px;
   top: 30px;
   width: 16px;
   bottom: 9px; // 下图标 hover 时，需要留出一定的空间
@@ -58,6 +58,12 @@
 
       &::-webkit-slider-runnable-track,
       &::-webkit-slider-thumb {
+        background-color: var(--b3-border-color);
+        box-shadow: none;
+      }
+
+      &::-moz-range-track,
+      &::-moz-range-thumb {
         background-color: var(--b3-border-color);
         box-shadow: none;
       }
@@ -251,7 +257,8 @@
       transition: padding .3s cubic-bezier(.25, .46, .45, .94) 0ms;
     }
 
-    .protyle-title {
+    .protyle-title,
+    .protyle-background__ia {
       transition: margin .3s cubic-bezier(.25, .46, .45, .94) 0ms;
     }
   }
@@ -343,7 +350,7 @@
 .protyle-title {
   margin: 34px 16px 0 24px;
   position: relative;
-  font-size: 16px;
+  font-size: var(--b3-font-size-editor);
   font-family: var(--b3-font-family-protyle);
   padding-left: 2px;
   border-radius: var(--b3-border-radius);
@@ -402,11 +409,17 @@
   }
 }
 
-table[contenteditable="false"] + .protyle-action__table {
+.protyle-cursor {
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+table[contenteditable="false"] + .protyle-action__table > .table__resize {
   display: none;
 }
 
-table[contenteditable="true"] + .protyle-action__table {
+table + .protyle-action__table {
   position: absolute;
   top: 4px;
   height: 0;

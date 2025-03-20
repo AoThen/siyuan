@@ -1,6 +1,6 @@
 import {transaction} from "../../wysiwyg/transaction";
 import {fetchPost} from "../../../util/fetch";
-import {addCol, bindEditEvent, duplicateCol, getColIconByType, getEditHTML, removeCol} from "./col";
+import {addCol, bindEditEvent, duplicateCol, getColIconByType, getColNameByType, getEditHTML, removeCol} from "./col";
 import {setPosition} from "../../../util/setPosition";
 import {hasClosestByAttribute, hasClosestByClassName} from "../../util/hasClosest";
 import {addColOptionOrCell, bindSelectEvent, getSelectHTML, removeCellOption, setColOption} from "./select";
@@ -96,7 +96,7 @@ export const openMenuPanel = (options: {
             }
             html = getEditHTML({protyle: options.protyle, data, colId: options.colId, isCustomAttr});
         } else if (options.type === "date") {
-            html = getDateHTML(data.view, options.cellElements);
+            html = getDateHTML(options.cellElements);
         } else if (options.type === "rollup") {
             html = `<div class="b3-menu__items">${getRollupHTML({data, cellElements: options.cellElements})}</div>`;
         } else if (options.type === "relation") {
@@ -139,6 +139,7 @@ export const openMenuPanel = (options: {
                     cellElements: options.cellElements,
                     blockElement: options.blockElement
                 });
+                (avPanelElement.querySelector(".b3-menu__item") as HTMLButtonElement).focus();
                 setTimeout(() => {
                     setPosition(menuElement, cellRect.left, cellRect.bottom, cellRect.height);
                 }, Constants.TIMEOUT_LOAD);  // 等待加载
@@ -151,6 +152,7 @@ export const openMenuPanel = (options: {
                 });
             } else if (options.type === "rollup") {
                 bindRollupData({protyle: options.protyle, data, menuElement});
+                (avPanelElement.querySelector(".b3-menu__item") as HTMLButtonElement).focus();
             }
             if (["select", "date", "relation", "rollup"].includes(options.type)) {
                 const inputElement = menuElement.querySelector("input");
@@ -495,10 +497,13 @@ export const openMenuPanel = (options: {
         });
         avPanelElement.addEventListener("click", (event: MouseEvent) => {
             let type: string;
+            let target = event.target as HTMLElement;
             if (typeof event.detail === "string") {
                 type = event.detail;
+            } else if (typeof event.detail === "object") {
+                type = (event.detail as { type: string }).type;
+                target = (event.detail as { target: HTMLElement }).target;
             }
-            let target = event.target as HTMLElement;
             while (target && !target.isSameNode(avPanelElement) || type) {
                 type = target?.dataset.type || type;
                 if (type === "close") {
@@ -874,13 +879,25 @@ export const openMenuPanel = (options: {
                     break;
                 } else if (type === "updateColType") {
                     if (target.dataset.newType !== target.dataset.oldType) {
-                        const name = (avPanelElement.querySelector('.b3-text-field[data-type="name"]') as HTMLInputElement).value;
-                        data.view.columns.find((item: IAVColumn) => item.id === options.colId).type = target.dataset.newType as TAVCol;
+                        const nameElement = avPanelElement.querySelector('.b3-text-field[data-type="name"]') as HTMLInputElement;
+                        const name = nameElement.value;
+                        let newName = name;
+                        data.view.columns.find((item: IAVColumn) => {
+                            if (item.id === options.colId) {
+                                item.type = target.dataset.newType as TAVCol;
+                                if (getColNameByType(target.dataset.oldType as TAVCol) === name) {
+                                    newName = getColNameByType(target.dataset.newType as TAVCol);
+                                    item.name = newName;
+                                }
+                                return true;
+                            }
+                        });
+
                         transaction(options.protyle, [{
                             action: "updateAttrViewCol",
                             id: options.colId,
                             avID,
-                            name,
+                            name: newName,
                             type: target.dataset.newType as TAVCol,
                         }], [{
                             action: "updateAttrViewCol",
@@ -1106,11 +1123,12 @@ export const openMenuPanel = (options: {
     <button class="fn__block b3-button b3-button--cancel">${window.siyuan.languages.cancel}</button>
 </div>`,
                         });
-                        dialog.element.addEventListener("click", (event) => {
-                            let target = event.target as HTMLElement;
-                            while (target && !target.isSameNode(dialog.element)) {
+                        dialog.element.addEventListener("click", (dialogEvent) => {
+                            let target = dialogEvent.target as HTMLElement;
+                            const isDispatch = typeof dialogEvent.detail === "string";
+                            while (target && !target.isSameNode(dialog.element) || isDispatch) {
                                 const action = target.getAttribute("data-action");
-                                if (action === "delete") {
+                                if (action === "delete" || (isDispatch && dialogEvent.detail === "Enter")) {
                                     removeCol({
                                         protyle: options.protyle,
                                         data,
@@ -1140,13 +1158,14 @@ export const openMenuPanel = (options: {
                                     });
                                     dialog.destroy();
                                     break;
-                                } else if (target.classList.contains("b3-button--cancel")) {
+                                } else if (target.classList.contains("b3-button--cancel") || (isDispatch && dialogEvent.detail === "Escape")) {
                                     dialog.destroy();
                                     break;
                                 }
                                 target = target.parentElement;
                             }
                         });
+                        dialog.element.setAttribute("data-key", Constants.DIALOG_CONFIRM);
                     } else {
                         removeCol({
                             protyle: options.protyle,
@@ -1170,11 +1189,15 @@ export const openMenuPanel = (options: {
                     event.stopPropagation();
                     break;
                 } else if (type === "setRelationCell") {
+                    menuElement.querySelector(".b3-menu__item--current")?.classList.remove("b3-menu__item--current");
+                    target.classList.add("b3-menu__item--current");
                     setRelationCell(options.protyle, options.blockElement as HTMLElement, target, options.cellElements);
                     event.preventDefault();
                     event.stopPropagation();
                     break;
                 } else if (type === "addColOptionOrCell") {
+                    menuElement.querySelector(".b3-menu__item--current")?.classList.remove("b3-menu__item--current");
+                    target.classList.add("b3-menu__item--current");
                     if (target.querySelector(".b3-menu__checked")) {
                         removeCellOption(options.protyle, options.cellElements, menuElement.querySelector(`.b3-chips .b3-chip[data-content="${escapeAttr(target.dataset.name)}"]`), options.blockElement);
                     } else {
@@ -1287,7 +1310,9 @@ export const openMenuPanel = (options: {
                     event.stopPropagation();
                     break;
                 } else if (type === "av-view-switch") {
-                    if (!target.querySelector(".b3-chip--primary")) {
+                    if (!target.parentElement.classList.contains("b3-menu__item--current")) {
+                        avPanelElement.querySelector(".b3-menu__item--current")?.classList.remove("b3-menu__item--current");
+                        target.parentElement.classList.add("b3-menu__item--current");
                         options.blockElement.removeAttribute("data-render");
                         avRender(options.blockElement, options.protyle, undefined, target.parentElement.dataset.id);
                     }
@@ -1295,13 +1320,15 @@ export const openMenuPanel = (options: {
                     event.stopPropagation();
                     break;
                 } else if (type === "av-view-edit") {
-                    if (target.parentElement.querySelector(".b3-chip--primary")) {
+                    if (target.parentElement.classList.contains("b3-menu__item--current")) {
                         openViewMenu({
                             protyle: options.protyle,
                             blockElement: options.blockElement as HTMLElement,
                             element: target.parentElement
                         });
                     } else {
+                        avPanelElement.querySelector(".b3-menu__item--current")?.classList.remove("b3-menu__item--current");
+                        target.parentElement.classList.add("b3-menu__item--current");
                         options.blockElement.removeAttribute("data-render");
                         avRender(options.blockElement, options.protyle, () => {
                             openViewMenu({

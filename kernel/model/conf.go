@@ -29,7 +29,6 @@ import (
 	"sync"
 	"time"
 
-	"github.com/88250/go-humanize"
 	"github.com/88250/gulu"
 	"github.com/88250/lute"
 	"github.com/88250/lute/ast"
@@ -361,6 +360,13 @@ func InitConf() {
 	Conf.Sync.WebDAV.Endpoint = util.NormalizeEndpoint(Conf.Sync.WebDAV.Endpoint)
 	Conf.Sync.WebDAV.Timeout = util.NormalizeTimeout(Conf.Sync.WebDAV.Timeout)
 	Conf.Sync.WebDAV.ConcurrentReqs = util.NormalizeConcurrentReqs(Conf.Sync.WebDAV.ConcurrentReqs, conf.ProviderWebDAV)
+	if nil == Conf.Sync.Local {
+		Conf.Sync.Local = &conf.Local{}
+	}
+	Conf.Sync.Local.Endpoint = util.NormalizeLocalPath(Conf.Sync.Local.Endpoint)
+	Conf.Sync.Local.Timeout = util.NormalizeTimeout(Conf.Sync.Local.Timeout)
+	Conf.Sync.Local.ConcurrentReqs = util.NormalizeConcurrentReqs(Conf.Sync.Local.ConcurrentReqs, conf.ProviderLocal)
+
 	if util.ContainerDocker == util.Container {
 		Conf.Sync.Perception = false
 	}
@@ -488,6 +494,8 @@ func InitConf() {
 	if "" != util.AccessAuthCode {
 		Conf.AccessAuthCode = util.AccessAuthCode
 	}
+	Conf.AccessAuthCode = strings.TrimSpace(Conf.AccessAuthCode)
+	Conf.AccessAuthCode = util.RemoveInvalid(Conf.AccessAuthCode)
 
 	Conf.LocalIPs = util.GetLocalIPs()
 
@@ -629,19 +637,17 @@ func Close(force, setCurrentWorkspace bool, execInstallPkg int) (exitCode int) {
 
 	util.IsExiting.Store(true)
 	waitSecondForExecInstallPkg := false
-	if !skipNewVerInstallPkg() {
-		if newVerInstallPkgPath := getNewVerInstallPkgPath(); "" != newVerInstallPkgPath {
-			if 2 == execInstallPkg || (force && 0 == execInstallPkg) { // 执行新版本安装
-				waitSecondForExecInstallPkg = true
-				if gulu.OS.IsWindows() {
-					util.PushMsg(Conf.Language(130), 1000*30)
-				}
-				go execNewVerInstallPkg(newVerInstallPkgPath)
-			} else if 0 == execInstallPkg { // 新版本安装包已经准备就绪
-				exitCode = 2
-				logging.LogInfof("the new version install pkg is ready [%s], waiting for the user's next instruction", newVerInstallPkgPath)
-				return
+	if !skipNewVerInstallPkg() && "" != newVerInstallPkgPath {
+		if 2 == execInstallPkg || (force && 0 == execInstallPkg) { // 执行新版本安装
+			waitSecondForExecInstallPkg = true
+			if gulu.OS.IsWindows() {
+				util.PushMsg(Conf.Language(130), 1000*30)
 			}
+			go execNewVerInstallPkg(newVerInstallPkgPath)
+		} else if 0 == execInstallPkg { // 新版本安装包已经准备就绪
+			exitCode = 2
+			logging.LogInfof("the new version install pkg is ready [%s], waiting for the user's next instruction", newVerInstallPkgPath)
+			return
 		}
 	}
 
@@ -685,7 +691,15 @@ func Close(force, setCurrentWorkspace bool, execInstallPkg int) (exitCode int) {
 	return
 }
 
-var CustomEmojis = sync.Map{}
+var customEmojis = sync.Map{}
+
+func AddCustomEmoji(emojiName, imgSrc string) {
+	customEmojis.Store(emojiName, imgSrc)
+}
+
+func ClearCustomEmojis() {
+	customEmojis.Clear()
+}
 
 func NewLute() (ret *lute.Lute) {
 	ret = util.NewLute()
@@ -695,12 +709,22 @@ func NewLute() (ret *lute.Lute) {
 	ret.SetSpellcheck(Conf.Editor.Spellcheck)
 
 	customEmojiMap := map[string]string{}
-	CustomEmojis.Range(func(key, value interface{}) bool {
+	customEmojis.Range(func(key, value interface{}) bool {
 		customEmojiMap[key.(string)] = value.(string)
 		return true
 	})
 	ret.PutEmojis(customEmojiMap)
 	return
+}
+
+func enableLuteInlineSyntax(luteEngine *lute.Lute) {
+	luteEngine.SetInlineAsterisk(true)
+	luteEngine.SetInlineUnderscore(true)
+	luteEngine.SetSup(true)
+	luteEngine.SetSub(true)
+	luteEngine.SetTag(true)
+	luteEngine.SetInlineMath(true)
+	luteEngine.SetGFMStrikethrough(true)
 }
 
 func (conf *AppConf) Save() {
@@ -823,6 +847,7 @@ func (conf *AppConf) Language(num int) (ret string) {
 	ret = conf.language(num)
 	subscribeURL := util.GetCloudAccountServer() + "/subscribe/siyuan"
 	ret = strings.ReplaceAll(ret, "${url}", subscribeURL)
+	ret = strings.ReplaceAll(ret, "${accountServer}", util.GetCloudAccountServer())
 	return
 }
 
@@ -836,7 +861,8 @@ func (conf *AppConf) language(num int) (ret string) {
 }
 
 func InitBoxes() {
-	initialized := 0 < treenode.CountBlocks()
+	blockCount := treenode.CountBlocks()
+	initialized := 0 < blockCount
 	for _, box := range Conf.GetOpenedBoxes() {
 		box.UpdateHistoryGenerated() // 初始化历史生成时间为当前时间
 
@@ -845,11 +871,7 @@ func InitBoxes() {
 		}
 	}
 
-	var dbSize string
-	if dbFile, err := os.Stat(util.DBPath); err == nil {
-		dbSize = humanize.BytesCustomCeil(uint64(dbFile.Size()), 2)
-	}
-	logging.LogInfof("database size [%s], tree/block count [%d/%d]", dbSize, treenode.CountTrees(), treenode.CountBlocks())
+	logging.LogInfof("tree/block count [%d/%d]", treenode.CountTrees(), blockCount)
 }
 
 func IsSubscriber() bool {

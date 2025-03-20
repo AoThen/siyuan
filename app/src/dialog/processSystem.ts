@@ -156,9 +156,9 @@ export const setRefDynamicText = (data: {
     "refText": string,
     "rootID": string
 }) => {
-    getAllEditor().forEach(item => {
+    getAllEditor().forEach(editor => {
         // 不能对比 rootId，否则嵌入块中的锚文本无法更新
-        item.protyle.wysiwyg.element.querySelectorAll(`[data-node-id="${data.blockID}"] span[data-type="block-ref"][data-subtype="d"][data-id="${data.defBlockID}"]`).forEach(item => {
+        editor.protyle.wysiwyg.element.querySelectorAll(`[data-node-id="${data.blockID}"] span[data-type~="block-ref"][data-subtype="d"][data-id="${data.defBlockID}"]`).forEach(item => {
             item.innerHTML = data.refText;
         });
     });
@@ -169,13 +169,9 @@ export const setDefRefCount = (data: {
     "refCount": number,
     "rootRefCount": number,
     "rootID": string
-    refIDs: string[]
 }) => {
     getAllEditor().forEach(editor => {
-        if (data.rootID === data.blockID && editor.protyle.block.rootID === data.rootID) {
-            if (!editor.protyle.title) {
-                return;
-            }
+        if (editor.protyle.block.rootID === data.rootID && editor.protyle.title) {
             const attrElement = editor.protyle.title.element.querySelector(".protyle-attr");
             const countElement = attrElement.querySelector(".protyle-attr--refcount");
             if (countElement) {
@@ -183,11 +179,12 @@ export const setDefRefCount = (data: {
                     countElement.remove();
                 } else {
                     countElement.textContent = data.rootRefCount.toString();
-                    countElement.setAttribute("data-id", JSON.stringify(data.refIDs));
                 }
             } else if (data.rootRefCount > 0) {
-                attrElement.insertAdjacentHTML("beforeend", `<div class="protyle-attr--refcount popover__block" data-defids="[&quot;${data.blockID}&quot;]" data-id="${JSON.stringify(data.refIDs)}" style="">${data.rootRefCount}</div>`);
+                attrElement.insertAdjacentHTML("beforeend", `<div class="protyle-attr--refcount popover__block">${data.rootRefCount}</div>`);
             }
+        }
+        if (data.rootID === data.blockID) {
             return;
         }
         // 不能对比 rootId，否则嵌入块中的锚文本无法更新
@@ -256,20 +253,19 @@ export const kernelError = () => {
     if (document.querySelector("#errorLog")) {
         return;
     }
-    let iosReStart = "";
+    let title = `💔 ${window.siyuan.languages.kernelFault0} <small>v${Constants.SIYUAN_VERSION}</small>`;
+    let body = `<div>${window.siyuan.languages.kernelFault1}</div><div class="fn__hr"></div><div>${window.siyuan.languages.kernelFault2}</div>`;
     if (isInIOS()) {
-        iosReStart = `<div class="fn__hr"></div><div class="fn__flex"><div class="fn__flex-1"></div><button class="b3-button">${window.siyuan.languages.retry}</button></div>`;
+        title = `🍵 ${window.siyuan.languages.pleaseWait} <small>v${Constants.SIYUAN_VERSION}</small>`;
+        body = `<div>${window.siyuan.languages.reconnectPrompt}</div><div class="fn__hr"></div><div class="fn__flex"><div class="fn__flex-1"></div><button class="b3-button">${window.siyuan.languages.retry}</button></div>`;
     }
     const dialog = new Dialog({
         disableClose: true,
-        title: `💔 ${window.siyuan.languages.kernelFault0} <small>v${Constants.SIYUAN_VERSION}</small>`,
+        title: title,
         width: isMobile() ? "92vw" : "520px",
         content: `<div class="b3-dialog__content">
 <div class="ft__breakword">
-    <div>${window.siyuan.languages.kernelFault1}</div>
-    <div class="fn__hr"></div>
-    <div>${window.siyuan.languages.kernelFault2}</div>
-    ${iosReStart}
+    ${body}
 </div>
 </div>`
     });
@@ -310,6 +306,11 @@ export const exitSiYuan = async () => {
             }
         } else if (response.code === 2) { // 提示新安装包
             hideMessage();
+
+            if ("std" === window.siyuan.config.system.container) {
+                ipcRenderer.send(Constants.SIYUAN_SHOW_WINDOW);
+            }
+
             confirmDialog(window.siyuan.languages.tip, response.msg, () => {
                 fetchPost("/api/system/exit", {
                     force: true,

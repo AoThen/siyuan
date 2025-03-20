@@ -27,12 +27,12 @@ export const initBlockPopover = (app: App) => {
             hasClosestByClassName(event.target, "av__cell");
         if (aElement) {
             let tooltipClass = "";
-            let tip = aElement.getAttribute("aria-label");
+            let tip = aElement.getAttribute("aria-label") || "";
             if (aElement.classList.contains("av__cell")) {
                 if (aElement.classList.contains("av__cell--header")) {
                     const textElement = aElement.querySelector(".av__celltext");
                     const desc = aElement.getAttribute("data-desc");
-                    if (textElement.scrollWidth > textElement.clientWidth + 2 || desc) {
+                    if (textElement.scrollWidth > textElement.clientWidth + 0.5 || desc) {
                         if (desc) {
                             tip = `${getCellText(aElement)}<div class='ft__on-surface'>${escapeAriaLabel(desc)}</div>`;
                         } else {
@@ -57,7 +57,7 @@ export const initBlockPopover = (app: App) => {
             } else if (aElement.parentElement.parentElement.classList.contains("av__views") && aElement.parentElement.classList.contains("layout-tab-bar")) {
                 const textElement = aElement.querySelector(".item__text");
                 const desc = aElement.getAttribute("data-desc");
-                if (textElement.scrollWidth > textElement.clientWidth + 2 || desc) {
+                if (textElement.scrollWidth > textElement.clientWidth + 0.5 || desc) {
                     if (desc) {
                         tip = `${textElement.textContent}<div class='ft__on-surface'>${escapeAriaLabel(desc)}</div>`;
                     } else {
@@ -65,10 +65,16 @@ export const initBlockPopover = (app: App) => {
                     }
                 }
             } else if (aElement.classList.contains("av__celltext--url")) {
-                tip = tip ? `<span style="word-break: break-all">${tip.substring(0, Constants.SIZE_TITLE)}</span><div class="fn__hr"></div>${aElement.getAttribute("data-name")}` : aElement.getAttribute("data-name");
+                const title = aElement.getAttribute("data-name") || "";
+                tip = tip ? `<span style="word-break: break-all">${tip.substring(0, Constants.SIZE_TITLE)}</span>${title ? '<div class="fn__hr"></div><span>' + title + "</span>" : ""}` : title;
                 tooltipClass = "href";
             } else if (aElement.classList.contains("av__calc--ashow") && aElement.clientWidth + 2 < aElement.scrollWidth) {
                 tip = aElement.lastChild.textContent + " " + aElement.firstElementChild.textContent;
+            } else if (aElement.getAttribute("data-type") === "setRelationCell") {
+                const childElement = aElement.querySelector(".b3-menu__label");
+                if (childElement && childElement.clientWidth < childElement.scrollWidth) {
+                    tip = childElement.textContent;
+                }
             }
             if (!tip) {
                 tip = aElement.getAttribute("data-inline-memo-content");
@@ -89,18 +95,36 @@ export const initBlockPopover = (app: App) => {
                     fetchPost("/api/asset/statAsset", {path: href}, (response) => {
                         if (response.code === 1) {
                             if (title) {
-                                assetTip += '<div class="fn__hr"></div>' + title;
+                                assetTip += '<div class="fn__hr"></div><span>' + title + "</span>";
                             }
                         } else {
-                            assetTip += ` ${response.data.hSize}${title ? '<div class="fn__hr"></div>' + title : ""}<br>${window.siyuan.languages.modifiedAt} ${response.data.hUpdated}<br>${window.siyuan.languages.createdAt} ${response.data.hCreated}`;
+                            assetTip += ` ${response.data.hSize}${title ? '<div class="fn__hr"></div><span>' + title + "</span>" : ""}<br>${window.siyuan.languages.modifiedAt} ${response.data.hUpdated}<br>${window.siyuan.languages.createdAt} ${response.data.hCreated}`;
                         }
                         showTooltip(assetTip, aElement, tooltipClass);
                     });
                     tip = "";
                 } else if (title) {
-                    tip += '<div class="fn__hr"></div>' + title;
+                    tip = (tip ? (tip + '<div class="fn__hr"></div>') : "") + "<span>" + title + "</span>";
                 }
             }
+
+            notebookItemElement = hasClosestByClassName(event.target, "b3-list-item__text");
+            if (notebookItemElement && notebookItemElement.parentElement.getAttribute("data-type") === "navigation-root") {
+                fetchPost("/api/notebook/getNotebookInfo", {notebook: notebookItemElement.parentElement.parentElement.getAttribute("data-url")}, (response) => {
+                    const boxData = response.data.boxInfo;
+                    const tip = `${boxData.name} <small class='ft__on-surface'>${boxData.hSize}</small>${boxData.docCount !== 0 ? window.siyuan.languages.includeSubFile.replace("x", boxData.docCount) : ""}<br>${window.siyuan.languages.modifiedAt} ${boxData.hMtime}<br>${window.siyuan.languages.createdAt} ${boxData.hCtime}`;
+                    const scopeNotebookItemElement = hasClosestByClassName(event.target, "b3-list-item__text");
+                    if (notebookItemElement && scopeNotebookItemElement && notebookItemElement.isSameNode(scopeNotebookItemElement)) {
+                        showTooltip(tip, notebookItemElement);
+                    }
+                    if (scopeNotebookItemElement &&
+                        scopeNotebookItemElement.parentElement.getAttribute("data-type") === "navigation-root" &&
+                        scopeNotebookItemElement.parentElement.parentElement.getAttribute("data-url") === boxData.id) {
+                        scopeNotebookItemElement.setAttribute("aria-label", tip);
+                    }
+                });
+            }
+
             if (tip && !aElement.classList.contains("b3-tooltips")) {
                 // https://github.com/siyuan-note/siyuan/issues/11294
                 try {
@@ -114,30 +138,11 @@ export const initBlockPopover = (app: App) => {
                 hideTooltip();
             }
         } else if (!aElement) {
-            notebookItemElement = hasClosestByClassName(event.target, "b3-list-item__text");
-            if (notebookItemElement && notebookItemElement.parentElement.getAttribute("data-type") === "navigation-root") {
-                showTooltip(notebookItemElement.getAttribute("aria-label") || "", notebookItemElement);
-                fetchPost("/api/notebook/getNotebookInfo", {notebook: notebookItemElement.parentElement.parentElement.getAttribute("data-url")}, (response) => {
-                    const boxData = response.data.boxInfo;
-                    const tip = `${boxData.name} <small class='ft__on-surface'>${boxData.hSize}</small>${boxData.docCount !== 0 ? window.siyuan.languages.includeSubFile.replace("x", boxData.docCount) : ""}<br>${window.siyuan.languages.modifiedAt} ${boxData.hMtime}<br>${window.siyuan.languages.createdAt} ${boxData.hCtime}`;
-
-                    const scopeNotebookItemElement = hasClosestByClassName(event.target, "b3-list-item__text");
-                    if (notebookItemElement && scopeNotebookItemElement && notebookItemElement.isSameNode(scopeNotebookItemElement)) {
-                        showTooltip(tip, notebookItemElement);
-                    }
-                    if (scopeNotebookItemElement &&
-                        scopeNotebookItemElement.parentElement.getAttribute("data-type") === "navigation-root" &&
-                        scopeNotebookItemElement.parentElement.parentElement.getAttribute("data-url") === boxData.id) {
-                        scopeNotebookItemElement.setAttribute("aria-label", tip);
-                    }
-                });
-            } else {
-                const tipElement = hasClosestByAttribute(event.target, "id", "tooltip", true);
-                if (!tipElement || (
-                    tipElement && (tipElement.clientHeight >= tipElement.scrollHeight && tipElement.clientWidth >= tipElement.scrollWidth)
-                )) {
-                    hideTooltip();
-                }
+            const tipElement = hasClosestByAttribute(event.target, "id", "tooltip", true);
+            if (!tipElement || (
+                tipElement && (tipElement.clientHeight >= tipElement.scrollHeight && tipElement.clientWidth >= tipElement.scrollWidth)
+            )) {
+                hideTooltip();
             }
         }
         if (window.siyuan.config.editor.floatWindowMode === 1 || window.siyuan.shiftIsPressed) {
@@ -174,7 +179,7 @@ export const initBlockPopover = (app: App) => {
             }
         }, Constants.TIMEOUT_INPUT);
         timeout = window.setTimeout(() => {
-            if (!getTarget(event, aElement)) {
+            if (!getTarget(event, aElement) || isTouchDevice()) {
                 return;
             }
             clearTimeout(timeoutHide);
@@ -332,22 +337,23 @@ export const showPopover = async (app: App, showRef = false) => {
     if (!popoverTargetElement || window.siyuan.menus.menu.data?.isSameNode(popoverTargetElement)) {
         return;
     }
-    let ids: string[];
-    let defIds: string[];
+    let refDefs: IRefDefs[] = [];
+    let originalRefBlockIDs: IObject;
     const dataId = popoverTargetElement.getAttribute("data-id");
     if (dataId) {
-        // backlink/util/hint/正文标题 上的弹层
+        // backlink/util/hint 上的弹层
         if (showRef) {
             const postResponse = await fetchSyncPost("/api/block/getRefIDs", {id: dataId});
-            ids = postResponse.data.refIDs;
-            defIds = postResponse.data.defIDs;
+            refDefs = postResponse.data.refDefs;
+            originalRefBlockIDs = postResponse.data.originalRefBlockIDs;
         } else {
             if (dataId.startsWith("[")) {
-                ids = JSON.parse(dataId);
+                JSON.parse(dataId).forEach((item: string) => {
+                    refDefs.push({refID: item});
+                });
             } else {
-                ids = [dataId];
+                refDefs = [{refID: dataId}];
             }
-            defIds = JSON.parse(popoverTargetElement.getAttribute("data-defids") || "[]");
         }
     } else if (popoverTargetElement.getAttribute("data-type")?.indexOf("virtual-block-ref") > -1) {
         const nodeElement = hasClosestBlock(popoverTargetElement);
@@ -356,18 +362,18 @@ export const showPopover = async (app: App, showRef = false) => {
                 anchor: popoverTargetElement.textContent,
                 excludeIDs: [nodeElement.getAttribute("data-node-id")]
             });
-            ids = postResponse.data;
+            refDefs = postResponse.data.refDefs;
         }
     } else if (popoverTargetElement.getAttribute("data-type")?.split(" ").includes("a")) {
         // 以思源协议开头的链接
-        ids = [getIdFromSYProtocol(popoverTargetElement.getAttribute("data-href"))];
+        refDefs = [{refID: getIdFromSYProtocol(popoverTargetElement.getAttribute("data-href"))}];
     } else if (popoverTargetElement.dataset.type === "url") {
         // 在 database 的 url 列中以思源协议开头的链接
-        ids = [getIdFromSYProtocol(popoverTargetElement.textContent.trim())];
+        refDefs = [{refID: getIdFromSYProtocol(popoverTargetElement.textContent.trim())}];
     } else if (popoverTargetElement.dataset.popoverUrl) {
         // 镜像数据库
         const postResponse = await fetchSyncPost(popoverTargetElement.dataset.popoverUrl, {avID: popoverTargetElement.dataset.avId});
-        ids = postResponse.data;
+        refDefs = postResponse.data.refDefs;
     } else {
         // pdf
         let targetId;
@@ -378,7 +384,9 @@ export const showPopover = async (app: App, showRef = false) => {
         } else if (popoverTargetElement.classList.contains("pdf__rect")) {
             const relationIds = popoverTargetElement.getAttribute("data-relations");
             if (relationIds) {
-                ids = relationIds.split(",");
+                relationIds.split(",").forEach((item: string) => {
+                    refDefs.push({refID: item});
+                });
                 url = "";
             } else {
                 targetId = popoverTargetElement.getAttribute("data-node-id");
@@ -390,15 +398,19 @@ export const showPopover = async (app: App, showRef = false) => {
         }
         if (url) {
             const postResponse = await fetchSyncPost(url, {id: targetId});
-            ids = postResponse.data.refIDs;
-            defIds = postResponse.data.defIDs;
+            refDefs = postResponse.data.refDefs;
+            originalRefBlockIDs = postResponse.data.originalRefBlockIDs;
         }
+    }
+
+    if (refDefs.length === 0) {
+        return;
     }
 
     let hasPin = false;
     window.siyuan.blockPanels.find((item) => {
         if ((item.targetElement || typeof item.x === "number") && item.element.getAttribute("data-pin") === "true"
-            && JSON.stringify(ids) === JSON.stringify(item.nodeIds)) {
+            && JSON.stringify(refDefs) === JSON.stringify(item.refDefs)) {
             hasPin = true;
             return true;
         }
@@ -410,8 +422,8 @@ export const showPopover = async (app: App, showRef = false) => {
             app,
             targetElement: popoverTargetElement,
             isBacklink: showRef || popoverTargetElement.classList.contains("protyle-attr--refcount") || popoverTargetElement.classList.contains("counter"),
-            nodeIds: ids,
-            defIds,
+            refDefs,
+            originalRefBlockIDs,
         }));
     }
     // 不能清除，否则ctrl 后 shift 就 无效 popoverTargetElement = undefined;

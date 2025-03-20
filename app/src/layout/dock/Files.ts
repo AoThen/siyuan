@@ -85,8 +85,14 @@ export class Files extends Model {
                         case "removeDoc":
                             this.onRemove(data);
                             break;
-                        case "createdailynote":
                         case "create":
+                            if (data.data.listDocTree) {
+                                this.selectItem(data.data.box.id, data.data.path);
+                            } else {
+                                this.updateItemArrow(data.data.box.id, data.data.path);
+                            }
+                            break;
+                        case "createdailynote":
                         case "heading2doc":
                         case "li2doc":
                             this.selectItem(data.data.box.id, data.data.path);
@@ -119,7 +125,7 @@ export class Files extends Model {
     <span class="fn__space"></span>
     <span data-type="min" class="block__icon b3-tooltips b3-tooltips__sw" aria-label="${window.siyuan.languages.min} ${updateHotkeyTip(window.siyuan.config.keymap.general.closeTab.custom)}"><svg><use xlink:href='#iconMin'></use></svg></span>
 </div>
-<div class="fn__flex-1"></div>
+<div class="fn__flex-1" style="padding-top: 2px;"></div>
 <ul class="b3-list fn__flex-column" style="min-height: auto;height:30px;transition: height  .2s cubic-bezier(0, 0, .2, 1) 0ms">
     <li class="b3-list-item" data-type="toggle">
         <span class="b3-list-item__toggle">
@@ -308,7 +314,8 @@ export class Files extends Model {
                                     app: options.app,
                                     notebookId,
                                     currentPath: pathString,
-                                    useSavePath: false
+                                    useSavePath: false,
+                                    listDocTree: true,
                                 });
                             } else if (type === "more-root") {
                                 initNavigationMenu(options.app, target.parentElement).popup({
@@ -453,9 +460,12 @@ export class Files extends Model {
                 }
             });
             window.siyuan.dragElement = undefined;
+            document.querySelectorAll(".layout-tab-bars--drag").forEach(item => {
+                item.classList.remove("layout-tab-bars--drag");
+            });
         });
         this.element.addEventListener("dragover", (event: DragEvent & { target: HTMLElement }) => {
-            if (window.siyuan.config.readonly) {
+            if (window.siyuan.config.readonly || event.dataTransfer.types.includes(Constants.SIYUAN_DROP_TAB)) {
                 return;
             }
             const contentRect = this.element.getBoundingClientRect();
@@ -516,13 +526,19 @@ export class Files extends Model {
                 // 防止文档拖拽到笔记本外
                 !(!sourceOnlyRoot && targetType === "navigation-root")) {
                 const nodeRect = liElement.getBoundingClientRect();
-                if (event.clientY > nodeRect.top + 20) {
-                    liElement.classList.add("dragover__bottom");
-                    event.preventDefault();
-                } else if (event.clientY < nodeRect.bottom - 20) {
-                    liElement.classList.add("dragover__top");
-                    event.preventDefault();
+                const dragHeight = nodeRect.height * .2;
+                if (targetType === "navigation-root" && sourceOnlyRoot) {
+                    if (event.clientY > nodeRect.top + nodeRect.height / 2) {
+                        (liElement as HTMLElement).classList.add("dragover__bottom");
+                    } else {
+                        (liElement as HTMLElement).classList.add("dragover__top");
+                    }
+                } else if (event.clientY > nodeRect.bottom - dragHeight) {
+                    (liElement as HTMLElement).classList.add("dragover__bottom");
+                } else if (event.clientY < nodeRect.top + dragHeight) {
+                    (liElement as HTMLElement).classList.add("dragover__top");
                 }
+                event.preventDefault();
             }
             if (liElement.classList.contains("dragover__top") || liElement.classList.contains("dragover__bottom") ||
                 (targetType === "navigation-root" && sourceOnlyRoot)) {
@@ -744,6 +760,37 @@ export class Files extends Model {
         }
     }
 
+    private updateItemArrow(notebookId: string, filePath: string) {
+        const treeElement = this.element.querySelector(`[data-url="${notebookId}"]`);
+        if (!treeElement) {
+            return;
+        }
+        let currentPath = filePath;
+        let liElement;
+        while (!liElement) {
+            liElement = treeElement.querySelector(`[data-path="${currentPath}"]`);
+            if (!liElement) {
+                const dirname = pathPosix().dirname(currentPath);
+                if (dirname === "/") {
+                    if (treeElement.firstElementChild.querySelector(".b3-list-item__arrow--open")) {
+                        this.getLeaf(treeElement.firstElementChild, notebookId, true);
+                    }
+                    break;
+                } else {
+                    currentPath = dirname + ".sy";
+                }
+            } else {
+                const hiddenElement = liElement.querySelector(".fn__hidden");
+                if (hiddenElement) {
+                    hiddenElement.classList.remove("fn__hidden");
+                } else {
+                    this.getLeaf(liElement, notebookId, true);
+                }
+                break;
+            }
+        }
+    }
+
     private genNotebook(item: INotebook) {
         const emojiHTML = `<span class="b3-list-item__icon b3-tooltips b3-tooltips__e" aria-label="${window.siyuan.languages.changeIcon}">${unicode2Emoji(item.icon || window.siyuan.storage[Constants.LOCAL_IMAGES].note)}</span>`;
         if (item.closed) {
@@ -759,12 +806,14 @@ export class Files extends Model {
 </li>`;
         } else {
             return `<ul class="b3-list b3-list--background" data-url="${item.id}" data-sort="${item.sort}" data-sortmode="${item.sortMode}">
-<li class="b3-list-item b3-list-item--hide-action" ${window.siyuan.config.fileTree.sort === 6 ? 'draggable="true"' : ""} data-type="navigation-root" data-path="/">
+<li class="b3-list-item b3-list-item--hide-action" ${window.siyuan.config.fileTree.sort === 6 ? 'draggable="true"' : ""} 
+style="--file-toggle-width:22px" 
+data-type="navigation-root" data-path="/">
     <span class="b3-list-item__toggle b3-list-item__toggle--hl">
         <svg class="b3-list-item__arrow"><use xlink:href="#iconRight"></use></svg>
     </span>
     ${emojiHTML}
-    <span class="b3-list-item__text" data-position="parentE">${escapeHtml(item.name)}</span>
+    <span class="b3-list-item__text ariaLabel" data-position="parentE">${escapeHtml(item.name)}</span>
     <span data-type="more-root" class="b3-list-item__action b3-tooltips b3-tooltips__w${(window.siyuan.config.readonly) ? " fn__none" : ""}" aria-label="${window.siyuan.languages.more}">
         <svg><use xlink:href="#iconMore"></use></svg>
     </span>
@@ -796,7 +845,7 @@ export class Files extends Model {
         } else {
             counterElement.classList.add("fn__none");
         }
-        window.siyuan.storage[Constants.LOCAL_FILESPATHS].forEach((item: filesPath) => {
+        window.siyuan.storage[Constants.LOCAL_FILESPATHS].forEach((item: IFilesPath) => {
             item.openPaths.forEach((openPath) => {
                 this.selectItem(item.notebookId, openPath, undefined, false);
             });
@@ -1017,16 +1066,6 @@ export class Files extends Model {
         let fileHTML = "";
         data.files.forEach((item: IFile) => {
             fileHTML += this.genFileHTML(item);
-            if (filePath === item.path) {
-                this.selectItem(data.box, filePath, undefined, setStorage);
-            } else if (filePath.startsWith(item.path.replace(".sy", ""))) {
-                fetchPost("/api/filetree/listDocsByPath", {
-                    notebook: data.box,
-                    path: item.path
-                }, response => {
-                    this.selectItem(response.data.box, filePath, response.data, setStorage);
-                });
-            }
         });
         if (fileHTML === "") {
             return;
@@ -1044,6 +1083,18 @@ export class Files extends Model {
             emojiElement.textContent = unicode2Emoji(window.siyuan.storage[Constants.LOCAL_IMAGES].folder);
         }
         liElement.insertAdjacentHTML("afterend", `<ul>${fileHTML}</ul>`);
+        data.files.forEach((item: IFile) => {
+            if (filePath === item.path) {
+                this.selectItem(data.box, filePath, undefined, setStorage);
+            } else if (filePath.startsWith(item.path.replace(".sy", ""))) {
+                fetchPost("/api/filetree/listDocsByPath", {
+                    notebook: data.box,
+                    path: item.path
+                }, response => {
+                    this.selectItem(response.data.box, filePath, response.data, setStorage);
+                });
+            }
+        });
         if (setStorage) {
             this.setCurrent(this.element.querySelector(`ul[data-url="${data.box}"] li[data-path="${filePath}"]`));
         }
@@ -1057,13 +1108,10 @@ export class Files extends Model {
             liItem.classList.remove("b3-list-item--focus");
         });
         target.classList.add("b3-list-item--focus");
+
         if (isScroll) {
-            let offsetTop = target.offsetTop;
-            // https://github.com/siyuan-note/siyuan/issues/8749
-            if (target.parentElement.classList.contains("file-tree__sliderDown") && target.offsetParent) {
-                offsetTop = (target.offsetParent as HTMLElement).offsetTop;
-            }
-            this.element.scrollTop = offsetTop - this.element.clientHeight / 2 - this.actionsElement.clientHeight;
+            const elementRect = this.element.getBoundingClientRect();
+            this.element.scrollTop = this.element.scrollTop + (target.getBoundingClientRect().top - (elementRect.top + elementRect.height / 2));
         }
     }
 
@@ -1135,9 +1183,9 @@ export class Files extends Model {
     }
 
     private getOpenPaths() {
-        const filesPaths: filesPath[] = [];
+        const filesPaths: IFilesPath[] = [];
         this.element.querySelectorAll(".b3-list[data-url]").forEach((item: HTMLElement) => {
-            const notebookPaths: filesPath = {
+            const notebookPaths: IFilesPath = {
                 notebookId: item.getAttribute("data-url"),
                 openPaths: []
             };
@@ -1179,11 +1227,12 @@ export class Files extends Model {
             countHTML = `<span class="popover__block counter b3-tooltips b3-tooltips__nw" aria-label="${window.siyuan.languages.ref}">${item.count}</span>`;
         }
         const ariaLabel = this.genDocAriaLabel(item, escapeAriaLabel);
+        const paddingLeft = (item.path.split("/").length - 1) * 18;
         return `<li data-node-id="${item.id}" data-name="${Lute.EscapeHTMLStr(item.name)}" draggable="true" data-count="${item.subFileCount}" 
 data-type="navigation-file" 
-style="--file-toggle-width:${(item.path.split("/").length - 2) * 18 + 40}px" 
+style="--file-toggle-width:${paddingLeft + 18}px" 
 class="b3-list-item b3-list-item--hide-action" data-path="${item.path}">
-    <span style="padding-left: ${(item.path.split("/").length - 2) * 18 + 22}px" class="b3-list-item__toggle b3-list-item__toggle--hl${item.subFileCount === 0 ? " fn__hidden" : ""}">
+    <span style="padding-left: ${paddingLeft}px" class="b3-list-item__toggle b3-list-item__toggle--hl${item.subFileCount === 0 ? " fn__hidden" : ""}">
         <svg class="b3-list-item__arrow"><use xlink:href="#iconRight"></use></svg>
     </span>
     <span class="b3-list-item__icon b3-tooltips b3-tooltips__n popover__block" data-id="${item.id}" aria-label="${window.siyuan.languages.changeIcon}">${unicode2Emoji(item.icon || (item.subFileCount === 0 ? window.siyuan.storage[Constants.LOCAL_IMAGES].file : window.siyuan.storage[Constants.LOCAL_IMAGES].folder))}</span>

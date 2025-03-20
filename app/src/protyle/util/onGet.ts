@@ -210,7 +210,7 @@ const setHTML = (options: {
     if (options.action.includes(Constants.CB_GET_FOCUSFIRST)) {
         // settimeout 时间需短一点，否则定位后快速滚动无效
         const headerHeight = protyle.wysiwyg.element.offsetTop - 16;
-        preventScroll(protyle, headerHeight, 256);
+        preventScroll(protyle, headerHeight, Constants.TIMEOUT_INPUT);
         protyle.contentElement.scrollTop = headerHeight;
     }
     if (options.isSyncing) {
@@ -233,12 +233,12 @@ const setHTML = (options: {
         protyle.block.id = protyle.block.rootID;
         protyle.wysiwyg.element.setAttribute("data-doc-type", "NodeDocument");
     }
-    if (protyle.options.defId) {
-        protyle.wysiwyg.element.querySelectorAll(`[data-id="${protyle.options.defId}"]`).forEach(item => {
+    protyle.options.defIds?.forEach(item => {
+        protyle.wysiwyg.element.querySelectorAll(`[data-id="${item}"]`).forEach(item => {
             item.classList.add("def--mark");
         });
-        protyle.options.defId = undefined;
-    }
+    });
+    protyle.options.defIds = [];
     if (options.action.includes(Constants.CB_GET_APPEND) || options.action.includes(Constants.CB_GET_BEFORE)) {
         protyle.app.plugins.forEach(item => {
             item.eventBus.emit("loaded-protyle-dynamic", {

@@ -30,7 +30,7 @@ export const highlightRender = (element: Element, cdn = Constants.PROTYLE_CDN) =
 
     setCodeTheme(cdn);
 
-    addScript(`${cdn}/js/highlight.js/highlight.min.js?v=11.7.0`, "protyleHljsScript").then(() => {
+    addScript(`${cdn}/js/highlight.js/highlight.min.js?v=11.11.1`, "protyleHljsScript").then(() => {
         addScript(`${cdn}/js/highlight.js/third-languages.js?v=1.0.1`, "protyleHljsThirdScript").then(() => {
             codeElements.forEach((block: HTMLElement) => {
                 const iconElements = block.parentElement.querySelectorAll(".protyle-icon");
@@ -138,12 +138,13 @@ export const lineNumberRender = (block: HTMLElement) => {
 
     const lineNumberTemp = document.createElement("div");
     lineNumberTemp.className = "hljs";
+    // 不能使用 codeElement.clientWidth，被忽略小数点导致宽度不一致
     lineNumberTemp.setAttribute("style", `padding-left:${codeElement.style.paddingLeft};
-width: ${codeElement.clientWidth}px;
+width: ${codeElement.getBoundingClientRect().width}px;
 white-space:${codeElement.style.whiteSpace};
 word-break:${codeElement.style.wordBreak};
 font-variant-ligatures:${codeElement.style.fontVariantLigatures};
-max-height: none;box-sizing: border-box;position: absolute;padding-top:0 !important;padding-bottom:0 !important;min-height:auto !important;`);
+padding-right:0;max-height: none;box-sizing: border-box;position: absolute;padding-top:0 !important;padding-bottom:0 !important;min-height:auto !important;`);
     lineNumberTemp.setAttribute("contenteditable", "true");
     block.insertAdjacentElement("afterend", lineNumberTemp);
 

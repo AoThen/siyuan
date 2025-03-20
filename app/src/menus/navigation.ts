@@ -458,7 +458,8 @@ export const initFileMenu = (app: App, notebookId: string, pathString: string, l
                         notebookId,
                         currentPath: pathPosix().dirname(pathString),
                         paths,
-                        useSavePath: false
+                        useSavePath: false,
+                        listDocTree: true,
                     });
                 }
             }).element);
@@ -481,7 +482,8 @@ export const initFileMenu = (app: App, notebookId: string, pathString: string, l
                         notebookId,
                         currentPath: pathPosix().dirname(pathString),
                         paths,
-                        useSavePath: false
+                        useSavePath: false,
+                        listDocTree: true,
                     });
                 }
             }).element);
@@ -720,12 +722,8 @@ export const genImportMenu = (notebookId: string, pathString: string) => {
         files = (getDockByType("file").data["file"] as Files);
         /// #endif
         const liElement = files.element.querySelector(`[data-path="${pathString}"]`);
-        const toggleElement = liElement.querySelector(".b3-list-item__arrow--open");
-        if (toggleElement) {
-            toggleElement.classList.remove("b3-list-item__arrow--open");
-            liElement.nextElementSibling?.remove();
-        }
-        files.getLeaf(liElement, notebookId);
+        liElement.querySelector(".b3-list-item__toggle").classList.remove("fn__hidden");
+        files.getLeaf(liElement, notebookId, true);
         window.siyuan.menus.menu.remove();
     };
     /// #if !BROWSER

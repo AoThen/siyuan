@@ -1,6 +1,6 @@
 import {updateTransaction} from "../wysiwyg/transaction";
 import {getSelectionOffset, focusByWbr, focusByRange, focusBlock} from "./selection";
-import {hasClosestBlock, hasClosestByClassName, hasClosestByMatchTag} from "./hasClosest";
+import {hasClosestBlock, hasClosestByClassName, hasClosestByTag} from "./hasClosest";
 import {matchHotKey} from "./hotKey";
 import {isNotCtrl} from "./compatibility";
 import {scrollCenter} from "../../util/highlightById";
@@ -365,7 +365,7 @@ export const moveColumnToRight = (protyle: IProtyle, range: Range, cellElement: 
 };
 
 export const fixTable = (protyle: IProtyle, event: KeyboardEvent, range: Range) => {
-    const cellElement = hasClosestByMatchTag(range.startContainer, "TD") || hasClosestByMatchTag(range.startContainer, "TH");
+    const cellElement = hasClosestByTag(range.startContainer, "TD") || hasClosestByTag(range.startContainer, "TH");
     const nodeElement = hasClosestBlock(range.startContainer) as HTMLTableElement;
     if (!cellElement || !nodeElement) {
         return false;
@@ -737,7 +737,7 @@ export const clearTableCell = (protyle: IProtyle, tableBlockElement: HTMLElement
         }
     });
     tableSelectElement.removeAttribute("style");
-    if (getSelection().rangeCount>0) {
+    if (getSelection().rangeCount > 0) {
         const range = getSelection().getRangeAt(0);
         if (tableBlockElement.contains(range.startContainer)) {
             range.insertNode(document.createElement("wbr"));

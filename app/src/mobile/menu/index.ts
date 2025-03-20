@@ -1,5 +1,6 @@
 import {popSearch} from "./search";
 import {initAppearance} from "../settings/appearance";
+import {initAssets} from "../settings/assets";
 import {closePanel} from "../util/closePanel";
 import {mountHelp, newDailyNote, newNotebook} from "../../util/mount";
 import {repos} from "../../config/repos";
@@ -28,6 +29,7 @@ import {newFile} from "../../util/newFile";
 import {afterLoadPlugin} from "../../plugin/loader";
 import {commandPanel} from "../../boot/globalEvent/command/panel";
 import {openTopBarMenu} from "../../plugin/openTopBarMenu";
+import {initFileTree} from "../settings/fileTree";
 
 export const popMenu = () => {
     activeBlur();
@@ -103,10 +105,16 @@ export const initRightMenu = (app: App) => {
     <div class="b3-menu__item${window.siyuan.config.readonly ? " fn__none" : ""}" id="menuEditor">
         <svg class="b3-menu__icon"><use xlink:href="#iconEdit"></use></svg><span class="b3-menu__label">${window.siyuan.languages.editor}</span>
     </div>
+    <div class="b3-menu__item${window.siyuan.config.readonly ? " fn__none" : ""}" id="menuFileTree">
+        <svg class="b3-menu__icon"><use xlink:href="#iconFiles"></use></svg><span class="b3-menu__label">${window.siyuan.languages.fileTree}</span>
+    </div>
     <div class="b3-menu__item${window.siyuan.config.readonly ? " fn__none" : ""}" id="menuRiffCard">
         <svg class="b3-menu__icon"><use xlink:href="#iconRiffCard"></use></svg><span class="b3-menu__label">${window.siyuan.languages.riffCard}</span>
     </div>
     ${aiHTML}
+    <div class="b3-menu__item${window.siyuan.config.readonly ? " fn__none" : ""}" id="menuAssets">
+        <svg class="b3-menu__icon"><use xlink:href="#iconImage"></use></svg><span class="b3-menu__label">${window.siyuan.languages.assets}</span>
+    </div>
     <div class="b3-menu__item${window.siyuan.config.readonly ? " fn__none" : ""}" id="menuAppearance">
         <svg class="b3-menu__icon"><use xlink:href="#iconTheme"></use></svg><span class="b3-menu__label">${window.siyuan.languages.appearance}</span>
     </div>
@@ -162,6 +170,11 @@ export const initRightMenu = (app: App) => {
                 event.preventDefault();
                 event.stopPropagation();
                 break;
+            } else if (target.id === "menuAssets") {
+                initAssets();
+                event.preventDefault();
+                event.stopPropagation();
+                break;
             } else if (target.id === "menuAI") {
                 initAI();
                 event.preventDefault();
@@ -174,6 +187,11 @@ export const initRightMenu = (app: App) => {
                 break;
             } else if (target.id === "menuEditor") {
                 initEditor();
+                event.preventDefault();
+                event.stopPropagation();
+                break;
+            } else if (target.id === "menuFileTree") {
+                initFileTree();
                 event.preventDefault();
                 event.stopPropagation();
                 break;

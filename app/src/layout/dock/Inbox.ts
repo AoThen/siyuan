@@ -97,7 +97,7 @@ export class Inbox extends Model {
                 }
                 const type = target.getAttribute("data-type");
                 if (type === "min") {
-                    getDockByType("inbox").toggleModel("inbox");
+                    getDockByType("inbox").toggleModel("inbox", false, true);
                     event.preventDefault();
                     break;
                 } else if (type === "selectall") {
@@ -348,6 +348,7 @@ ${data.shorthandContent}
                         path: pathPosix().join(getDisplayName(toPath[0], false, true), Lute.NewNodeID() + ".sy"),
                         title: replaceFileName(response.data.shorthandTitle),
                         md: md,
+                        listDocTree: true,
                     }, () => {
                         this.remove(item);
                     });

@@ -8,7 +8,7 @@ import {setEditMode} from "../util/setEditMode";
 import {RecordMedia} from "../util/RecordMedia";
 import {hideMessage, showMessage} from "../../dialog/message";
 import {uploadFiles} from "../upload";
-import {hasClosestBlock, hasClosestByAttribute, hasTopClosestByClassName} from "../util/hasClosest";
+import {hasClosestBlock, hasTopClosestByClassName} from "../util/hasClosest";
 import {needSubscribe} from "../../util/needSubscribe";
 import {isMobile} from "../../util/functions";
 import {zoomOut} from "../../menus/protyle";
@@ -32,6 +32,7 @@ import {isInAndroid, isInHarmony, isIPad, isMac, updateHotkeyTip} from "../util/
 import {resize} from "../util/resize";
 import {listIndent, listOutdent} from "../wysiwyg/list";
 import {improveBreadcrumbAppearance} from "../wysiwyg/renderBacklink";
+import {getCloudURL} from "../../config/util/about";
 
 export class Breadcrumb {
     public element: HTMLElement;
@@ -171,27 +172,11 @@ ${padHTML}
                 target = target.parentElement;
             }
         });
-        /// if !MOBILE
+        /// #if !MOBILE
         element.addEventListener("mouseleave", () => {
             protyle.wysiwyg.element.querySelectorAll(".protyle-wysiwyg--hl").forEach(item => {
                 item.classList.remove("protyle-wysiwyg--hl");
             });
-        });
-        this.element.addEventListener("mouseover", (event) => {
-            if (!protyle.selectElement.classList.contains("fn__none")) {
-                return;
-            }
-            const target = event.target as HTMLElement;
-            const svgElement = hasClosestByAttribute(target, "data-node-id", null);
-            if (svgElement) {
-                protyle.wysiwyg.element.querySelectorAll(".protyle-wysiwyg--hl").forEach(item => {
-                    item.classList.remove("protyle-wysiwyg--hl");
-                });
-                const nodeElement = protyle.wysiwyg.element.querySelector(`[data-node-id="${svgElement.getAttribute("data-node-id")}"]`);
-                if (nodeElement) {
-                    nodeElement.classList.add("protyle-wysiwyg--hl");
-                }
-            }
         });
         this.element.addEventListener("mousewheel", (event: WheelEvent) => {
             this.element.scrollLeft = this.element.scrollLeft + event.deltaY;
@@ -389,7 +374,8 @@ ${padHTML}
                         label: window.siyuan.languages.share2Liandi,
                         icon: "iconLiandi",
                         click() {
-                            confirmDialog("🚀 " + window.siyuan.languages.share2Liandi, window.siyuan.languages.share2LiandiConfirmTip, () => {
+                            confirmDialog("🤩 " + window.siyuan.languages.share2Liandi,
+                                window.siyuan.languages.share2LiandiConfirmTip.replace("${accountServer}", getCloudURL("")), () => {
                                 fetchPost("/api/export/export2Liandi", {id: protyle.block.parentID});
                             });
                         }
@@ -565,7 +551,7 @@ ${padHTML}
                     type: "open-menu-breadcrumbmore",
                     detail: {
                         protyle,
-                        data: response.data,
+                        data: response.data.stat,
                     },
                     separatorPosition: "top",
                 });
@@ -576,7 +562,7 @@ ${padHTML}
                 iconHTML: "",
                 type: "readonly",
                 // 不能换行，否则移动端间距过大
-                label: `<div class="fn__flex">${window.siyuan.languages.runeCount}<span class="fn__space fn__flex-1"></span>${response.data.runeCount}</div><div class="fn__flex">${window.siyuan.languages.wordCount}<span class="fn__space fn__flex-1"></span>${response.data.wordCount}</div><div class="fn__flex">${window.siyuan.languages.linkCount}<span class="fn__space fn__flex-1"></span>${response.data.linkCount}</div><div class="fn__flex">${window.siyuan.languages.imgCount}<span class="fn__space fn__flex-1"></span>${response.data.imageCount}</div><div class="fn__flex">${window.siyuan.languages.refCount}<span class="fn__space fn__flex-1"></span>${response.data.refCount}</div><div class="fn__flex">${window.siyuan.languages.blockCount}<span class="fn__space fn__flex-1"></span>${response.data.blockCount}</div>`,
+                label: `<div class="fn__flex">${window.siyuan.languages.runeCount}<span class="fn__space fn__flex-1"></span>${response.data.stat.runeCount}</div><div class="fn__flex">${window.siyuan.languages.wordCount}<span class="fn__space fn__flex-1"></span>${response.data.stat.wordCount}</div><div class="fn__flex">${window.siyuan.languages.linkCount}<span class="fn__space fn__flex-1"></span>${response.data.stat.linkCount}</div><div class="fn__flex">${window.siyuan.languages.imgCount}<span class="fn__space fn__flex-1"></span>${response.data.stat.imageCount}</div><div class="fn__flex">${window.siyuan.languages.refCount}<span class="fn__space fn__flex-1"></span>${response.data.stat.refCount}</div><div class="fn__flex">${window.siyuan.languages.blockCount}<span class="fn__space fn__flex-1"></span>${response.data.stat.blockCount}</div>`,
             }).element);
             /// #if MOBILE
             window.siyuan.menus.menu.fullscreen();

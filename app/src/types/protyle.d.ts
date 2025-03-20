@@ -125,9 +125,9 @@ interface ILuteOptions extends IMarkdownConfig {
 }
 
 declare class Viz {
-    constructor(worker: { worker: Worker });
+    public static instance(): Promise<Viz>;
 
-    renderSVGElement: (code: string) => Promise<any>;
+    renderSVGElement: (code: string) => SVGElement;
 }
 
 declare class Viewer {
@@ -446,8 +446,9 @@ interface IProtyleOptions {
     mode?: TEditorMode,
     blockId?: string
     rootId?: string
+    originalRefBlockIDs?: IObject
     key?: string
-    defId?: string
+    defIds?: string[]
     render?: {
         background?: boolean
         title?: boolean
