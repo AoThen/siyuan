@@ -99,7 +99,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 187536314,
-      "download_count": 6,
+      "download_count": 7,
       "created_at": "2025-03-18T12:46:31Z",
       "updated_at": "2025-03-18T12:47:36Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.25/siyuan-3.1.25-linux-arm64.AppImage"
@@ -134,7 +134,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 177724076,
-      "download_count": 20,
+      "download_count": 21,
       "created_at": "2025-03-18T12:47:36Z",
       "updated_at": "2025-03-18T12:48:59Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.25/siyuan-3.1.25-linux-arm64.deb"
@@ -169,7 +169,7 @@
       "content_type": "application/x-gzip",
       "state": "uploaded",
       "size": 190624095,
-      "download_count": 1,
+      "download_count": 2,
       "created_at": "2025-03-18T12:48:59Z",
       "updated_at": "2025-03-18T12:50:06Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.25/siyuan-3.1.25-linux-arm64.tar.gz"
@@ -204,7 +204,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 186418649,
-      "download_count": 167,
+      "download_count": 168,
       "created_at": "2025-03-18T12:43:11Z",
       "updated_at": "2025-03-18T12:44:21Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.25/siyuan-3.1.25-linux.AppImage"
@@ -239,7 +239,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 178049994,
-      "download_count": 134,
+      "download_count": 138,
       "created_at": "2025-03-18T12:44:21Z",
       "updated_at": "2025-03-18T12:45:23Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.25/siyuan-3.1.25-linux.deb"
@@ -274,7 +274,7 @@
       "content_type": "application/x-gzip",
       "state": "uploaded",
       "size": 185292468,
-      "download_count": 14,
+      "download_count": 15,
       "created_at": "2025-03-18T12:45:23Z",
       "updated_at": "2025-03-18T12:46:31Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.25/siyuan-3.1.25-linux.tar.gz"
@@ -309,7 +309,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 183306025,
-      "download_count": 381,
+      "download_count": 385,
       "created_at": "2025-03-18T04:35:08Z",
       "updated_at": "2025-03-18T04:36:32Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.25/siyuan-3.1.25-mac-arm64.dmg"
@@ -344,7 +344,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 178155087,
-      "download_count": 74,
+      "download_count": 75,
       "created_at": "2025-03-18T04:33:48Z",
       "updated_at": "2025-03-18T04:35:08Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.25/siyuan-3.1.25-mac.dmg"
@@ -379,7 +379,7 @@
       "content_type": "application/x-msdownload",
       "state": "uploaded",
       "size": 127889184,
-      "download_count": 62,
+      "download_count": 63,
       "created_at": "2025-03-18T04:37:36Z",
       "updated_at": "2025-03-18T04:38:33Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.25/siyuan-3.1.25-win-arm64.exe"
@@ -414,7 +414,7 @@
       "content_type": "application/x-msdownload",
       "state": "uploaded",
       "size": 160064736,
-      "download_count": 872,
+      "download_count": 887,
       "created_at": "2025-03-18T04:36:32Z",
       "updated_at": "2025-03-18T04:37:36Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.25/siyuan-3.1.25-win.exe"
@@ -449,7 +449,7 @@
       "content_type": "application/vnd.android.package-archive",
       "state": "uploaded",
       "size": 52018793,
-      "download_count": 89,
+      "download_count": 91,
       "created_at": "2025-03-18T04:33:26Z",
       "updated_at": "2025-03-18T04:33:48Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.25/siyuan-3.1.25.apk"
