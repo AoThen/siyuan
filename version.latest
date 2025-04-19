@@ -64,7 +64,7 @@
       "content_type": "text/plain",
       "state": "uploaded",
       "size": 1011,
-      "download_count": 16,
+      "download_count": 17,
       "created_at": "2025-04-18T11:18:07Z",
       "updated_at": "2025-04-18T11:18:08Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.28/SHA256SUMS.txt"
@@ -99,7 +99,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 187646178,
-      "download_count": 4,
+      "download_count": 10,
       "created_at": "2025-04-18T11:09:31Z",
       "updated_at": "2025-04-18T11:10:38Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.28/siyuan-3.1.28-linux-arm64.AppImage"
@@ -134,7 +134,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 177842596,
-      "download_count": 4,
+      "download_count": 11,
       "created_at": "2025-04-18T11:10:38Z",
       "updated_at": "2025-04-18T11:11:43Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.28/siyuan-3.1.28-linux-arm64.deb"
@@ -169,7 +169,7 @@
       "content_type": "application/x-gzip",
       "state": "uploaded",
       "size": 190752875,
-      "download_count": 3,
+      "download_count": 6,
       "created_at": "2025-04-18T11:11:43Z",
       "updated_at": "2025-04-18T11:12:51Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.28/siyuan-3.1.28-linux-arm64.tar.gz"
@@ -204,7 +204,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 186559128,
-      "download_count": 53,
+      "download_count": 134,
       "created_at": "2025-04-18T11:06:09Z",
       "updated_at": "2025-04-18T11:07:21Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.28/siyuan-3.1.28-linux.AppImage"
@@ -239,7 +239,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 178166852,
-      "download_count": 7,
+      "download_count": 22,
       "created_at": "2025-04-18T11:07:21Z",
       "updated_at": "2025-04-18T11:08:26Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.28/siyuan-3.1.28-linux.deb"
@@ -274,7 +274,7 @@
       "content_type": "application/x-gzip",
       "state": "uploaded",
       "size": 185423822,
-      "download_count": 4,
+      "download_count": 11,
       "created_at": "2025-04-18T11:08:26Z",
       "updated_at": "2025-04-18T11:09:31Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.28/siyuan-3.1.28-linux.tar.gz"
@@ -309,7 +309,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 183443072,
-      "download_count": 94,
+      "download_count": 392,
       "created_at": "2025-04-18T11:13:54Z",
       "updated_at": "2025-04-18T11:14:59Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.28/siyuan-3.1.28-mac-arm64.dmg"
@@ -344,7 +344,7 @@
       "content_type": "application/octet-stream",
       "state": "uploaded",
       "size": 178268089,
-      "download_count": 25,
+      "download_count": 85,
       "created_at": "2025-04-18T11:12:51Z",
       "updated_at": "2025-04-18T11:13:54Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.28/siyuan-3.1.28-mac.dmg"
@@ -379,7 +379,7 @@
       "content_type": "application/x-msdownload",
       "state": "uploaded",
       "size": 127980488,
-      "download_count": 15,
+      "download_count": 34,
       "created_at": "2025-04-18T11:15:57Z",
       "updated_at": "2025-04-18T11:16:42Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.28/siyuan-3.1.28-win-arm64.exe"
@@ -414,7 +414,7 @@
       "content_type": "application/x-msdownload",
       "state": "uploaded",
       "size": 160175512,
-      "download_count": 281,
+      "download_count": 975,
       "created_at": "2025-04-18T11:14:59Z",
       "updated_at": "2025-04-18T11:15:57Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.28/siyuan-3.1.28-win.exe"
@@ -449,7 +449,7 @@
       "content_type": "application/vnd.android.package-archive",
       "state": "uploaded",
       "size": 52140702,
-      "download_count": 14,
+      "download_count": 36,
       "created_at": "2025-04-18T11:18:07Z",
       "updated_at": "2025-04-18T11:18:55Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.1.28/siyuan-3.1.28.apk"
@@ -457,5 +457,17 @@
   ],
   "tarball_url": "https://api.github.com/repos/siyuan-note/siyuan/tarball/v3.1.28",
   "zipball_url": "https://api.github.com/repos/siyuan-note/siyuan/zipball/v3.1.28",
-  "body": "## Overview\r\n\r\nThis version improves some details.\r\n\r\n## Changelogs\r\n\r\nBelow are the detailed changes in this version.\r\n\r\n### Enhancement\r\n\r\n* [Supports replacing tags with other inline elements](https://github.com/siyuan-note/siyuan/issues/11238)\r\n* [Improve table row insertion](https://github.com/siyuan-note/siyuan/issues/11954)\r\n* [The bottom sidebar panel is abnormal after opening the developer tools](https://github.com/siyuan-note/siyuan/issues/13507)\r\n* [Tag renaming supports listing search candidates](https://github.com/siyuan-note/siyuan/issues/14518)\r\n* [Browser clipping extension supports clipping SVG](https://github.com/siyuan-note/siyuan/issues/14523)\r\n* [Support list block font size modification](https://github.com/siyuan-note/siyuan/issues/14524)\r\n* [Displays database block icon by default on tablet](https://github.com/siyuan-note/siyuan/issues/14533)\r\n* [Improve formula block spacing in exported PDF](https://github.com/siyuan-note/siyuan/issues/14548)\r\n* [Improve undo after converting blockquote to paragraph](https://github.com/siyuan-note/siyuan/issues/14551)\r\n* [Reload README after upgrading the marketplace package](https://github.com/siyuan-note/siyuan/issues/14558)\r\n* [Improve math block parsing](https://github.com/siyuan-note/siyuan/issues/14561)\r\n* [Split-screen documents maintain the same browsing position](https://github.com/siyuan-note/siyuan/issues/14568)\r\n* [Improve web page clipping](https://github.com/siyuan-note/siyuan/issues/14578)\r\n* [Tag search supports space-separated keywords](https://github.com/siyuan-note/siyuan/issues/14580)\r\n* [Improve marketplace package update validation](https://github.com/siyuan-note/siyuan/issues/14586)\r\n* [Improve block ref jump on Android](https://github.com/siyuan-note/siyuan/issues/14589)\r\n* [Reduce the probability of `tree not found` when deleting/renaming tags](https://github.com/siyuan-note/siyuan/issues/14591)\r\n* [Improve tag panel refresh](https://github.com/siyuan-note/siyuan/issues/14593)\r\n* [Improve synchronization of title image updates to other windows](https://github.com/siyuan-note/siyuan/issues/14613)\r\n* [Improve soft break editing in tables](https://github.com/siyuan-note/siyuan/issues/14619)\r\n* [Global search supports searching with tabs](https://github.com/siyuan-note/siyuan/issues/14632)\r\n* [Improve setting of inline elements when table cells contain br](https://github.com/siyuan-note/siyuan/issues/14635)\r\n* [Resolve conflicts between custom ⌥⇧→/⌥⇧← and native shortcut keys](https://github.com/siyuan-note/siyuan/issues/14638)\r\n\r\n### Bugfix\r\n\r\n* [Abnormal content when creating a tag](https://github.com/siyuan-note/siyuan/issues/14532)\r\n* [Abnormal after reapplying the same background color to text with background color](https://github.com/siyuan-note/siyuan/issues/14534)\r\n* [Inserting images or files button on Android do not work](https://github.com/siyuan-note/siyuan/issues/14537)\r\n* [Editing after opening the search interface will cause the interface to reload](https://github.com/siyuan-note/siyuan/issues/14538)\r\n* [All `Import` buttons on Android do not work](https://github.com/siyuan-note/siyuan/issues/14545)\r\n* [Virtual reference cannot jump on mobile](https://github.com/siyuan-note/siyuan/pull/14566)\r\n* [Unable to find-replace tag](https://github.com/siyuan-note/siyuan/issues/14588)\r\n* [Incorrect cursor position when typing in a database-bound block](https://github.com/siyuan-note/siyuan/issues/14606)\r\n\r\n### Refactor\r\n\r\n* [Upgrade to Electron v34.5.0](https://github.com/siyuan-note/siyuan/issues/14557)\r\n\r\n### Development\r\n\r\n* [Improve editor refresh for kernel API `/api/block/moveBlock`](https://github.com/siyuan-note/siyuan/issues/14559)\r\n* [Authenticated kernel API requests work without setting the authentication code](https://github.com/siyuan-note/siyuan/issues/14571)\r\n* [Improve plugin reloading after data sync](https://github.com/siyuan-note/siyuan/issues/14579)\r\n* [The global shortcut key of the plugin cannot be bound again](https://github.com/siyuan-note/siyuan/issues/14582)\r\n* [Add an internal kernel API `/api/ui/reloadTag`](https://github.com/siyuan-note/siyuan/issues/14594)\r\n\r\n## Download\r\n\r\n* [B3log](https://b3log.org/siyuan/en/download.html)\r\n* [GitHub](https://github.com/siyuan-note/siyuan/releases)\r\n"
+  "body": "## Overview\r\n\r\nThis version improves some details.\r\n\r\n## Changelogs\r\n\r\nBelow are the detailed changes in this version.\r\n\r\n### Enhancement\r\n\r\n* [Supports replacing tags with other inline elements](https://github.com/siyuan-note/siyuan/issues/11238)\r\n* [Improve table row insertion](https://github.com/siyuan-note/siyuan/issues/11954)\r\n* [The bottom sidebar panel is abnormal after opening the developer tools](https://github.com/siyuan-note/siyuan/issues/13507)\r\n* [Tag renaming supports listing search candidates](https://github.com/siyuan-note/siyuan/issues/14518)\r\n* [Browser clipping extension supports clipping SVG](https://github.com/siyuan-note/siyuan/issues/14523)\r\n* [Support list block font size modification](https://github.com/siyuan-note/siyuan/issues/14524)\r\n* [Displays database block icon by default on tablet](https://github.com/siyuan-note/siyuan/issues/14533)\r\n* [Improve formula block spacing in exported PDF](https://github.com/siyuan-note/siyuan/issues/14548)\r\n* [Improve undo after converting blockquote to paragraph](https://github.com/siyuan-note/siyuan/issues/14551)\r\n* [Reload README after upgrading the marketplace package](https://github.com/siyuan-note/siyuan/issues/14558)\r\n* [Improve math block parsing](https://github.com/siyuan-note/siyuan/issues/14561)\r\n* [Split-screen documents maintain the same browsing position](https://github.com/siyuan-note/siyuan/issues/14568)\r\n* [Improve web page clipping](https://github.com/siyuan-note/siyuan/issues/14578)\r\n* [Tag search supports space-separated keywords](https://github.com/siyuan-note/siyuan/issues/14580)\r\n* [Improve marketplace package update validation](https://github.com/siyuan-note/siyuan/issues/14586)\r\n* [Improve block ref jump on Android](https://github.com/siyuan-note/siyuan/issues/14589)\r\n* [Reduce the probability of `tree not found` when deleting/renaming tags](https://github.com/siyuan-note/siyuan/issues/14591)\r\n* [Improve tag panel refresh](https://github.com/siyuan-note/siyuan/issues/14593)\r\n* [Improve synchronization of title image updates to other windows](https://github.com/siyuan-note/siyuan/issues/14613)\r\n* [Improve soft break editing in tables](https://github.com/siyuan-note/siyuan/issues/14619)\r\n* [Global search supports searching with tabs](https://github.com/siyuan-note/siyuan/issues/14632)\r\n* [Improve setting of inline elements when table cells contain br](https://github.com/siyuan-note/siyuan/issues/14635)\r\n* [Resolve conflicts between custom ⌥⇧→/⌥⇧← and native shortcut keys](https://github.com/siyuan-note/siyuan/issues/14638)\r\n\r\n### Bugfix\r\n\r\n* [Abnormal content when creating a tag](https://github.com/siyuan-note/siyuan/issues/14532)\r\n* [Abnormal after reapplying the same background color to text with background color](https://github.com/siyuan-note/siyuan/issues/14534)\r\n* [Inserting images or files button on Android do not work](https://github.com/siyuan-note/siyuan/issues/14537)\r\n* [Editing after opening the search interface will cause the interface to reload](https://github.com/siyuan-note/siyuan/issues/14538)\r\n* [All `Import` buttons on Android do not work](https://github.com/siyuan-note/siyuan/issues/14545)\r\n* [Virtual reference cannot jump on mobile](https://github.com/siyuan-note/siyuan/pull/14566)\r\n* [Unable to find-replace tag](https://github.com/siyuan-note/siyuan/issues/14588)\r\n* [Incorrect cursor position when typing in a database-bound block](https://github.com/siyuan-note/siyuan/issues/14606)\r\n\r\n### Refactor\r\n\r\n* [Upgrade to Electron v34.5.0](https://github.com/siyuan-note/siyuan/issues/14557)\r\n\r\n### Development\r\n\r\n* [Improve editor refresh for kernel API `/api/block/moveBlock`](https://github.com/siyuan-note/siyuan/issues/14559)\r\n* [Authenticated kernel API requests work without setting the authentication code](https://github.com/siyuan-note/siyuan/issues/14571)\r\n* [Improve plugin reloading after data sync](https://github.com/siyuan-note/siyuan/issues/14579)\r\n* [The global shortcut key of the plugin cannot be bound again](https://github.com/siyuan-note/siyuan/issues/14582)\r\n* [Add an internal kernel API `/api/ui/reloadTag`](https://github.com/siyuan-note/siyuan/issues/14594)\r\n\r\n## Download\r\n\r\n* [B3log](https://b3log.org/siyuan/en/download.html)\r\n* [GitHub](https://github.com/siyuan-note/siyuan/releases)\r\n",
+  "reactions": {
+    "url": "https://api.github.com/repos/siyuan-note/siyuan/releases/213307022/reactions",
+    "total_count": 1,
+    "+1": 0,
+    "-1": 0,
+    "laugh": 0,
+    "hooray": 0,
+    "confused": 0,
+    "heart": 0,
+    "rocket": 0,
+    "eyes": 1
+  }
 }
