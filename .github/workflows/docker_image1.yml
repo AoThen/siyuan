@@ -144,7 +144,7 @@ jobs:
         with:
           registry: ghcr.io
           username: aothen
-          password: ${{ secrets.GITHUB_TOKEN }} #${{ secrets.PACKAGES_TOKEN }}
+          password: ${{ secrets.PACKAGES_TOKEN }}
 
       - name: Build and push
         uses: docker/build-push-action@v6
