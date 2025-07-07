@@ -54,7 +54,6 @@ func NewSystem() *System {
 		Name:               util.GetDeviceName(),
 		KernelVersion:      util.Ver,
 		NetworkProxy:       &NetworkProxy{},
-		DisableGoogleAnalytics: true,
 		DownloadInstallPkg: false,
 	}
 }
