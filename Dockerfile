@@ -38,13 +38,13 @@ LABEL maintainer="Aothen"
 
 WORKDIR /opt/siyuan/
 COPY --from=GO_BUILD /opt/siyuan/ /opt/siyuan/
-RUN addgroup --gid 1000 siyuan && adduser --uid 1000 --ingroup siyuan --disabled-password siyuan && apk add --no-cache ca-certificates tzdata su-exec && chown -R siyuan:siyuan /opt/siyuan/ && chmod +x /opt/siyuan/entrypoint.sh
+RUN apk add --no-cache ca-certificates tzdata su-exec && \
+    chmod +x /opt/siyuan/entrypoint.sh
 
 ENV TZ=Asia/Shanghai
 ENV HOME=/home/siyuan
 ENV RUN_IN_CONTAINER=true
 EXPOSE 6806
 
-USER siyuan
 ENTRYPOINT ["/opt/siyuan/entrypoint.sh"]
 CMD ["/opt/siyuan/kernel"]
