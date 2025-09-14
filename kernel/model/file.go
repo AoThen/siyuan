@@ -187,7 +187,7 @@ func SearchDocsByKeyword(keyword string, flashcard bool) (ret []map[string]strin
 			}
 		}
 
-		rootBlocks = sql.QueryRootBlockByCondition(condition)
+		rootBlocks = sql.QueryRootBlockByCondition(condition, Conf.Search.Limit)
 	} else {
 		for _, box := range boxes {
 			if flashcard {
@@ -1024,7 +1024,11 @@ func CreateDocByMd(boxID, p, title, md string, sorts []string) (tree *parse.Tree
 	}
 
 	FlushTxQueue()
-	ChangeFileTreeSort(box.ID, sorts)
+	if 0 < len(sorts) {
+		ChangeFileTreeSort(box.ID, sorts)
+	} else {
+		box.addMinSort(path.Dir(tree.Path), tree.ID)
+	}
 	return
 }
 

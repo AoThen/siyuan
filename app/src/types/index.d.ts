@@ -85,7 +85,8 @@ type TEventBus = "ws-main" | "sync-start" | "sync-end" | "sync-fail" |
     "switch-protyle" | "switch-protyle-mode" |
     "destroy-protyle" |
     "lock-screen" |
-    "mobile-keyboard-show" | "mobile-keyboard-hide"
+    "mobile-keyboard-show" | "mobile-keyboard-hide" |
+    "code-language-update" | "code-language-change"
 type TAVView = "table" | "gallery"
 type TAVCol =
     "text"
@@ -273,6 +274,7 @@ interface IClipboardData {
     textPlain?: string,
     siyuanHTML?: string,
     files?: File[],
+    localFiles?: string[]
 }
 
 interface IRefDefs {
@@ -367,6 +369,7 @@ interface ISnippet {
     type: string;
     enabled: boolean;
     content: string;
+    disabledInPublish: boolean;
 }
 
 interface IInbox {
@@ -770,6 +773,7 @@ interface IBlock {
     children?: IBlock[]
     length?: number
     ial: IObject
+    refCount?: number
 }
 
 interface IRiffCard {
@@ -894,6 +898,7 @@ interface IAVGallery extends IAVView {
 interface IAVFilter {
     column: string,
     operator: TAVFilterOperator,
+    quantifier?: string,
     value: IAVCellValue,
     relativeDate?: relativeDate
     relativeDate2?: relativeDate
