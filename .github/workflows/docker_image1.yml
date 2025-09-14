@@ -100,19 +100,20 @@ jobs:
             grep version /tmp/siyuan/app/package.json | awk -F':' '{print $2}' | awk -F',' '{print $1}'
             cp -rf /tmp/siyuan/* ${PWD}
 
-            sed -i '/func RefreshCheckJob()/,/}/ { 
-            s/go util.GetRhyResult(true)/\/\/ go util.GetRhyResult(true)/g; 
-            s/go refreshSubscriptionExpirationRemind()/\/\/ go refreshSubscriptionExpirationRemind()/g; 
-            s/go refreshUser()/\/\/ go refreshUser()/g; 
-            s/go refreshAnnouncement()/\/\/ go refreshAnnouncement()/g; 
-            s/go refreshCheckDownloadInstallPkg()/\/\/ go refreshCheckDownloadInstallPkg()/g; 
-            }' kernel/model/cloud_service.go
-
-
             git add -A
             Emoji=("🎉" "🤞" "✨" "🎁" "🎈" "🎄" "🎨" "💋" "🍓" "🍕" "🍉" "💐" "🌴" "🚀" "🛸" "🗽" "⛅" "🌈" "🔥" "⛄" "🐶" "🏅" "🦄" "🐤")
             git commit -m "$version2 update at $(TZ='Asia/Shanghai' date +%Y-%m-%d)${Emoji[$[$RANDOM % ${#Emoji[@]}]]}"
             git push "https://${{ secrets.NAME }}:${{ github.token }}@github.com/${{ github.repository }}.git" master
+
+
+          # sed -i '/func RefreshCheckJob()/,/}/ { 
+          # s/go util.GetRhyResult(true)/\/\/ go util.GetRhyResult(true)/g; 
+          # s/go refreshSubscriptionExpirationRemind()/\/\/ go refreshSubscriptionExpirationRemind()/g; 
+          # s/go refreshUser()/\/\/ go refreshUser()/g; 
+          # s/go refreshAnnouncement()/\/\/ go refreshAnnouncement()/g; 
+          # s/go refreshCheckDownloadInstallPkg()/\/\/ go refreshCheckDownloadInstallPkg()/g; 
+          # }' kernel/model/cloud_service.go
+
 
 
 # grep version app/package.json | awk -F':' '{print $2}' | awk -F',' '{print $1}'
