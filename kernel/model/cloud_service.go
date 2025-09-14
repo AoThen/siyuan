@@ -215,10 +215,10 @@ var (
 )
 
 func RefreshCheckJob() {
-	// go refreshSubscriptionExpirationRemind()
-	// go refreshUser()
-	// go refreshAnnouncement()
-	// go refreshCheckDownloadInstallPkg()
+	go refreshSubscriptionExpirationRemind()
+	go refreshUser()
+	go refreshAnnouncement()
+	go refreshCheckDownloadInstallPkg()
 }
 
 func refreshSubscriptionExpirationRemind() {
