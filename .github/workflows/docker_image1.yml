@@ -91,7 +91,7 @@ jobs:
             git status
             cd ${{ github.workspace }}
             cp -f Dockerfile /tmp/siyuan/Dockerfile
-            cp -f Dockerfile2 /tmp/siyuan/Dockerfile2
+
             rm -rf /tmp/siyuan/.github/workflows/*
             grep version /tmp/siyuan/app/package.json | awk -F':' '{print $2}' | awk -F',' '{print $1}'
             cp -rf /tmp/siyuan/* ${PWD}
