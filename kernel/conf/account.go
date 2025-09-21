@@ -23,7 +23,7 @@ type Account struct {
 
 func NewAccount() *Account {
 	return &Account{
-		DisplayTitle: false,
-		DisplayVIP:   false,
+		DisplayTitle: true,
+		DisplayVIP:   true,
 	}
 }

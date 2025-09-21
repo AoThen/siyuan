@@ -37,8 +37,8 @@ func NewSync() *Sync {
 		Enabled:             false,
 		Perception:          false,
 		Mode:                1,
-		GenerateConflictDoc: true,
-		Provider:            ProviderS3,
+		GenerateConflictDoc: false,
+		Provider:            ProviderSiYuan,
 		Interval:            30,
 	}
 }

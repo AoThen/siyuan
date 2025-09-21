@@ -67,7 +67,7 @@
       "state": "uploaded",
       "size": 1000,
       "digest": "sha256:f7972bb7ae90c7cb0dc3cde6d686f339734966762fc3a89fc3e00313278fecd3",
-      "download_count": 34,
+      "download_count": 46,
       "created_at": "2025-09-09T13:05:45Z",
       "updated_at": "2025-09-09T13:05:49Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.3.2/SHA256SUMS.txt"
@@ -103,7 +103,7 @@
       "state": "uploaded",
       "size": 199159566,
       "digest": "sha256:2889996ebc1acd74476dc8b2894fdeb57d40292c743714b12e126c92ed8fe2ae",
-      "download_count": 22,
+      "download_count": 30,
       "created_at": "2025-09-09T13:10:20Z",
       "updated_at": "2025-09-09T13:11:36Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.3.2/siyuan-3.3.2-linux-arm64.AppImage"
@@ -139,7 +139,7 @@
       "state": "uploaded",
       "size": 185485648,
       "digest": "sha256:df9c4788a0ead2ac431d5e2b6eaabc524706b0dde2ed4117adbe5fbc53676cdc",
-      "download_count": 24,
+      "download_count": 38,
       "created_at": "2025-09-09T13:11:36Z",
       "updated_at": "2025-09-09T13:12:46Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.3.2/siyuan-3.3.2-linux-arm64.deb"
@@ -175,7 +175,7 @@
       "state": "uploaded",
       "size": 198844218,
       "digest": "sha256:04433924b6f145c3a5ff7255bbc49b81d794004305a4e82defa248f921aa8a6a",
-      "download_count": 18,
+      "download_count": 32,
       "created_at": "2025-09-09T13:12:46Z",
       "updated_at": "2025-09-09T13:14:02Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.3.2/siyuan-3.3.2-linux-arm64.tar.gz"
@@ -211,7 +211,7 @@
       "state": "uploaded",
       "size": 198404363,
       "digest": "sha256:fd94c645b40189426d70a3fe8266ddc50fab04356e5db1fad209bdc1a4dc0cb5",
-      "download_count": 185,
+      "download_count": 290,
       "created_at": "2025-09-09T13:06:35Z",
       "updated_at": "2025-09-09T13:07:54Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.3.2/siyuan-3.3.2-linux.AppImage"
@@ -247,7 +247,7 @@
       "state": "uploaded",
       "size": 190590786,
       "digest": "sha256:cd8a3895f87c4aa8cf1af32abf288fe8d4297baad6c3940d8e6e9e9a44b8c4ef",
-      "download_count": 194,
+      "download_count": 253,
       "created_at": "2025-09-09T13:07:54Z",
       "updated_at": "2025-09-09T13:09:06Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.3.2/siyuan-3.3.2-linux.deb"
@@ -283,7 +283,7 @@
       "state": "uploaded",
       "size": 198405197,
       "digest": "sha256:156d07ec3af69e3409e66a9aa24798282e53fe43e7d94178712bcf10a4b8e148",
-      "download_count": 55,
+      "download_count": 73,
       "created_at": "2025-09-09T13:09:06Z",
       "updated_at": "2025-09-09T13:10:20Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.3.2/siyuan-3.3.2-linux.tar.gz"
@@ -319,7 +319,7 @@
       "state": "uploaded",
       "size": 198530367,
       "digest": "sha256:41fb646497e5e433408d5a4fd5d5cb0e96fd628df9dbf4eee6eee6c2dd402257",
-      "download_count": 9083,
+      "download_count": 14429,
       "created_at": "2025-09-09T13:15:15Z",
       "updated_at": "2025-09-09T13:16:29Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.3.2/siyuan-3.3.2-mac-arm64.dmg"
@@ -355,7 +355,7 @@
       "state": "uploaded",
       "size": 193473800,
       "digest": "sha256:a49c473770ebf53d3b063a3fc263545dd932d3297c06109787cdff69a7d0cb28",
-      "download_count": 1535,
+      "download_count": 2588,
       "created_at": "2025-09-09T13:14:02Z",
       "updated_at": "2025-09-09T13:15:15Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.3.2/siyuan-3.3.2-mac.dmg"
@@ -391,7 +391,7 @@
       "state": "uploaded",
       "size": 132555776,
       "digest": "sha256:7f6a15dab15e7210207d784f5880493a3d805c2448541bfab2b130afa34d6f81",
-      "download_count": 113,
+      "download_count": 163,
       "created_at": "2025-09-09T13:18:02Z",
       "updated_at": "2025-09-09T13:19:12Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.3.2/siyuan-3.3.2-win-arm64.exe"
@@ -427,7 +427,7 @@
       "state": "uploaded",
       "size": 169357664,
       "digest": "sha256:61d0fda9e39c741b6239f52feecd5d5f85317aa02478095b27d3936456e9d400",
-      "download_count": 3602,
+      "download_count": 4472,
       "created_at": "2025-09-09T13:16:29Z",
       "updated_at": "2025-09-09T13:18:02Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.3.2/siyuan-3.3.2-win.exe"
@@ -463,7 +463,7 @@
       "state": "uploaded",
       "size": 56981825,
       "digest": "sha256:16abc647ebda7d1bfc7b3231a84e9c92db77ac160e62973d8dabde57dd76a2ee",
-      "download_count": 168,
+      "download_count": 233,
       "created_at": "2025-09-09T13:05:49Z",
       "updated_at": "2025-09-09T13:06:35Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.3.2/siyuan-3.3.2.apk"
@@ -474,13 +474,13 @@
   "body": "## Overview\r\n\r\nThis version improves some details.\r\n\r\n## Changelogs\r\n\r\nBelow are the detailed changes in this version.\r\n\r\n### Enhancement\r\n\r\n* [Copy/Cut folded heading changed to copy/cut `Headings and Bottom Blocks` and support multiple headings copy/cut](https://github.com/siyuan-note/siyuan/issues/8019)\r\n* [Improve database field editing menu](https://github.com/siyuan-note/siyuan/issues/15185)\r\n* [Database rollup field filtering rules support \"Any\", \"All\", and \"None\"](https://github.com/siyuan-note/siyuan/issues/15609)\r\n* [Improve flashcards](https://github.com/siyuan-note/siyuan/issues/15699)\r\n* [If the new data created in the database is in a collapsed group, the edit box will not pop up](https://github.com/siyuan-note/siyuan/issues/15728)\r\n* [Select Copy in the code block to copy only the plain text](https://github.com/siyuan-note/siyuan/issues/15733)\r\n* [Use the default sorting when the search content in the code block language prompt is empty](https://github.com/siyuan-note/siyuan/issues/15737)\r\n* [Improve database rollup field filtering](https://github.com/siyuan-note/siyuan/issues/15740)\r\n* [Improve database date field filtering](https://github.com/siyuan-note/siyuan/issues/15744)\r\n* [Disable editing when adding options to the database](https://github.com/siyuan-note/siyuan/issues/15751)\r\n* [After dragging database entries across groups, groups in other views need to be updated](https://github.com/siyuan-note/siyuan/issues/15755)\r\n* [Browser clipping extension supports clipping page to the database](https://github.com/siyuan-note/siyuan/issues/15758)\r\n* [Hide the bottom gesture navigation bar on Android](https://github.com/siyuan-note/siyuan/issues/15763)\r\n* [Improve database group view performance](https://github.com/siyuan-note/siyuan/issues/15764)\r\n* [Dragging multiple files into the editor will cause them to be opened by the default program](https://github.com/siyuan-note/siyuan/pull/15773)\r\n* [Improve HTML table clipping](https://github.com/siyuan-note/siyuan/issues/15781)\r\n* [Automatically create a new document when clicking on a notebook without documents](https://github.com/siyuan-note/siyuan/issues/15782)\r\n* [Add field `disabledInPublish` to the code snippet to indicate whether it is disabled in the publish service](https://github.com/siyuan-note/siyuan/issues/15806)\r\n\r\n### Bugfix\r\n\r\n* [PDF files with too long file names cannot generate annotated images](https://github.com/siyuan-note/siyuan/issues/15739)\r\n* [The video block network address is incorrect](https://github.com/siyuan-note/siyuan/issues/15741)\r\n* [The database date field cannot paste the time of 0 o'clock](https://github.com/siyuan-note/siyuan/issues/15742)\r\n* [Read-only mode cannot be set in preview mode](https://github.com/siyuan-note/siyuan/issues/15756)\r\n* [Exception when inserting batch files into the editor](https://github.com/siyuan-note/siyuan/issues/15768)\r\n* [When using certain input methods, punctuation characters are inserted twice after pasting a link at the end of a block](https://github.com/siyuan-note/siyuan/issues/15801)\r\n\r\n### Development\r\n\r\n* [Add field `disabledInPublish` to the marketplace plugin package metadata to indicate whether it is disabled in the publish service](https://github.com/siyuan-note/siyuan/issues/11730)\r\n* [Add plugin function `expandDocTree`](https://github.com/siyuan-note/siyuan/issues/15639)\r\n* [Improve kernel API `appendBlock`, `insertBlock` and `prependBlock`](https://github.com/siyuan-note/siyuan/issues/15798)\r\n\r\n## Download\r\n\r\n* [B3log](https://b3log.org/siyuan/en/download.html)\r\n* [GitHub](https://github.com/siyuan-note/siyuan/releases)\r\n",
   "reactions": {
     "url": "https://api.github.com/repos/siyuan-note/siyuan/releases/245838347/reactions",
-    "total_count": 6,
+    "total_count": 8,
     "+1": 0,
     "-1": 0,
     "laugh": 0,
-    "hooray": 0,
+    "hooray": 1,
     "confused": 0,
-    "heart": 6,
+    "heart": 7,
     "rocket": 0,
     "eyes": 0
   }
