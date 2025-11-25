@@ -22,6 +22,7 @@ import (
 	"fmt"
 	"path/filepath"
 	"slices"
+	"strconv"
 	"strings"
 	"sync"
 	"sync/atomic"
@@ -169,6 +170,7 @@ func performTx(tx *Transaction) (ret *TxErr) {
 
 	isLargeInsert := tx.processLargeInsert()
 	if !isLargeInsert {
+		tx.processUndoInsertWithFoldedHeading()
 		for _, op := range tx.DoOperations {
 			switch op.Action {
 			case "create":
@@ -279,6 +281,10 @@ func performTx(tx *Transaction) (ret *TxErr) {
 				ret = tx.doSetAttrViewColDateFillCreated(op)
 			case "setAttrViewColDateFillSpecificTime":
 				ret = tx.doSetAttrViewColDateFillSpecificTime(op)
+			case "setAttrViewCreatedIncludeTime":
+				ret = tx.doSetAttrViewCreatedIncludeTime(op)
+			case "setAttrViewUpdatedIncludeTime":
+				ret = tx.doSetAttrViewUpdatedIncludeTime(op)
 			case "duplicateAttrViewKey":
 				ret = tx.doDuplicateAttrViewKey(op)
 			case "setAttrViewCoverFrom":
@@ -291,6 +297,8 @@ func performTx(tx *Transaction) (ret *TxErr) {
 				ret = tx.doSetAttrViewFitImage(op)
 			case "setAttrViewDisplayFieldName":
 				ret = tx.doSetAttrViewDisplayFieldName(op)
+			case "setAttrViewFillColBackgroundColor":
+				ret = tx.doSetAttrViewFillColBackgroundColor(op)
 			case "setAttrViewShowIcon":
 				ret = tx.doSetAttrViewShowIcon(op)
 			case "setAttrViewWrapField":
@@ -329,6 +337,56 @@ func performTx(tx *Transaction) (ret *TxErr) {
 		return &TxErr{msg: cr.Error()}
 	}
 	return
+}
+
+func (tx *Transaction) processUndoInsertWithFoldedHeading() {
+	// 删除折叠标题后撤销，需要调整 insert 顺序和 previousID
+	// https://github.com/siyuan-note/siyuan/issues/16120
+
+	if 1 > len(tx.DoOperations) {
+		return
+	}
+
+	// 所有操作均为 insert 才处理
+	for _, op := range tx.DoOperations {
+		if "insert" != op.Action {
+			return
+		}
+	}
+
+	// 找到 ignoreProcess=true 的区间 [j, k]
+	var j, k int
+	for i := 0; i < len(tx.DoOperations); i++ {
+		op := tx.DoOperations[i]
+		ignoreProcess := false
+		if nil != op.Context["ignoreProcess"] {
+			var convErr error
+			ignoreProcess, convErr = strconv.ParseBool(op.Context["ignoreProcess"].(string))
+			if nil != convErr {
+				logging.LogErrorf("parse ignoreProcess failed: %s", convErr)
+				return
+			}
+		}
+
+		if !ignoreProcess {
+			if 0 != j && 0 != k {
+				break
+			}
+			continue
+		}
+
+		if 0 == j && 0 == k {
+			j = i
+		}
+		k = i
+	}
+
+	// 调整 [j, k] 区间内的操作顺序和 previousID
+	for x := j; x <= k; x++ {
+		opx := tx.DoOperations[x]
+		opx.PreviousID = tx.DoOperations[k].PreviousID
+	}
+	slices.Reverse(tx.DoOperations[j : k+1])
 }
 
 func (tx *Transaction) processLargeInsert() bool {
@@ -1015,6 +1073,7 @@ func (tx *Transaction) syncDelete2Block(node *ast.Node, nodeTree *parse.Tree) (c
 			oldAttrs := parse.IAL2Map(toChangNode.KramdownIAL)
 			toChangNode.SetIALAttr(av.NodeAttrViewNames, avNames)
 			pushBroadcastAttrTransactions(oldAttrs, toChangNode)
+			toChangNode.RemoveIALAttr(av.NodeAttrViewNames)
 		}
 
 		for _, tree := range trees {
@@ -1054,6 +1113,10 @@ func syncDelete2AttributeView(node *ast.Node) (changedAvIDs []string) {
 			}
 
 			for i, blockValue := range blockValues.Values {
+				if nil == blockValue.Block {
+					continue
+				}
+
 				if blockValue.Block.ID == n.ID {
 					blockValues.Values = append(blockValues.Values[:i], blockValues.Values[i+1:]...)
 					changedAv = true
@@ -1088,6 +1151,7 @@ func (tx *Transaction) doLargeInsert(previousID string) (ret *TxErr) {
 
 		data := strings.ReplaceAll(operation.Data.(string), editor.FrontEndCaret, "")
 		subTree := tx.luteEngine.BlockDOM2Tree(data)
+		subTree.Box, subTree.Path = tree.Box, tree.Path
 		tx.processGlobalAssets(subTree)
 
 		insertedNode := subTree.Root.FirstChild
@@ -1143,19 +1207,9 @@ func (tx *Transaction) doLargeInsert(previousID string) (ret *TxErr) {
 
 		upsertAvBlockRel(insertedNode)
 
-		// 复制为副本时将该副本块插入到数据库中 https://github.com/siyuan-note/siyuan/issues/11959
-		avs := insertedNode.IALAttr(av.NodeAttrNameAvs)
-		for _, avID := range strings.Split(avs, ",") {
-			if !ast.IsNodeIDPattern(avID) {
-				continue
-			}
-
-			AddAttributeViewBlock(tx, []map[string]interface{}{{
-				"id":         insertedNode.ID,
-				"isDetached": false,
-			}}, avID, "", "", "", previousID, false, map[string]interface{}{})
-			ReloadAttrView(avID)
-		}
+		// 复制为副本时移除数据库绑定状态 https://github.com/siyuan-note/siyuan/issues/12294
+		insertedNode.RemoveIALAttr(av.NodeAttrNameAvs)
+		insertedNode.RemoveIALAttrsByPrefix(av.NodeAttrViewStaticText)
 
 		if ast.NodeAttributeView == insertedNode.Type {
 			// 插入数据库块时需要重新绑定其中已经存在的块
@@ -1220,6 +1274,7 @@ func (tx *Transaction) doInsert(operation *Operation) (ret *TxErr) {
 
 	data := strings.ReplaceAll(operation.Data.(string), editor.FrontEndCaret, "")
 	subTree := tx.luteEngine.BlockDOM2Tree(data)
+	subTree.Box, subTree.Path = tree.Box, tree.Path
 	tx.processGlobalAssets(subTree)
 
 	insertedNode := subTree.Root.FirstChild
@@ -1330,19 +1385,9 @@ func (tx *Transaction) doInsert(operation *Operation) (ret *TxErr) {
 
 	upsertAvBlockRel(insertedNode)
 
-	// 复制为副本时将该副本块插入到数据库中 https://github.com/siyuan-note/siyuan/issues/11959
-	avs := insertedNode.IALAttr(av.NodeAttrNameAvs)
-	for _, avID := range strings.Split(avs, ",") {
-		if !ast.IsNodeIDPattern(avID) {
-			continue
-		}
-
-		AddAttributeViewBlock(tx, []map[string]interface{}{{
-			"id":         insertedNode.ID,
-			"isDetached": false,
-		}}, avID, "", "", "", previousID, false, map[string]interface{}{})
-		ReloadAttrView(avID)
-	}
+	// 复制为副本时移除数据库绑定状态 https://github.com/siyuan-note/siyuan/issues/12294
+	insertedNode.RemoveIALAttr(av.NodeAttrNameAvs)
+	insertedNode.RemoveIALAttrsByPrefix(av.NodeAttrViewStaticText)
 
 	if ast.NodeAttributeView == insertedNode.Type {
 		// 插入数据库块时需要重新绑定其中已经存在的块
@@ -1698,7 +1743,6 @@ func upsertAvBlockRel(node *ast.Node) {
 
 	go func() {
 		time.Sleep(100 * time.Millisecond)
-		sql.FlushQueue()
 
 		affectedAvIDs = gulu.Str.RemoveDuplicatedElem(affectedAvIDs)
 		var relatedAvIDs []string
@@ -2045,7 +2089,7 @@ func updateRefTextRenameDoc(renamedTree *parse.Tree) {
 }
 
 func FlushUpdateRefTextRenameDocJob() {
-	sql.FlushQueue()
+	sql.WaitFlushTx()
 	flushUpdateRefTextRenameDoc()
 }
 

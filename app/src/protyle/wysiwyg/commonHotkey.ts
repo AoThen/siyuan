@@ -13,7 +13,9 @@ import * as dayjs from "dayjs";
 import {net2LocalAssets} from "../breadcrumb/action";
 import {processClonePHElement} from "../render/util";
 import {copyTextByType} from "../toolbar/util";
-import {hasClosestByTag} from "../util/hasClosest";
+import {hasClosestByTag, hasTopClosestByClassName} from "../util/hasClosest";
+import {removeEmbed} from "./removeEmbed";
+import {clearBlockElement} from "../util/clear";
 
 export const commonHotkey = (protyle: IProtyle, event: KeyboardEvent, nodeElement?: HTMLElement) => {
     if (matchHotKey(window.siyuan.config.keymap.editor.general.netImg2LocalAsset.custom, event)) {
@@ -258,16 +260,32 @@ export const duplicateBlock = async (nodeElements: Element[], protyle: IProtyle)
     const doOperations: IOperation[] = [];
     const undoOperations: IOperation[] = [];
     let starIndex: number;
-    if (nodeElements[nodeElements.length - 1].classList.contains("li") &&
-        nodeElements[nodeElements.length - 1].getAttribute("data-subtype") === "o") {
-        starIndex = parseInt(nodeElements[nodeElements.length - 1].getAttribute("data-marker"), 10);
+    let lastElement = nodeElements[nodeElements.length - 1];
+    let isSameLi = true;
+    if (lastElement.classList.contains("li")) {
+        if (lastElement.getAttribute("data-subtype") === "o") {
+            starIndex = parseInt(lastElement.getAttribute("data-marker"), 10);
+        }
+        nodeElements.find(item => {
+            if (!item.classList.contains("li") ||
+                lastElement.getAttribute("data-subtype") !== item.getAttribute("data-subtype")) {
+                isSameLi = false;
+                return true;
+            }
+        });
+        if (!isSameLi) {
+            lastElement = hasTopClosestByClassName(lastElement, "list") || lastElement;
+        }
     }
+    let listHTML = "";
     const foldHeadingIds = [];
     for (let index = nodeElements.length - 1; index >= 0; --index) {
         const item = nodeElements[index];
+        item.classList.remove("protyle-wysiwyg--select");
         let tempElement = item.cloneNode(true) as HTMLElement;
         const newId = Lute.NewNodeID();
-        if (item.getAttribute("data-type") !== "NodeBlockQueryEmbed" && item.querySelector('[data-type="NodeHeading"][fold="1"]')) {
+        if (item.getAttribute("data-type") !== "NodeBlockQueryEmbed" &&
+            item.querySelector('[data-type="NodeHeading"][fold="1"]')) {
             const response = await fetchSyncPost("/api/block/getBlockDOM", {
                 id: item.getAttribute("data-node-id"),
             });
@@ -275,36 +293,47 @@ export const duplicateBlock = async (nodeElements: Element[], protyle: IProtyle)
             foldTempElement.innerHTML = response.data.dom;
             tempElement = foldTempElement.content.firstElementChild as HTMLElement;
         }
+        if (item.getAttribute("data-type") === "NodeListItem" && !isSameLi) {
+            if (!listHTML) {
+                listHTML = `<div class="protyle-attr" contenteditable="false">${Constants.ZWSP}</div></div>`;
+            }
+            listHTML = removeEmbed(item) + listHTML;
+            if (index === 0 ||
+                nodeElements[index - 1].getAttribute("data-type") !== "NodeListItem" ||
+                nodeElements[index - 1].getAttribute("data-subtype") !== item.getAttribute("data-subtype")
+            ) {
+                const foldTempElement = document.createElement("template");
+                foldTempElement.innerHTML = `<div data-subtype="${item.getAttribute("data-subtype")}" data-node-id="${Lute.NewNodeID()}" data-type="NodeList" class="list">${listHTML}`;
+                tempElement = foldTempElement.content.firstElementChild as HTMLElement;
+                listHTML = "";
+            } else {
+                continue;
+            }
+        }
         if (index === nodeElements.length - 1) {
             focusElement = tempElement;
         }
         tempElement.setAttribute("data-node-id", newId);
-        tempElement.removeAttribute(Constants.CUSTOM_RIFF_DECKS);
-        tempElement.classList.remove("protyle-wysiwyg--hl");
         tempElement.setAttribute("updated", newId.split("-")[0]);
-        tempElement.removeAttribute("refcount");
-        tempElement.lastElementChild.querySelector(".protyle-attr--refcount")?.remove();
+        clearBlockElement(tempElement);
+        tempElement.classList.add("protyle-wysiwyg--select");
         tempElement.querySelectorAll("[data-node-id]").forEach(childItem => {
             const subNewId = Lute.NewNodeID();
             childItem.setAttribute("data-node-id", subNewId);
-            childItem.removeAttribute(Constants.CUSTOM_RIFF_DECKS);
-            childItem.classList.remove("protyle-wysiwyg--hl");
             childItem.setAttribute("updated", subNewId.split("-")[0]);
-            childItem.removeAttribute("refcount");
-            childItem.lastElementChild.querySelector(".protyle-attr--refcount")?.remove();
+            clearBlockElement(childItem);
         });
-        item.classList.remove("protyle-wysiwyg--select");
         if (typeof starIndex === "number") {
             const orderIndex = starIndex + index + 1;
             tempElement.setAttribute("data-marker", (orderIndex) + ".");
             tempElement.querySelector(".protyle-action--order").textContent = (orderIndex) + ".";
         }
-        nodeElements[0].after(processClonePHElement(tempElement));
+        lastElement.after(processClonePHElement(tempElement));
         doOperations.push({
             action: "insert",
             data: tempElement.outerHTML,
             id: newId,
-            previousID: nodeElements[0].getAttribute("data-node-id"),
+            previousID: lastElement.getAttribute("data-node-id"),
         });
         undoOperations.push({
             action: "delete",
@@ -321,13 +350,11 @@ export const duplicateBlock = async (nodeElements: Element[], protyle: IProtyle)
                 }
                 childItem.querySelectorAll("[data-node-id]").forEach(subItem => {
                     subItem.setAttribute("data-node-id", Lute.NewNodeID());
-                    subItem.removeAttribute(Constants.CUSTOM_RIFF_DECKS);
-                    subItem.removeAttribute("refcount");
+                    clearBlockElement(subItem);
                 });
                 const newChildId = Lute.NewNodeID();
                 childItem.setAttribute("data-node-id", newChildId);
-                childItem.removeAttribute(Constants.CUSTOM_RIFF_DECKS);
-                childItem.removeAttribute("refcount");
+                clearBlockElement(childItem);
                 doOperations.push({
                     context: {
                         ignoreProcess: "true"
