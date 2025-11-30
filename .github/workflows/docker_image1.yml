@@ -102,17 +102,17 @@ jobs:
             git push "https://${{ secrets.NAME }}:${{ github.token }}@github.com/${{ github.repository }}.git" master
 
 
-          # git apply /tmp/siyuan-patch/patches/siyuan/disable-update.patch
-          # git apply /tmp/siyuan-patch/patches/siyuan/default-config.patch
-          # git apply /tmp/siyuan-patch/patches/siyuan/mock-vip-user.patch
+            git apply /tmp/siyuan-patch/patches/siyuan/disable-update.patch
+            git apply /tmp/siyuan-patch/patches/siyuan/default-config.patch
+            git apply /tmp/siyuan-patch/patches/siyuan/mock-vip-user.patch
 
-          # sed -i '/func RefreshCheckJob()/,/}/ { 
-          # s/go util.GetRhyResult(true)/\/\/ go util.GetRhyResult(true)/g; 
-          # s/go refreshSubscriptionExpirationRemind()/\/\/ go refreshSubscriptionExpirationRemind()/g; 
-          # s/go refreshUser()/\/\/ go refreshUser()/g; 
-          # s/go refreshAnnouncement()/\/\/ go refreshAnnouncement()/g; 
-          # s/go refreshCheckDownloadInstallPkg()/\/\/ go refreshCheckDownloadInstallPkg()/g; 
-          # }' kernel/model/cloud_service.go
+            sed -i '/func RefreshCheckJob()/,/}/ { 
+            s/go util.GetRhyResult(true)/\/\/ go util.GetRhyResult(true)/g; 
+            s/go refreshSubscriptionExpirationRemind()/\/\/ go refreshSubscriptionExpirationRemind()/g; 
+            s/go refreshUser()/\/\/ go refreshUser()/g; 
+            s/go refreshAnnouncement()/\/\/ go refreshAnnouncement()/g; 
+            s/go refreshCheckDownloadInstallPkg()/\/\/ go refreshCheckDownloadInstallPkg()/g; 
+            }' kernel/model/cloud_service.go
 
 
 
