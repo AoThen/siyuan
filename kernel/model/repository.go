@@ -131,7 +131,7 @@ func autoPurgeRepo(cron bool) {
 	}
 
 	todayDate := now.Format("2006-01-02")
-	// 筛选出每日需要保留的索引
+	// 过滤出每日需要保留的索引
 	var retentionIndexIDs []string
 	for date, indexes := range dateGroupedIndexes {
 		if len(indexes) <= Conf.Repo.RetentionIndexesDaily || todayDate == date {
@@ -1594,7 +1594,8 @@ func processSyncMergeResult(exit, byHand bool, mergeResult *dejavu.MergeResult, 
 	var upsertTrees int
 	// 可能需要重新加载部分功能
 	var needReloadFlashcard, needReloadOcrTexts, needReloadPlugin bool
-	upsertPluginSet := hashset.New()
+	upsertCodePluginSet := hashset.New() // 插件代码变更 data/plugins/
+	upsertDataPluginSet := hashset.New() // 插件存储数据变更 data/storage/petal/
 	needUnindexBoxes, needIndexBoxes := map[string]bool{}, map[string]bool{}
 	for _, file := range mergeResult.Upserts {
 		upserts = append(upserts, file.Path)
@@ -1617,7 +1618,7 @@ func processSyncMergeResult(exit, byHand bool, mergeResult *dejavu.MergeResult, 
 			needReloadPlugin = true
 			if parts := strings.Split(file.Path, "/"); 3 < len(parts) {
 				if pluginName := parts[3]; "petals.json" != pluginName {
-					upsertPluginSet.Add(pluginName)
+					upsertDataPluginSet.Add(pluginName)
 				}
 			}
 		}
@@ -1625,7 +1626,7 @@ func processSyncMergeResult(exit, byHand bool, mergeResult *dejavu.MergeResult, 
 		if strings.HasPrefix(file.Path, "/plugins/") {
 			if parts := strings.Split(file.Path, "/"); 2 < len(parts) {
 				needReloadPlugin = true
-				upsertPluginSet.Add(parts[2])
+				upsertCodePluginSet.Add(parts[2])
 			}
 		}
 
@@ -1634,7 +1635,7 @@ func processSyncMergeResult(exit, byHand bool, mergeResult *dejavu.MergeResult, 
 		}
 	}
 
-	removeWidgetDirSet, removePluginSet := hashset.New(), hashset.New()
+	removeWidgetDirSet, unloadPluginSet, uninstallPluginSet := hashset.New(), hashset.New(), hashset.New()
 	for _, file := range mergeResult.Removes {
 		removes = append(removes, file.Path)
 		if strings.HasPrefix(file.Path, "/storage/riff/") {
@@ -1655,7 +1656,7 @@ func processSyncMergeResult(exit, byHand bool, mergeResult *dejavu.MergeResult, 
 			needReloadPlugin = true
 			if parts := strings.Split(file.Path, "/"); 3 < len(parts) {
 				if pluginName := parts[3]; "petals.json" != pluginName {
-					removePluginSet.Add(pluginName)
+					upsertDataPluginSet.Add(pluginName)
 				}
 			}
 		}
@@ -1663,7 +1664,8 @@ func processSyncMergeResult(exit, byHand bool, mergeResult *dejavu.MergeResult, 
 		if strings.HasPrefix(file.Path, "/plugins/") {
 			if parts := strings.Split(file.Path, "/"); 2 < len(parts) {
 				needReloadPlugin = true
-				removePluginSet.Add(parts[2])
+				// 删除插件目录：卸载
+				uninstallPluginSet.Add(parts[2])
 			}
 		}
 
@@ -1676,11 +1678,12 @@ func processSyncMergeResult(exit, byHand bool, mergeResult *dejavu.MergeResult, 
 
 	for _, upsertPetal := range mergeResult.UpsertPetals {
 		needReloadPlugin = true
-		upsertPluginSet.Add(upsertPetal)
+		upsertCodePluginSet.Add(upsertPetal)
 	}
 	for _, removePetal := range mergeResult.RemovePetals {
 		needReloadPlugin = true
-		removePluginSet.Add(removePetal)
+		// Petal 中删除插件：卸载
+		uninstallPluginSet.Add(removePetal)
 	}
 
 	if needReloadFlashcard {
@@ -1692,7 +1695,7 @@ func processSyncMergeResult(exit, byHand bool, mergeResult *dejavu.MergeResult, 
 	}
 
 	if needReloadPlugin {
-		pushReloadPlugin(upsertPluginSet, removePluginSet, "")
+		PushReloadPlugin(upsertCodePluginSet, upsertDataPluginSet, unloadPluginSet, uninstallPluginSet, "")
 	}
 
 	for _, widgetDir := range removeWidgetDirSet.Values() {

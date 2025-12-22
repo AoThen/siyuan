@@ -139,7 +139,7 @@ func (box *Box) moveCorruptedData(filePath string) {
 	logging.LogWarnf("moved corrupted data file [%s] to [%s]", filePath, to)
 }
 
-func SearchDocsByKeyword(keyword string, flashcard bool) (ret []map[string]string) {
+func SearchDocsByKeyword(keyword string, flashcard bool, excludeIDs []string) (ret []map[string]string) {
 	ret = []map[string]string{}
 
 	var deck *riff.Deck
@@ -185,6 +185,10 @@ func SearchDocsByKeyword(keyword string, flashcard bool) (ret []map[string]strin
 			if i < len(keywords)-1 {
 				condition += " AND "
 			}
+		}
+
+		for _, excludeID := range excludeIDs {
+			condition += fmt.Sprintf(" AND path NOT LIKE '%%%s%%' ", excludeID)
 		}
 
 		rootBlocks = sql.QueryRootBlockByCondition(condition, Conf.Search.Limit)
@@ -974,12 +978,6 @@ func DuplicateDoc(tree *parse.Tree) {
 
 	previousPath := tree.Path
 	resetTree(tree, "Duplicated", false)
-	createTreeTx(tree)
-	box := Conf.Box(tree.Box)
-	if nil != box {
-		box.addSort(previousPath, tree.ID)
-	}
-	FlushTxQueue()
 
 	// 复制为副本时移除数据库绑定状态 https://github.com/siyuan-note/siyuan/issues/12294
 	ast.Walk(tree.Root, func(n *ast.Node, entering bool) ast.WalkStatus {
@@ -988,9 +986,17 @@ func DuplicateDoc(tree *parse.Tree) {
 		}
 
 		n.RemoveIALAttr(av.NodeAttrNameAvs)
+		n.RemoveIALAttr(av.NodeAttrViewNames)
 		n.RemoveIALAttrsByPrefix(av.NodeAttrViewStaticText)
 		return ast.WalkContinue
 	})
+
+	createTreeTx(tree)
+	box := Conf.Box(tree.Box)
+	if nil != box {
+		box.addSort(previousPath, tree.ID)
+	}
+	FlushTxQueue()
 	return
 }
 
@@ -1073,6 +1079,8 @@ func CreateWithMarkdown(tags, boxID, hPath, md, parentID, id string, withMath bo
 	return
 }
 
+const DailyNoteAttrPrefix = "custom-dailynote-"
+
 func CreateDailyNote(boxID string) (p string, existed bool, err error) {
 	createDocLock.Lock()
 	defer createDocLock.Unlock()
@@ -1109,8 +1117,8 @@ func CreateDailyNote(boxID string) (p string, existed bool, err error) {
 		}
 		p = tree.Path
 		date := time.Now().Format("20060102")
-		if tree.Root.IALAttr("custom-dailynote-"+date) == "" {
-			tree.Root.SetIALAttr("custom-dailynote-"+date, date)
+		if tree.Root.IALAttr(DailyNoteAttrPrefix+date) == "" {
+			tree.Root.SetIALAttr(DailyNoteAttrPrefix+date, date)
 			if err = indexWriteTreeUpsertQueue(tree); err != nil {
 				return
 			}
@@ -1178,7 +1186,7 @@ func CreateDailyNote(boxID string) (p string, existed bool, err error) {
 	}
 	p = tree.Path
 	date := time.Now().Format("20060102")
-	tree.Root.SetIALAttr("custom-dailynote-"+date, date)
+	tree.Root.SetIALAttr(DailyNoteAttrPrefix+date, date)
 	if err = indexWriteTreeUpsertQueue(tree); err != nil {
 		return
 	}
@@ -1741,7 +1749,7 @@ func createDoc(boxID, p, title, dom string) (tree *parse.Tree, err error) {
 	tree.HPath = hPath
 	tree.ID = id
 	tree.Root.ID = id
-	tree.Root.Spec = "1"
+	tree.Root.Spec = treenode.CurrentSpec
 	updated := util.TimeFromID(id)
 	tree.Root.KramdownIAL = [][]string{{"id", id}, {"title", html.EscapeAttrVal(title)}, {"updated", updated}}
 	if nil == tree.Root.FirstChild {
@@ -2181,6 +2189,10 @@ func (box *Box) setSort(sortIDVals map[string]int) {
 }
 
 func pushFiletreeSortChanged(sortIDs map[string]int) {
+	if 1 > len(sortIDs) {
+		return
+	}
+
 	var childIDs []string
 	for sortID := range sortIDs {
 		childIDs = append(childIDs, sortID)

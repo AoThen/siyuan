@@ -38,39 +38,84 @@ import (
 	"github.com/siyuan-note/siyuan/kernel/util"
 )
 
-func PushReloadPlugin(upsertPluginSet, removePluginNameSet *hashset.Set, excludeApp string) {
-	pushReloadPlugin(upsertPluginSet, removePluginNameSet, excludeApp)
-}
-
-func pushReloadPlugin(upsertPluginSet, removePluginNameSet *hashset.Set, excludeApp string) {
-	upsertPlugins, removePlugins := []string{}, []string{}
-	if nil != upsertPluginSet {
-		for _, n := range upsertPluginSet.Values() {
-			upsertPlugins = append(upsertPlugins, n.(string))
+func PushReloadPlugin(upsertCodePluginSet, upsertDataPluginSet, unloadPluginNameSet, uninstallPluginNameSet *hashset.Set, excludeApp string) {
+	// 集合去重
+	if nil != uninstallPluginNameSet {
+		for _, n := range uninstallPluginNameSet.Values() {
+			pluginName := n.(string)
+			if nil != upsertCodePluginSet {
+				upsertCodePluginSet.Remove(pluginName)
+			}
+			if nil != upsertDataPluginSet {
+				upsertDataPluginSet.Remove(pluginName)
+			}
+			if nil != unloadPluginNameSet {
+				unloadPluginNameSet.Remove(pluginName)
+			}
 		}
 	}
-	if nil != removePluginNameSet {
-		for _, n := range removePluginNameSet.Values() {
-			removePlugins = append(removePlugins, n.(string))
+	if nil != unloadPluginNameSet {
+		for _, n := range unloadPluginNameSet.Values() {
+			pluginName := n.(string)
+			if nil != upsertCodePluginSet {
+				upsertCodePluginSet.Remove(pluginName)
+			}
+			if nil != upsertDataPluginSet {
+				upsertDataPluginSet.Remove(pluginName)
+			}
+		}
+	}
+	if nil != upsertCodePluginSet {
+		for _, n := range upsertCodePluginSet.Values() {
+			pluginName := n.(string)
+			if nil != upsertDataPluginSet {
+				upsertDataPluginSet.Remove(pluginName)
+			}
 		}
 	}
 
-	pushReloadPlugin0(upsertPlugins, removePlugins, excludeApp)
+	upsertCodePlugins, upsertDataPlugins, unloadPlugins, uninstallPlugins := []string{}, []string{}, []string{}, []string{}
+	if nil != upsertCodePluginSet {
+		for _, n := range upsertCodePluginSet.Values() {
+			upsertCodePlugins = append(upsertCodePlugins, n.(string))
+		}
+	}
+	if nil != upsertDataPluginSet {
+		for _, n := range upsertDataPluginSet.Values() {
+			upsertDataPlugins = append(upsertDataPlugins, n.(string))
+		}
+	}
+	if nil != unloadPluginNameSet {
+		for _, n := range unloadPluginNameSet.Values() {
+			unloadPlugins = append(unloadPlugins, n.(string))
+		}
+	}
+	if nil != uninstallPluginNameSet {
+		for _, n := range uninstallPluginNameSet.Values() {
+			uninstallPlugins = append(uninstallPlugins, n.(string))
+		}
+	}
+
+	pushReloadPlugin0(upsertCodePlugins, upsertDataPlugins, unloadPlugins, uninstallPlugins, excludeApp)
 }
 
-func pushReloadPlugin0(upsertPlugins, removePlugins []string, excludeApp string) {
-	logging.LogInfof("reload plugins [upserts=%v, removes=%v]", upsertPlugins, removePlugins)
+func pushReloadPlugin0(upsertCodePlugins, upsertDataPlugins, unloadPlugins, uninstallPlugins []string, excludeApp string) {
+	logging.LogInfof("reload plugins [codeChanges=%v, dataChanges=%v, unloads=%v, uninstalls=%v]", upsertCodePlugins, upsertDataPlugins, unloadPlugins, uninstallPlugins)
 	if "" == excludeApp {
 		util.BroadcastByType("main", "reloadPlugin", 0, "", map[string]interface{}{
-			"upsertPlugins": upsertPlugins,
-			"removePlugins": removePlugins,
+			"upsertCodePlugins": upsertCodePlugins,
+			"upsertDataPlugins": upsertDataPlugins,
+			"unloadPlugins":     unloadPlugins,
+			"uninstallPlugins":  uninstallPlugins,
 		})
 		return
 	}
 
 	util.BroadcastByTypeAndExcludeApp(excludeApp, "main", "reloadPlugin", 0, "", map[string]interface{}{
-		"upsertPlugins": upsertPlugins,
-		"removePlugins": removePlugins,
+		"upsertCodePlugins": upsertCodePlugins,
+		"upsertDataPlugins": upsertDataPlugins,
+		"unloadPlugins":     unloadPlugins,
+		"uninstallPlugins":  uninstallPlugins,
 	})
 }
 
@@ -367,7 +412,7 @@ func updateAttributeViewBlockText(updatedDefNodes map[string]*ast.Node) {
 				av.SaveAttributeView(attrView)
 				ReloadAttrView(avID)
 
-				refreshRelatedSrcAvs(avID)
+				refreshRelatedSrcAvs(avID, nil)
 			}
 		}
 	}
