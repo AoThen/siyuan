@@ -1,0 +1,24 @@
+name: Delete Docker Image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      packages: write
+      contents: write
+      actions: write
+      
+    
+    steps:
+      - name: Checkout repository and submodules
+        uses: actions/delete-package-versions@main
+        with: 
+          package-name: 'siyuan'
+          package-type: 'container'
+          min-versions-to-keep: 1
+          delete-only-untagged-versions: 'true'
