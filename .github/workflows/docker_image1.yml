@@ -27,6 +27,7 @@ jobs:
       packages: write
       contents: write
       actions: write
+      packages: write # 必须授权以推送镜像
       
     steps:
       - name: Checkout repository and submodules
