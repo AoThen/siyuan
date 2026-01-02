@@ -114,8 +114,8 @@ jobs:
             s/go refreshCheckDownloadInstallPkg()/\/\/ go refreshCheckDownloadInstallPkg()/g; 
             }' kernel/model/cloud_service.go
 
-            sed -i '/go every(6*time.Hour, util.RefreshRhyResultJob, "RefreshRhyResultJob")/s/^/\\/\/ /' kernel/job/cron.go
-            sed -i '/go every(2*time.Hour, model.RefreshCheckJob)/s/^/\\/\/ /' kernel/job/cron.go
+            sed -Ei '\|go every\(6\*time\.Hour, util\.RefreshRhyResultJob, "RefreshRhyResultJob"\)|s/^(\s*)/\1\/\/ /;
+                    \|go every\(2\*time\.Hour, model\.RefreshCheckJob\)|s/^(\s*)/\1\/\/ /' kernel/job/cron.go
 
 
 
