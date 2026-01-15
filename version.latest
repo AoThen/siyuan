@@ -67,7 +67,7 @@
       "state": "uploaded",
       "size": 1000,
       "digest": "sha256:58fb7960d152d6d260b71ade4c02314039168cce374888ee7c0f706008927704",
-      "download_count": 28,
+      "download_count": 36,
       "created_at": "2026-01-13T15:37:00Z",
       "updated_at": "2026-01-13T15:37:03Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.5.3/SHA256SUMS.txt"
@@ -103,7 +103,7 @@
       "state": "uploaded",
       "size": 202719645,
       "digest": "sha256:cbbd3792e1b9fc0d9e5da14f76f3580853fc6de9858a5b4d65f0b65344777e1a",
-      "download_count": 5,
+      "download_count": 11,
       "created_at": "2026-01-13T13:58:44Z",
       "updated_at": "2026-01-13T14:00:30Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.5.3/siyuan-3.5.3-linux-arm64.AppImage"
@@ -139,7 +139,7 @@
       "state": "uploaded",
       "size": 145364636,
       "digest": "sha256:53f0bbb961f1d97099fb11e97d5f0c41cfc578571d91e6aaae48f115a9288091",
-      "download_count": 13,
+      "download_count": 21,
       "created_at": "2026-01-13T14:00:30Z",
       "updated_at": "2026-01-13T14:02:10Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.5.3/siyuan-3.5.3-linux-arm64.deb"
@@ -175,7 +175,7 @@
       "state": "uploaded",
       "size": 200342254,
       "digest": "sha256:7872a527c513a2a4dca78b6952e2956e0ccffdd70ff126f49669d23898b7741d",
-      "download_count": 7,
+      "download_count": 14,
       "created_at": "2026-01-13T14:02:10Z",
       "updated_at": "2026-01-13T14:03:45Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.5.3/siyuan-3.5.3-linux-arm64.tar.gz"
@@ -211,7 +211,7 @@
       "state": "uploaded",
       "size": 202057709,
       "digest": "sha256:91620b4ebc48bd85f31d59ff784cee0b45cd4ecaefbe2661c820943488def4c8",
-      "download_count": 135,
+      "download_count": 201,
       "created_at": "2026-01-13T13:52:46Z",
       "updated_at": "2026-01-13T13:53:59Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.5.3/siyuan-3.5.3-linux.AppImage"
@@ -247,7 +247,7 @@
       "state": "uploaded",
       "size": 150314366,
       "digest": "sha256:6b01b618656acf9f8ae1e35ef10c53fed39987a464610114c08130e6a07cd5c8",
-      "download_count": 16,
+      "download_count": 98,
       "created_at": "2026-01-13T13:53:59Z",
       "updated_at": "2026-01-13T13:54:53Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.5.3/siyuan-3.5.3-linux.deb"
@@ -283,7 +283,7 @@
       "state": "uploaded",
       "size": 199928101,
       "digest": "sha256:7ad659d3b9c09513dfabcbcbd294005a8347f93b89856d3516fe7cf22a7d2c24",
-      "download_count": 8,
+      "download_count": 27,
       "created_at": "2026-01-13T13:54:53Z",
       "updated_at": "2026-01-13T13:58:44Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.5.3/siyuan-3.5.3-linux.tar.gz"
@@ -319,7 +319,7 @@
       "state": "uploaded",
       "size": 203529879,
       "digest": "sha256:6e38eb79aa4e937841c7e85be7b881a05ad9c9682de704d405ebf39f9fa3f9eb",
-      "download_count": 1673,
+      "download_count": 7972,
       "created_at": "2026-01-13T15:35:08Z",
       "updated_at": "2026-01-13T15:37:21Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.5.3/siyuan-3.5.3-mac-arm64.dmg"
@@ -355,7 +355,7 @@
       "state": "uploaded",
       "size": 200557915,
       "digest": "sha256:434e60d7ee0bbcab1cea3510f72c5ab74e4b5810975f0434fad50276b05ec94a",
-      "download_count": 213,
+      "download_count": 1230,
       "created_at": "2026-01-13T15:29:44Z",
       "updated_at": "2026-01-13T15:35:08Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.5.3/siyuan-3.5.3-mac.dmg"
@@ -391,7 +391,7 @@
       "state": "uploaded",
       "size": 143597488,
       "digest": "sha256:682357fecb13fd6327832e0d7b036ba7fbace3069939ef489f80b7f194bbdf30",
-      "download_count": 20,
+      "download_count": 61,
       "created_at": "2026-01-13T14:05:08Z",
       "updated_at": "2026-01-13T14:06:27Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.5.3/siyuan-3.5.3-win-arm64.exe"
@@ -427,7 +427,7 @@
       "state": "uploaded",
       "size": 179972424,
       "digest": "sha256:7db6a6e326413e62fea7c4efcd80b2923d267acc0b811f9b6b83f15f1fe02d38",
-      "download_count": 756,
+      "download_count": 2586,
       "created_at": "2026-01-13T14:03:45Z",
       "updated_at": "2026-01-13T14:05:08Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.5.3/siyuan-3.5.3-win.exe"
@@ -463,7 +463,7 @@
       "state": "uploaded",
       "size": 61146441,
       "digest": "sha256:2cbffb8f0b3dbd5a547aa1059bef947c9e842e189c761ef010d82446c1c87fe6",
-      "download_count": 37,
+      "download_count": 88,
       "created_at": "2026-01-13T14:10:31Z",
       "updated_at": "2026-01-13T14:11:23Z",
       "browser_download_url": "https://github.com/siyuan-note/siyuan/releases/download/v3.5.3/siyuan-3.5.3.apk"
@@ -471,5 +471,17 @@
   ],
   "tarball_url": "https://api.github.com/repos/siyuan-note/siyuan/tarball/v3.5.3",
   "zipball_url": "https://api.github.com/repos/siyuan-note/siyuan/zipball/v3.5.3",
-  "body": "## Overview\r\n\r\nThis version improves some details.\r\n\r\n## Changelogs\r\n\r\nBelow are the detailed changes in this version.\r\n\r\n### Enhancement\r\n\r\n* [Improve drag-and-drop performance for the document tree](https://github.com/siyuan-note/siyuan/issues/13864)\r\n* [Improve text copying from the ChatGPT app](https://github.com/siyuan-note/siyuan/issues/14819)\r\n* [Improve handling of assets when exporting to Word .docx format](https://github.com/siyuan-note/siyuan/issues/15253)\r\n* [Undo should restore the cursor position after Enter](https://github.com/siyuan-note/siyuan/issues/16595)\r\n* [Improve image clicking behavior in database asset field menu](https://github.com/siyuan-note/siyuan/pull/16671)\r\n* [Display a confirmation prompt when inserting large assets 256MB](https://github.com/siyuan-note/siyuan/issues/16685)\r\n* [Improve PDF rectangle annotation screenshot rotation handling](https://github.com/siyuan-note/siyuan/pull/16714)\r\n* [Improve export preview mode](https://github.com/siyuan-note/siyuan/issues/16732)\r\n* [The `%LOCALAPPDATA%\\siyuan-updater\\` folder will be automatically deleted after installation on Windows](https://github.com/siyuan-note/siyuan/issues/16733)\r\n* [Improve error window information layout](https://github.com/siyuan-note/siyuan/pull/16735)\r\n* [Automatically apply code snippets after data synchronization](https://github.com/siyuan-note/siyuan/issues/16736)\r\n* [Improve open editor positioning for search results](https://github.com/siyuan-note/siyuan/issues/16739)\r\n* [Improve S3 data synchronization compatibility with RustFS](https://github.com/siyuan-note/siyuan/issues/16742)\r\n* [Supports cleaning temporary files](https://github.com/siyuan-note/siyuan/issues/16745)\r\n* [Modifying the emoji in the callout and database will not update the frequently used emoji list](https://github.com/siyuan-note/siyuan/issues/16746)\r\n* [Improve assets data index updating after data sync on mobile](https://github.com/siyuan-note/siyuan/issues/16747)\r\n* [Improve interaction for Callout block icons](https://github.com/siyuan-note/siyuan/issues/16758)\r\n* [Improve desktop auto-update](https://github.com/siyuan-note/siyuan/pull/16764)\r\n* [Dynamically load the document after cutting blocks](https://github.com/siyuan-note/siyuan/issues/16767)\r\n* [Improve fold heading in list editing](https://github.com/siyuan-note/siyuan/issues/16769)\r\n* [Supports exporting a code block as a file](https://github.com/siyuan-note/siyuan/pull/16774)\r\n* [Improve PDF export for PlantUML](https://github.com/siyuan-note/siyuan/issues/16776)\r\n* [Improve HTML block parsing](https://github.com/siyuan-note/siyuan/issues/16778)\r\n* [Improve table copying](https://github.com/siyuan-note/siyuan/pull/16783)\r\n* [Improve rendering of Mermaid blocks within collapsible list blocks](https://github.com/siyuan-note/siyuan/issues/16802)\r\n* [Auto-close browser page when publish service is closed](https://github.com/siyuan-note/siyuan/pull/16804)\r\n* [Improve display of fold heading block indicators in callouts, blockquotes, and list items](https://github.com/siyuan-note/siyuan/issues/16805)\r\n\r\n### Bugfix\r\n\r\n* [The document title was displayed incorrectly during the search](https://github.com/siyuan-note/siyuan/issues/16741)\r\n* [Database cell drag-and-drop filling behaves abnormally with grouping views](https://github.com/siyuan-note/siyuan/issues/16760)\r\n* [Clicking on the document in read-only mode results in errors](https://github.com/siyuan-note/siyuan/issues/16762)\r\n* [Multiple workspace access authentication error](https://github.com/siyuan-note/siyuan/issues/16786)\r\n\r\n### Development\r\n\r\n* [Add internal kernel API `/api/block/getBlockKramdowns`](https://github.com/siyuan-note/siyuan/pull/16751)\r\n\r\n## Download\r\n\r\n* [B3log](https://b3log.org/siyuan/en/download.html)\r\n* [GitHub](https://github.com/siyuan-note/siyuan/releases)\r\n"
+  "body": "## Overview\r\n\r\nThis version improves some details.\r\n\r\n## Changelogs\r\n\r\nBelow are the detailed changes in this version.\r\n\r\n### Enhancement\r\n\r\n* [Improve drag-and-drop performance for the document tree](https://github.com/siyuan-note/siyuan/issues/13864)\r\n* [Improve text copying from the ChatGPT app](https://github.com/siyuan-note/siyuan/issues/14819)\r\n* [Improve handling of assets when exporting to Word .docx format](https://github.com/siyuan-note/siyuan/issues/15253)\r\n* [Undo should restore the cursor position after Enter](https://github.com/siyuan-note/siyuan/issues/16595)\r\n* [Improve image clicking behavior in database asset field menu](https://github.com/siyuan-note/siyuan/pull/16671)\r\n* [Display a confirmation prompt when inserting large assets 256MB](https://github.com/siyuan-note/siyuan/issues/16685)\r\n* [Improve PDF rectangle annotation screenshot rotation handling](https://github.com/siyuan-note/siyuan/pull/16714)\r\n* [Improve export preview mode](https://github.com/siyuan-note/siyuan/issues/16732)\r\n* [The `%LOCALAPPDATA%\\siyuan-updater\\` folder will be automatically deleted after installation on Windows](https://github.com/siyuan-note/siyuan/issues/16733)\r\n* [Improve error window information layout](https://github.com/siyuan-note/siyuan/pull/16735)\r\n* [Automatically apply code snippets after data synchronization](https://github.com/siyuan-note/siyuan/issues/16736)\r\n* [Improve open editor positioning for search results](https://github.com/siyuan-note/siyuan/issues/16739)\r\n* [Improve S3 data synchronization compatibility with RustFS](https://github.com/siyuan-note/siyuan/issues/16742)\r\n* [Supports cleaning temporary files](https://github.com/siyuan-note/siyuan/issues/16745)\r\n* [Modifying the emoji in the callout and database will not update the frequently used emoji list](https://github.com/siyuan-note/siyuan/issues/16746)\r\n* [Improve assets data index updating after data sync on mobile](https://github.com/siyuan-note/siyuan/issues/16747)\r\n* [Improve interaction for Callout block icons](https://github.com/siyuan-note/siyuan/issues/16758)\r\n* [Improve desktop auto-update](https://github.com/siyuan-note/siyuan/pull/16764)\r\n* [Dynamically load the document after cutting blocks](https://github.com/siyuan-note/siyuan/issues/16767)\r\n* [Improve fold heading in list editing](https://github.com/siyuan-note/siyuan/issues/16769)\r\n* [Supports exporting a code block as a file](https://github.com/siyuan-note/siyuan/pull/16774)\r\n* [Improve PDF export for PlantUML](https://github.com/siyuan-note/siyuan/issues/16776)\r\n* [Improve HTML block parsing](https://github.com/siyuan-note/siyuan/issues/16778)\r\n* [Improve table copying](https://github.com/siyuan-note/siyuan/pull/16783)\r\n* [Improve rendering of Mermaid blocks within collapsible list blocks](https://github.com/siyuan-note/siyuan/issues/16802)\r\n* [Auto-close browser page when publish service is closed](https://github.com/siyuan-note/siyuan/pull/16804)\r\n* [Improve display of fold heading block indicators in callouts, blockquotes, and list items](https://github.com/siyuan-note/siyuan/issues/16805)\r\n\r\n### Bugfix\r\n\r\n* [The document title was displayed incorrectly during the search](https://github.com/siyuan-note/siyuan/issues/16741)\r\n* [Database cell drag-and-drop filling behaves abnormally with grouping views](https://github.com/siyuan-note/siyuan/issues/16760)\r\n* [Clicking on the document in read-only mode results in errors](https://github.com/siyuan-note/siyuan/issues/16762)\r\n* [Multiple workspace access authentication error](https://github.com/siyuan-note/siyuan/issues/16786)\r\n\r\n### Development\r\n\r\n* [Add internal kernel API `/api/block/getBlockKramdowns`](https://github.com/siyuan-note/siyuan/pull/16751)\r\n\r\n## Download\r\n\r\n* [B3log](https://b3log.org/siyuan/en/download.html)\r\n* [GitHub](https://github.com/siyuan-note/siyuan/releases)\r\n",
+  "reactions": {
+    "url": "https://api.github.com/repos/siyuan-note/siyuan/releases/276370701/reactions",
+    "total_count": 2,
+    "+1": 0,
+    "-1": 0,
+    "laugh": 0,
+    "hooray": 2,
+    "confused": 0,
+    "heart": 0,
+    "rocket": 0,
+    "eyes": 0
+  }
 }
