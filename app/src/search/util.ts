@@ -747,6 +747,8 @@ export const genSearch = (app: App, config: Config.IUILayoutTabSearchConfig, ele
                     element.querySelector("#searchSyntaxCheck").outerHTML = genQueryHTML(config.method, "searchSyntaxCheck");
                     config.page = 1;
                     inputEvent(element, config, edit, true);
+                    window.siyuan.storage[Constants.LOCAL_SEARCHDATA] = JSON.parse(JSON.stringify(config));
+                    setStorageVal(Constants.LOCAL_SEARCHDATA, window.siyuan.storage[Constants.LOCAL_SEARCHDATA]);
                 });
                 const rect = target.getBoundingClientRect();
                 window.siyuan.menus.menu.popup({x: rect.right, y: rect.bottom, isLeft: true});
@@ -893,7 +895,7 @@ export const genSearch = (app: App, config: Config.IUILayoutTabSearchConfig, ele
     searchInputElement.addEventListener("blur", () => {
         if (config.removed) {
             config.k = searchInputElement.value;
-            window.siyuan.storage[Constants.LOCAL_SEARCHDATA] = Object.assign({}, config);
+            window.siyuan.storage[Constants.LOCAL_SEARCHDATA] = JSON.parse(JSON.stringify(config));
             setStorageVal(Constants.LOCAL_SEARCHDATA, window.siyuan.storage[Constants.LOCAL_SEARCHDATA]);
         }
         saveKeyList("keys", searchInputElement.value);
@@ -1164,6 +1166,10 @@ export const getArticle = (options: {
                     method: options.config?.method || null,
                     types: options.config?.types || null,
                 };
+                // https://ld246.com/article/1770132984152
+                if (options.edit.protyle.options.render.title) {
+                    options.edit.protyle.wysiwyg.renderCustom(response.data.ial);
+                }
                 onGet({
                     updateReadonly: true,
                     data: getResponse,
@@ -1208,6 +1214,7 @@ export const getArticle = (options: {
                         }
                     }
                 });
+                // 只能放在 onGet 后，否则 title 不会更新 https://github.com/siyuan-note/siyuan/issues/16739
                 if (options.edit.protyle.options.render.title) {
                     options.edit.protyle.title.render(options.edit.protyle, response);
                 }

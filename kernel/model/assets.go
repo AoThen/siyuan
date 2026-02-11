@@ -93,6 +93,13 @@ func HandleAssetsRemoveEvent(assetAbsPath string) {
 
 	removeIndexAssetContent(assetAbsPath)
 	removeAssetThumbnail(assetAbsPath)
+
+	hash, err := util.GetEtag(assetAbsPath)
+	if nil != err {
+		logging.LogErrorf("calc asset [%s] hash failed: %s", assetAbsPath, err)
+	} else {
+		cache.RemoveAssetHash(hash)
+	}
 }
 
 func HandleAssetsChangeEvent(assetAbsPath string) {
@@ -106,6 +113,15 @@ func HandleAssetsChangeEvent(assetAbsPath string) {
 
 	indexAssetContent(assetAbsPath)
 	removeAssetThumbnail(assetAbsPath)
+
+	hash, err := util.GetEtag(assetAbsPath)
+	if nil != err {
+		logging.LogErrorf("calc asset [%s] hash failed: %s", assetAbsPath, err)
+	} else {
+		p := strings.TrimPrefix(assetAbsPath, util.DataDir)
+		p = filepath.ToSlash(p)
+		cache.SetAssetHash(hash, p)
+	}
 }
 
 func removeAssetThumbnail(assetAbsPath string) {
@@ -432,7 +448,9 @@ func SearchAssetsByName(keyword string, exts []string) (ret []*cache.Asset) {
 	}
 	pathHitCount := map[string]int{}
 	filterByExt := 0 < len(exts)
-	for _, asset := range cache.GetAssets() {
+	matchedAssets := cache.FilterAssets(func(path string, asset *cache.Asset) bool {
+
+		// 扩展名过滤
 		if filterByExt {
 			ext := filepath.Ext(asset.HName)
 			includeExt := false
@@ -443,10 +461,11 @@ func SearchAssetsByName(keyword string, exts []string) (ret []*cache.Asset) {
 				}
 			}
 			if !includeExt {
-				continue
+				return false
 			}
 		}
 
+		// 关键字匹配
 		lowerHName := strings.ToLower(asset.HName)
 		lowerPath := strings.ToLower(asset.Path)
 		var hitNameCount, hitPathCount int
@@ -469,13 +488,21 @@ func SearchAssetsByName(keyword string, exts []string) (ret []*cache.Asset) {
 			}
 		}
 
+		// 只返回有匹配的资源
 		if 1 > hitNameCount+hitPathCount {
-			continue
+			return false
 		}
-		pathHitCount[asset.Path] += hitNameCount + hitPathCount
 
+		// 记录命中次数用于排序
+		pathHitCount[asset.Path] = hitNameCount + hitPathCount
+		return true
+	})
+
+	// 添加高亮
+	for _, asset := range matchedAssets {
+		hitCount := pathHitCount[asset.Path]
 		hName := asset.HName
-		if 0 < hitNameCount {
+		if hitCount > 0 {
 			_, hName = search.MarkText(asset.HName, strings.Join(keywords, search.TermSep), 64, Conf.Search.CaseSensitive)
 		}
 		ret = append(ret, &cache.Asset{
@@ -737,7 +764,8 @@ func RemoveUnusedAssets() (ret []string) {
 	}
 
 	var hashes []string
-	for _, p := range unusedAssets {
+	for _, unusedAsset := range unusedAssets {
+		p := unusedAsset.Item
 		historyPath := filepath.Join(historyDir, p)
 		if p = filepath.Join(util.DataDir, p); filelock.IsExist(p) {
 			if filelock.IsHidden(p) {
@@ -757,7 +785,8 @@ func RemoveUnusedAssets() (ret []string) {
 	sql.BatchRemoveAssetsQueue(hashes)
 
 	for _, unusedAsset := range unusedAssets {
-		absPath := filepath.Join(util.DataDir, unusedAsset)
+		p := unusedAsset.Item
+		absPath := filepath.Join(util.DataDir, p)
 		if filelock.IsExist(absPath) {
 			info, statErr := os.Stat(absPath)
 			if statErr == nil {
@@ -779,7 +808,7 @@ func RemoveUnusedAssets() (ret []string) {
 				return
 			}
 
-			util.RemoveAssetText(unusedAsset)
+			util.RemoveAssetText(p)
 		}
 		ret = append(ret, absPath)
 	}
@@ -907,6 +936,7 @@ func RenameAsset(oldPath, newName string) (newPath string, err error) {
 					return
 				}
 
+				cache.RemoveTreeData(util.GetTreeID(treeAbsPath))
 				p := filepath.ToSlash(strings.TrimPrefix(treeAbsPath, filepath.Join(util.DataDir, notebook.ID)))
 				tree, parseErr := filesys.LoadTreeByData(data, notebook.ID, p, luteEngine)
 				if nil != parseErr {
@@ -965,9 +995,14 @@ func RenameAsset(oldPath, newName string) (newPath string, err error) {
 	return
 }
 
-func UnusedAssets() (ret []string) {
+type UnusedItem struct {
+	Item string `json:"item"`
+	Name string `json:"name"`
+}
+
+func UnusedAssets() (ret []*UnusedItem) {
 	defer logging.Recover()
-	ret = []string{}
+	ret = []*UnusedItem{}
 
 	assetsPathMap, err := allAssetAbsPaths()
 	if err != nil {
@@ -1121,15 +1156,15 @@ func UnusedAssets() (ret []string) {
 		if strings.HasPrefix(p, "/") {
 			p = p[1:]
 		}
-		ret = append(ret, p)
+		name := util.RemoveID(path.Base(p))
+		ret = append(ret, &UnusedItem{Item: p, Name: name})
 	}
-	sort.Strings(ret)
 	return
 }
 
-func MissingAssets() (ret []string) {
+func MissingAssets() (ret []*UnusedItem) {
 	defer logging.Recover()
-	ret = []string{}
+	ret = []*UnusedItem{}
 
 	assetsPathMap, err := allAssetAbsPaths()
 	if err != nil {
@@ -1197,17 +1232,17 @@ func MissingAssets() (ret []string) {
 				if strings.HasPrefix(dest, "assets/.") {
 					// Assets starting with `.` should not be considered missing assets https://github.com/siyuan-note/siyuan/issues/8821
 					if !filelock.IsExist(filepath.Join(util.DataDir, dest)) {
-						ret = append(ret, dest)
+						name := util.RemoveID(path.Base(dest))
+						ret = append(ret, &UnusedItem{Item: dest, Name: name})
 					}
 				} else {
-					ret = append(ret, dest)
+					name := util.RemoveID(path.Base(dest))
+					ret = append(ret, &UnusedItem{Item: dest, Name: name})
 				}
 				continue
 			}
 		}
 	}
-
-	sort.Strings(ret)
 	return
 }
 
