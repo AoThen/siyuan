@@ -14,7 +14,7 @@ import {hideElements} from "../../protyle/ui/hideElements";
 import {softEnter} from "../../protyle/wysiwyg/enter";
 import {isInAndroid, isInEdge, isInHarmony} from "../../protyle/util/compatibility";
 import {tabCodeBlock} from "../../protyle/wysiwyg/codeBlock";
-import {callMobileAppShowKeyboard} from "./mobileAppUtil";
+import {callMobileAppShowKeyboard, canInput} from "./mobileAppUtil";
 
 let renderKeyboardToolbarTimeout: number;
 let showUtil = false;
@@ -327,24 +327,7 @@ const hideKeyboardToolbarUtil = () => {
 const renderKeyboardToolbar = () => {
     clearTimeout(renderKeyboardToolbarTimeout);
     renderKeyboardToolbarTimeout = window.setTimeout(() => {
-        if (getSelection().rangeCount === 0 ||
-            window.siyuan.config.readonly ||
-            document.getElementById("toolbarName").getAttribute("readonly") === "readonly" ||
-            !document.activeElement || (
-                document.activeElement &&
-                !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName) &&
-                !document.activeElement.classList.contains("protyle-wysiwyg") &&
-                document.activeElement.getAttribute("contenteditable") !== "true"
-            )) {
-            hideKeyboardToolbar();
-            return;
-        }
-        // 编辑器设置界面点击空白或关闭，焦点不知何故会飘移到编辑器上
-        if (document.activeElement &&
-            !["INPUT", "TEXTAREA"].includes(document.activeElement.tagName) && (
-                document.getElementById("menu").style.transform === "translateX(0px)" ||
-                document.getElementById("model").style.transform === "translateY(0px)"
-            )) {
+        if (!canInput(document.activeElement)) {
             hideKeyboardToolbar();
             return;
         }
@@ -439,12 +422,14 @@ export const showKeyboardToolbar = () => {
     }
     const range = getSelection().getRangeAt(0);
     const editor = getCurrentEditor();
-    if (editor && editor.protyle.wysiwyg.element.contains(range.startContainer)) {
-        editor.protyle.element.parentElement.style.paddingBottom = "48px";
+    if (editor) {
+        if (editor.protyle.wysiwyg.element.contains(range.startContainer)) {
+            editor.protyle.element.parentElement.style.paddingBottom = "48px";
+        }
+        editor.protyle.app.plugins.forEach(item => {
+            item.eventBus.emit("mobile-keyboard-show");
+        });
     }
-    getCurrentEditor().protyle.app.plugins.forEach(item => {
-        item.eventBus.emit("mobile-keyboard-show");
-    });
     setTimeout(() => {
         const contentElement = hasClosestByClassName(range.startContainer, "protyle-content", true);
         if (contentElement) {
@@ -475,14 +460,14 @@ export const hideKeyboardToolbar = () => {
     const editor = getCurrentEditor();
     if (editor) {
         editor.protyle.element.parentElement.style.paddingBottom = "";
+        editor.protyle.app.plugins.forEach(item => {
+            item.eventBus.emit("mobile-keyboard-hide");
+        });
     }
     const modelElement = document.getElementById("model");
     if (modelElement.style.transform === "translateY(0px)") {
         modelElement.style.paddingBottom = "";
     }
-    getCurrentEditor().protyle.app.plugins.forEach(item => {
-        item.eventBus.emit("mobile-keyboard-hide");
-    });
 };
 
 export const activeBlur = () => {

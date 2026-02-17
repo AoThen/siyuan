@@ -350,6 +350,13 @@ export const isInIOS = () => {
     return window.siyuan.config.system.container === "ios" && window.webkit?.messageHandlers;
 };
 
+export const isInMobileApp = () => {
+    if (isInAndroid() || isInHarmony() || isInIOS()) {
+        return true;
+    }
+    return false;
+};
+
 export const isInHarmony = () => {
     return window.siyuan.config.system.container === "harmony" && window.JSHarmony;
 };
@@ -358,6 +365,27 @@ export const isInEdge = () => {
     const ua = navigator.userAgent;
     return ua.indexOf("EdgA/") > -1 || ua.indexOf("Edge/") > -1;
 };
+
+export function isChromeBrowser(): boolean {
+    const nav = window.navigator as Navigator & {
+        userAgentData: {
+            brands: {
+                brand: string;
+                version: string;
+            }[]
+        }
+    };
+    if (nav.userAgentData && Array.isArray(nav.userAgentData.brands)) {
+        return nav.userAgentData.brands.some((b: any) => /Chrome|Chromium/i.test(b.brand));
+    }
+    // 回退到 userAgent
+    const ua = nav.userAgent || "";
+    const isChromium = /\bChrome\/\d+/i.test(ua) || /\bChromium\/\d+/i.test(ua);
+    const isEdge = /\bEdg(e|A|iOS)?\/\d+/i.test(ua); // Edge Chromium
+    const isOpera = /\b(OPR|Opera)\/\d+/i.test(ua);
+
+    return isChromium && !isEdge && !isOpera;
+}
 
 export const updateHotkeyAfterTip = (hotkey: string, split = " ") => {
     if (hotkey) {

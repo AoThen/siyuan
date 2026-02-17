@@ -2,12 +2,7 @@ import {addScript, addScriptSync} from "../protyle/util/addScript";
 import {Constants} from "../constants";
 import {onMessage} from "./util/onMessage";
 import {genUUID} from "../util/genID";
-import {
-    hasClosestBlock,
-    hasClosestByAttribute,
-    hasClosestByClassName,
-    hasTopClosestByClassName
-} from "../protyle/util/hasClosest";
+import {hasClosestBlock, hasClosestByAttribute, hasTopClosestByClassName} from "../protyle/util/hasClosest";
 import {Model} from "../layout/Model";
 import "../assets/scss/mobile.scss";
 import {Menus} from "../menus";
@@ -20,7 +15,12 @@ import {bootSync} from "../dialog/processSystem";
 import {initMessage, showMessage} from "../dialog/message";
 import {goBack} from "./util/MobileBackFoward";
 import {activeBlur, hideKeyboardToolbar, showKeyboardToolbar} from "./util/keyboardToolbar";
-import {getLocalStorage, isInIOS, writeText} from "../protyle/util/compatibility";
+import {
+    getLocalStorage,
+    isChromeBrowser,
+    isInMobileApp,
+    writeText
+} from "../protyle/util/compatibility";
 import {getCurrentEditor, openMobileFileById} from "./editor";
 import {getSearch} from "../util/functions";
 import {checkPublishServiceClosed} from "../util/processMessage";
@@ -37,7 +37,7 @@ import {correctHotkey} from "../boot/globalEvent/commonHotkey";
 import {processIOSPurchaseResponse} from "../util/iOSPurchase";
 import {updateControlAlt} from "../protyle/util/hotKey";
 import {nbsp2space} from "../protyle/util/normalizeText";
-import {callMobileAppShowKeyboard} from "./util/mobileAppUtil";
+import {callMobileAppShowKeyboard, canInput} from "./util/mobileAppUtil";
 
 class App {
     public plugins: import("../plugin").Plugin[] = [];
@@ -94,21 +94,34 @@ class App {
                 showMessage(window.siyuan.languages.copied, 2000);
                 event.preventDefault();
             }
-
-            if (isInIOS()) {
-                return;
+            if (["INPUT", "TEXTAREA"].includes(event.target.tagName)) {
+                setTimeout(() => {
+                    event.target.scrollIntoView({
+                        block: "center",
+                    });
+                }, Constants.TIMEOUT_TRANSITION);
             }
-            const wysisygElement = hasClosestByClassName(event.target, "protyle-wysiwyg", true);
-            let editElement: HTMLElement;
-            if (["INPUT", "TEXTAREA"].includes(event.target.tagName) && event.target.getAttribute("readonly") !== "readonly") {
-                editElement = event.target;
-            } else if (wysisygElement && wysisygElement.getAttribute("data-readonly") === "false") {
-                editElement = hasClosestByAttribute(event.target, "contenteditable", "true") as HTMLElement;
-            }
-            if (editElement) {
-                callMobileAppShowKeyboard();
+            if (window.JSAndroid && window.JSAndroid.showKeyboard || window.JSHarmony && window.JSHarmony.showKeyboard) {
+                if (canInput(event.target)) {
+                    callMobileAppShowKeyboard();
+                }
             }
         });
+        if (window.JSAndroid && window.JSAndroid.showKeyboard || window.JSHarmony && window.JSHarmony.showKeyboard) {
+            const __siyuan_original_focus = HTMLElement.prototype.focus;
+            HTMLElement.prototype.focus = function (this: HTMLElement, ...args) {
+                try {
+                    if (typeof __siyuan_original_focus === "function") {
+                        __siyuan_original_focus.apply(this, args);
+                    }
+                } catch (e) {
+                    console.error("Error in focus event:", e);
+                }
+                if (canInput(this)) {
+                    callMobileAppShowKeyboard();
+                }
+            };
+        }
         window.addEventListener("beforeunload", () => {
             saveScroll(window.siyuan.mobile.editor.protyle);
         }, false);
@@ -180,6 +193,13 @@ class App {
                     }
                 }
             });
+            if (!isInMobileApp()) {
+                if (isChromeBrowser()) {
+                    document.querySelector('meta[name="viewport"]').setAttribute("content", "width=device-width, height=device-height, interactive-widget=resizes-content, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, viewport-fit=cover");
+                } else if (!window.siyuan.config.readonly && !window.siyuan.isPublish) {
+                    showMessage(window.siyuan.languages.useChrome, 0, "error");
+                }
+            }
         });
     }
 }
