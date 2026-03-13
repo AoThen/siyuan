@@ -97,7 +97,7 @@ jobs:
 
 
             # 解锁 VIP 功能：IsSubscriber 和 IsPaidUser 始终返回 true
-            sed -i 's/return nil != u \&\& (-1 == u.UserSiYuanProExpireTime || 0 < u.UserSiYuanProExpireTime) \&\& 0 == u.UserSiYuanSubscriptionStatus/return true/' kernel/model/conf.go
+            sed -i '/func IsSubscriber()/,/^}/c\func IsSubscriber() bool {\n\treturn true\n}' kernel/model/conf.go
             sed -i '/func IsPaidUser()/,/^}/c\func IsPaidUser() bool {\n\treturn true\n}' kernel/model/conf.go
 
             # 默认关闭自动下载更新安装包
