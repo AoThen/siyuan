@@ -1,0 +1,64 @@
+diff --git a/kernel/conf/account.go b/kernel/conf/account.go
+--- a/kernel/conf/account.go
++++ b/kernel/conf/account.go
+@@ -19,7 +19,7 @@ type Account struct {
+ 
+ func NewAccount() *Account {
+ 	return &Account{
+-		DisplayTitle: true,
+-		DisplayVIP:   true,
++		DisplayTitle: false,
++		DisplayVIP:   false,
+ 	}
+ }
+diff --git a/kernel/conf/system.go b/kernel/conf/system.go
+--- a/kernel/conf/system.go
++++ b/kernel/conf/system.go
+@@ -49,7 +49,7 @@ func NewSystem() *System {
+ 		Name:               util.GetDeviceName(),
+ 		KernelVersion:      util.Ver,
+ 		NetworkProxy:       &NetworkProxy{},
+-		DownloadInstallPkg: true,
++		DownloadInstallPkg: false,
+ 	}
+ }
+ 
+diff --git a/kernel/job/cron.go b/kernel/job/cron.go
+--- a/kernel/job/cron.go
++++ b/kernel/job/cron.go
+@@ -32,8 +32,8 @@ func StartCron() {
+ 	go every(7*time.Second, task.StatusJob)
+ 	go every(5*time.Second, model.SyncDataJob)
+ 	go every(2*time.Hour, model.StatJob)
+-	go every(2*time.Hour, model.RefreshCheckJob2H)
+-	go every(6*time.Hour, model.RefreshCheckJob6H)
++	// go every(2*time.Hour, model.RefreshCheckJob2H)
++	// go every(6*time.Hour, model.RefreshCheckJob6H)
+ 	go every(6*time.Hour, util.RefreshRhyResultJob, "RefreshRhyResultJob")
+ 	go every(3*time.Second, model.FlushUpdateRefTextRenameDocJob)
+ 	go every(util.SQLFlushInterval, sql.FlushTxJob)
+diff --git a/kernel/model/conf.go b/kernel/model/conf.go
+--- a/kernel/model/conf.go
++++ b/kernel/model/conf.go
+@@ -1014,17 +1014,8 @@ func IsSubscriber() bool {
+ 
+ func IsSubscriber() bool {
+-	u := Conf.GetUser()
+-	return nil != u && (-1 == u.UserSiYuanProExpireTime || 0 < u.UserSiYuanProExpireTime) && 0 == u.UserSiYuanSubscriptionStatus
++	return true
+ }
+ 
+ func IsPaidUser() bool {
+-	if IsSubscriber() {
+-		return true
+-	}
+-
+-	u := Conf.GetUser()
+-	if nil == u {
+-		return false
+-	}
+-	return 1 == u.UserSiYuanOneTimePayStatus
++	return true
+ }
+ 
+ const (
