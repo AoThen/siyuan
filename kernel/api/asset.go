@@ -52,14 +52,8 @@ func statAsset(c *gin.Context) {
 			return
 		}
 
-	} else if strings.HasPrefix(path, "file://") {
-		p = strings.TrimPrefix(path, "file://")
-		if strings.Contains(p, ":") {
-			p = strings.TrimPrefix(p, "/")
-		}
-		if strings.Contains(p, "?") {
-			p = p[:strings.Index(p, "?")]
-		}
+	} else if localPath := util.FileURLToLocalPath(path); localPath != "" {
+		p = localPath
 	} else {
 		ret.Code = 1
 		return
@@ -124,9 +118,9 @@ func getImageOCRText(c *gin.Context) {
 			"text": "",
 		}
 		return
-	} else {
-		path = arg["path"].(string)
 	}
+
+	path = arg["path"].(string)
 
 	ret.Data = map[string]interface{}{
 		"text": util.GetAssetText(path),

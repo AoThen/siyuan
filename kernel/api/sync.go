@@ -79,8 +79,15 @@ func importSyncProviderWebDAV(c *gin.Context) {
 		return
 	}
 
-	tmp := filepath.Join(importDir, f.Filename)
-	if err = os.WriteFile(tmp, data, 0644); err != nil {
+	writePath := filepath.Join(importDir, f.Filename)
+	if !util.IsSubPath(importDir, writePath) {
+		logging.LogErrorf("import path [%s] is not sub path of import dir [%s]", writePath, importDir)
+		ret.Code = -1
+		ret.Msg = "import path is not sub path of import dir"
+		return
+	}
+
+	if err = os.WriteFile(writePath, data, 0644); err != nil {
 		logging.LogErrorf("import WebDAV provider failed: %s", err)
 		ret.Code = -1
 		ret.Msg = err.Error()
@@ -89,15 +96,15 @@ func importSyncProviderWebDAV(c *gin.Context) {
 
 	tmpDir := filepath.Join(importDir, "webdav")
 	os.RemoveAll(tmpDir)
-	if strings.HasSuffix(strings.ToLower(tmp), ".zip") {
-		if err = gulu.Zip.Unzip(tmp, tmpDir); err != nil {
+	if strings.HasSuffix(strings.ToLower(writePath), ".zip") {
+		if err = gulu.Zip.Unzip(writePath, tmpDir); err != nil {
 			logging.LogErrorf("import WebDAV provider failed: %s", err)
 			ret.Code = -1
 			ret.Msg = err.Error()
 			return
 		}
-	} else if strings.HasSuffix(strings.ToLower(tmp), ".json") {
-		if err = gulu.File.CopyFile(tmp, filepath.Join(tmpDir, f.Filename)); err != nil {
+	} else if strings.HasSuffix(strings.ToLower(writePath), ".json") {
+		if err = gulu.File.CopyFile(writePath, filepath.Join(tmpDir, f.Filename)); err != nil {
 			logging.LogErrorf("import WebDAV provider failed: %s", err)
 			ret.Code = -1
 			ret.Msg = err.Error()
@@ -124,8 +131,8 @@ func importSyncProviderWebDAV(c *gin.Context) {
 		return
 	}
 
-	tmp = filepath.Join(tmpDir, entries[0].Name())
-	data, err = os.ReadFile(tmp)
+	writePath = filepath.Join(tmpDir, entries[0].Name())
+	data, err = os.ReadFile(writePath)
 	if err != nil {
 		logging.LogErrorf("import WebDAV provider failed: %s", err)
 		ret.Code = -1
@@ -151,7 +158,7 @@ func importSyncProviderWebDAV(c *gin.Context) {
 		return
 	}
 
-	ret.Data = map[string]interface{}{
+	ret.Data = map[string]any{
 		"webdav": model.Conf.Sync.WebDAV,
 	}
 }
@@ -214,7 +221,7 @@ func exportSyncProviderWebDAV(c *gin.Context) {
 	}
 
 	zipPath := "/export/" + name + ".zip"
-	ret.Data = map[string]interface{}{
+	ret.Data = map[string]any{
 		"name": name,
 		"zip":  zipPath,
 	}
@@ -265,8 +272,15 @@ func importSyncProviderS3(c *gin.Context) {
 		return
 	}
 
-	tmp := filepath.Join(importDir, f.Filename)
-	if err = os.WriteFile(tmp, data, 0644); err != nil {
+	writePath := filepath.Join(importDir, f.Filename)
+	if !util.IsSubPath(importDir, writePath) {
+		logging.LogErrorf("import path [%s] is not sub path of import dir [%s]", writePath, importDir)
+		ret.Code = -1
+		ret.Msg = "import path is not sub path of import dir"
+		return
+	}
+
+	if err = os.WriteFile(writePath, data, 0644); err != nil {
 		logging.LogErrorf("import S3 provider failed: %s", err)
 		ret.Code = -1
 		ret.Msg = err.Error()
@@ -275,15 +289,15 @@ func importSyncProviderS3(c *gin.Context) {
 
 	tmpDir := filepath.Join(importDir, "s3")
 	os.RemoveAll(tmpDir)
-	if strings.HasSuffix(strings.ToLower(tmp), ".zip") {
-		if err = gulu.Zip.Unzip(tmp, tmpDir); err != nil {
+	if strings.HasSuffix(strings.ToLower(writePath), ".zip") {
+		if err = gulu.Zip.Unzip(writePath, tmpDir); err != nil {
 			logging.LogErrorf("import S3 provider failed: %s", err)
 			ret.Code = -1
 			ret.Msg = err.Error()
 			return
 		}
-	} else if strings.HasSuffix(strings.ToLower(tmp), ".json") {
-		if err = gulu.File.CopyFile(tmp, filepath.Join(tmpDir, f.Filename)); err != nil {
+	} else if strings.HasSuffix(strings.ToLower(writePath), ".json") {
+		if err = gulu.File.CopyFile(writePath, filepath.Join(tmpDir, f.Filename)); err != nil {
 			logging.LogErrorf("import S3 provider failed: %s", err)
 			ret.Code = -1
 			ret.Msg = err.Error()
@@ -310,8 +324,8 @@ func importSyncProviderS3(c *gin.Context) {
 		return
 	}
 
-	tmp = filepath.Join(tmpDir, entries[0].Name())
-	data, err = os.ReadFile(tmp)
+	writePath = filepath.Join(tmpDir, entries[0].Name())
+	data, err = os.ReadFile(writePath)
 	if err != nil {
 		logging.LogErrorf("import S3 provider failed: %s", err)
 		ret.Code = -1
@@ -337,7 +351,7 @@ func importSyncProviderS3(c *gin.Context) {
 		return
 	}
 
-	ret.Data = map[string]interface{}{
+	ret.Data = map[string]any{
 		"s3": model.Conf.Sync.S3,
 	}
 }
@@ -400,7 +414,7 @@ func exportSyncProviderS3(c *gin.Context) {
 	}
 
 	zipPath := "/export/" + name + ".zip"
-	ret.Data = map[string]interface{}{
+	ret.Data = map[string]any{
 		"name": name,
 		"zip":  zipPath,
 	}
@@ -415,7 +429,7 @@ func getSyncInfo(c *gin.Context) {
 		stat = model.Conf.Language(53)
 	}
 
-	ret.Data = map[string]interface{}{
+	ret.Data = map[string]any{
 		"synced":  model.Conf.Sync.Synced,
 		"stat":    stat,
 		"kernels": model.GetOnlineKernels(),
@@ -449,8 +463,8 @@ func performSync(c *gin.Context) {
 
 	// Android 端前后台切换时自动触发同步 https://github.com/siyuan-note/siyuan/issues/7122
 	var mobileSwitch bool
-	if mobileSwitchArg := arg["mobileSwitch"]; nil != mobileSwitchArg {
-		mobileSwitch = mobileSwitchArg.(bool)
+	if !util.ParseJsonArgs(arg, ret, util.BindJsonArg("mobileSwitch", false, &mobileSwitch)) {
+		return
 	}
 	if mobileSwitch {
 		if nil == model.Conf.GetUser() || !model.Conf.Sync.Enabled {
@@ -464,13 +478,10 @@ func performSync(c *gin.Context) {
 	}
 
 	// 云端同步模式支持 `完全手动同步` 模式 https://github.com/siyuan-note/siyuan/issues/7295
-	uploadArg := arg["upload"]
-	if nil == uploadArg {
-		// 必须传入同步方向，未传的话不执行同步
+	var upload bool
+	if !util.ParseJsonArgs(arg, ret, util.BindJsonArg("upload", true, &upload)) {
 		return
 	}
-
-	upload := uploadArg.(bool)
 	if upload {
 		model.SyncDataUpload()
 	} else {
@@ -493,11 +504,11 @@ func listCloudSyncDir(c *gin.Context) {
 	if err != nil {
 		ret.Code = 1
 		ret.Msg = err.Error()
-		ret.Data = map[string]interface{}{"closeTimeout": 5000}
+		ret.Data = map[string]any{"closeTimeout": 5000}
 		return
 	}
 
-	ret.Data = map[string]interface{}{
+	ret.Data = map[string]any{
 		"syncDirs":       syncDirs,
 		"hSize":          hSize,
 		"checkedSyncDir": model.Conf.Sync.CloudName,
@@ -513,12 +524,15 @@ func removeCloudSyncDir(c *gin.Context) {
 		return
 	}
 
-	name := arg["name"].(string)
+	var name string
+	if !util.ParseJsonArgs(arg, ret, util.BindJsonArg("name", true, &name)) {
+		return
+	}
 	err := model.RemoveCloudSyncDir(name)
 	if err != nil {
 		ret.Code = -1
 		ret.Msg = err.Error()
-		ret.Data = map[string]interface{}{"closeTimeout": 5000}
+		ret.Data = map[string]any{"closeTimeout": 5000}
 		return
 	}
 
@@ -534,12 +548,15 @@ func createCloudSyncDir(c *gin.Context) {
 		return
 	}
 
-	name := arg["name"].(string)
+	var name string
+	if !util.ParseJsonArgs(arg, ret, util.BindJsonArg("name", true, &name)) {
+		return
+	}
 	err := model.CreateCloudSyncDir(name)
 	if err != nil {
 		ret.Code = -1
 		ret.Msg = err.Error()
-		ret.Data = map[string]interface{}{"closeTimeout": 5000}
+		ret.Data = map[string]any{"closeTimeout": 5000}
 		return
 	}
 }
@@ -553,7 +570,10 @@ func setSyncGenerateConflictDoc(c *gin.Context) {
 		return
 	}
 
-	enabled := arg["enabled"].(bool)
+	var enabled bool
+	if !util.ParseJsonArgs(arg, ret, util.BindJsonArg("enabled", true, &enabled)) {
+		return
+	}
 	model.SetSyncGenerateConflictDoc(enabled)
 }
 
@@ -566,7 +586,10 @@ func setSyncEnable(c *gin.Context) {
 		return
 	}
 
-	enabled := arg["enabled"].(bool)
+	var enabled bool
+	if !util.ParseJsonArgs(arg, ret, util.BindJsonArg("enabled", true, &enabled)) {
+		return
+	}
 	model.SetSyncEnable(enabled)
 }
 
@@ -577,8 +600,11 @@ func setSyncInterval(c *gin.Context) {
 	if !ok {
 		return
 	}
-	interval := int(arg["interval"].(float64))
-	model.SetSyncInterval(interval)
+	var interval float64
+	if !util.ParseJsonArgs(arg, ret, util.BindJsonArg("interval", true, &interval)) {
+		return
+	}
+	model.SetSyncInterval(int(interval))
 }
 
 func setSyncPerception(c *gin.Context) {
@@ -590,7 +616,10 @@ func setSyncPerception(c *gin.Context) {
 		return
 	}
 
-	enabled := arg["enabled"].(bool)
+	var enabled bool
+	if !util.ParseJsonArgs(arg, ret, util.BindJsonArg("enabled", true, &enabled)) {
+		return
+	}
 	model.SetSyncPerception(enabled)
 }
 
@@ -603,8 +632,11 @@ func setSyncMode(c *gin.Context) {
 		return
 	}
 
-	mode := int(arg["mode"].(float64))
-	model.SetSyncMode(mode)
+	var mode float64
+	if !util.ParseJsonArgs(arg, ret, util.BindJsonArg("mode", true, &mode)) {
+		return
+	}
+	model.SetSyncMode(int(mode))
 }
 
 func setSyncProvider(c *gin.Context) {
@@ -616,12 +648,15 @@ func setSyncProvider(c *gin.Context) {
 		return
 	}
 
-	provider := int(arg["provider"].(float64))
-	err := model.SetSyncProvider(provider)
+	var provider float64
+	if !util.ParseJsonArgs(arg, ret, util.BindJsonArg("provider", true, &provider)) {
+		return
+	}
+	err := model.SetSyncProvider(int(provider))
 	if err != nil {
 		ret.Code = -1
 		ret.Msg = err.Error()
-		ret.Data = map[string]interface{}{"closeTimeout": 5000}
+		ret.Data = map[string]any{"closeTimeout": 5000}
 		return
 	}
 }
@@ -635,12 +670,15 @@ func setSyncProviderS3(c *gin.Context) {
 		return
 	}
 
-	s3Arg := arg["s3"].(interface{})
+	var s3Arg map[string]any
+	if !util.ParseJsonArgs(arg, ret, util.BindJsonArg("s3", true, &s3Arg)) {
+		return
+	}
 	data, err := gulu.JSON.MarshalJSON(s3Arg)
 	if err != nil {
 		ret.Code = -1
 		ret.Msg = err.Error()
-		ret.Data = map[string]interface{}{"closeTimeout": 5000}
+		ret.Data = map[string]any{"closeTimeout": 5000}
 		return
 	}
 
@@ -648,7 +686,7 @@ func setSyncProviderS3(c *gin.Context) {
 	if err = gulu.JSON.UnmarshalJSON(data, s3); err != nil {
 		ret.Code = -1
 		ret.Msg = err.Error()
-		ret.Data = map[string]interface{}{"closeTimeout": 5000}
+		ret.Data = map[string]any{"closeTimeout": 5000}
 		return
 	}
 
@@ -656,8 +694,12 @@ func setSyncProviderS3(c *gin.Context) {
 	if err != nil {
 		ret.Code = -1
 		ret.Msg = err.Error()
-		ret.Data = map[string]interface{}{"closeTimeout": 5000}
+		ret.Data = map[string]any{"closeTimeout": 5000}
 		return
+	}
+
+	ret.Data = map[string]any{
+		"s3": model.Conf.Sync.S3,
 	}
 }
 
@@ -670,12 +712,15 @@ func setSyncProviderWebDAV(c *gin.Context) {
 		return
 	}
 
-	webdavArg := arg["webdav"].(interface{})
+	var webdavArg map[string]any
+	if !util.ParseJsonArgs(arg, ret, util.BindJsonArg("webdav", true, &webdavArg)) {
+		return
+	}
 	data, err := gulu.JSON.MarshalJSON(webdavArg)
 	if err != nil {
 		ret.Code = -1
 		ret.Msg = err.Error()
-		ret.Data = map[string]interface{}{"closeTimeout": 5000}
+		ret.Data = map[string]any{"closeTimeout": 5000}
 		return
 	}
 
@@ -683,7 +728,7 @@ func setSyncProviderWebDAV(c *gin.Context) {
 	if err = gulu.JSON.UnmarshalJSON(data, webdav); err != nil {
 		ret.Code = -1
 		ret.Msg = err.Error()
-		ret.Data = map[string]interface{}{"closeTimeout": 5000}
+		ret.Data = map[string]any{"closeTimeout": 5000}
 		return
 	}
 
@@ -691,8 +736,12 @@ func setSyncProviderWebDAV(c *gin.Context) {
 	if err != nil {
 		ret.Code = -1
 		ret.Msg = err.Error()
-		ret.Data = map[string]interface{}{"closeTimeout": 5000}
+		ret.Data = map[string]any{"closeTimeout": 5000}
 		return
+	}
+
+	ret.Data = map[string]any{
+		"webdav": model.Conf.Sync.WebDAV,
 	}
 }
 
@@ -705,12 +754,15 @@ func setSyncProviderLocal(c *gin.Context) {
 		return
 	}
 
-	localArg := arg["local"].(interface{})
+	var localArg map[string]any
+	if !util.ParseJsonArgs(arg, ret, util.BindJsonArg("local", true, &localArg)) {
+		return
+	}
 	data, err := gulu.JSON.MarshalJSON(localArg)
 	if err != nil {
 		ret.Code = -1
 		ret.Msg = err.Error()
-		ret.Data = map[string]interface{}{"closeTimeout": 5000}
+		ret.Data = map[string]any{"closeTimeout": 5000}
 		return
 	}
 
@@ -718,7 +770,7 @@ func setSyncProviderLocal(c *gin.Context) {
 	if err = gulu.JSON.UnmarshalJSON(data, local); err != nil {
 		ret.Code = -1
 		ret.Msg = err.Error()
-		ret.Data = map[string]interface{}{"closeTimeout": 5000}
+		ret.Data = map[string]any{"closeTimeout": 5000}
 		return
 	}
 
@@ -726,12 +778,12 @@ func setSyncProviderLocal(c *gin.Context) {
 	if err != nil {
 		ret.Code = -1
 		ret.Msg = err.Error()
-		ret.Data = map[string]interface{}{"closeTimeout": 5000}
+		ret.Data = map[string]any{"closeTimeout": 5000}
 		return
 	}
 
-	ret.Data = map[string]interface{}{
-		"local": local,
+	ret.Data = map[string]any{
+		"local": model.Conf.Sync.Local,
 	}
 }
 
@@ -744,6 +796,9 @@ func setCloudSyncDir(c *gin.Context) {
 		return
 	}
 
-	name := arg["name"].(string)
+	var name string
+	if !util.ParseJsonArgs(arg, ret, util.BindJsonArg("name", true, &name)) {
+		return
+	}
 	model.SetCloudSyncDir(name)
 }

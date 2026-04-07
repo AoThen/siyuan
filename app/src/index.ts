@@ -24,7 +24,7 @@ import {
     transactionError
 } from "./dialog/processSystem";
 import {initMessage, showMessage} from "./dialog/message";
-import {getAllTabs} from "./layout/getAll";
+import {getAllModels, getAllTabs} from "./layout/getAll";
 import {getLocalStorage, isChromeBrowser, isInMobileApp} from "./protyle/util/compatibility";
 import {getSearch, isBrowser} from "./util/functions";
 import {checkPublishServiceClosed} from "./util/processMessage";
@@ -35,6 +35,8 @@ import {reloadEmoji} from "./emoji";
 import {processIOSPurchaseResponse} from "./util/iOSPurchase";
 /// #if BROWSER
 import {setLocalShorthandCount} from "./util/noRelyPCFunction";
+/// #else
+import {ipcRenderer} from "electron";
 /// #endif
 import {getDockByType} from "./layout/tabUtil";
 import {Tag} from "./layout/dock/Tag";
@@ -121,6 +123,18 @@ export class App {
                                 window.siyuan.config = data.data;
                                 updateControlAlt();
                                 break;
+                            case "setPublish":
+                                window.siyuan.config.publish = data.data;
+                                if (!window.siyuan.config.publish.enable) {
+                                    getAllModels().files.forEach(item => {
+                                        item.element.classList.remove("file-tree__publish-access--active");
+                                        item.element.querySelectorAll(".b3-list-item__icon").forEach(iconItem => {
+                                            iconItem.classList.remove("fn__none");
+                                            iconItem.nextElementSibling.classList.add("fn__none");
+                                        });
+                                    });
+                                }
+                                break;
                             case "progress":
                                 progressLoading(data);
                                 break;
@@ -140,7 +154,8 @@ export class App {
                                     }
                                 });
                                 break;
-                            case "unmount":
+                            case "closeBox":
+                            case "removeBox":
                                 getAllTabs().forEach((tab) => {
                                     if (tab.headElement) {
                                         const initTab = tab.headElement.getAttribute("data-initdata");
@@ -254,4 +269,6 @@ window.showKeyboardToolbar = () => {
     // 防止 Pad 端报错
 };
 window.processIOSPurchaseResponse = processIOSPurchaseResponse;
+/// #else
+ipcRenderer.send(Constants.SIYUAN_READY_TO_SHOW);
 /// #endif
